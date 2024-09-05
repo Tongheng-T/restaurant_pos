@@ -1,0 +1,418 @@
+@font-face {
+    font-family: "OSbattambang";
+    src: url(../../fone/KhmerOSbattambang.ttf)format("truetype");
+}
+
+@font-face {
+    font-family: "KhmerOSMoulLight";
+    src: url(../../fone/KhmerOSMoulLight.ttf)format("truetype");
+}
+
+.containerr {
+    text-align: center;
+}
+
+.herdert {
+    font-family: "KhmerOSMoulLight";
+}
+
+.table-owe {
+    margin-right: 83px;
+    margin-left: 10px;
+    margin-top: 19px;
+}
+
+.select2-container--default .select2-selection--single {
+    height: 46px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    margin-top: 1px;
+    /* font-size: 20px; */
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #444;
+    line-height: 34px;
+}
+
+.bg_warning {
+    font-family: 'KhmerOSMoulLight';
+    color: #0011ff;
+}
+
+.bg_danger {
+    font-family: 'KhmerOSMoulLight';
+    color: #ffffff;
+}
+
+.bg_success {
+    font-family: 'KhmerOSMoulLight';
+    color: #ffffff;
+}
+
+.bg_primary {
+    font-family: 'KhmerOSMoulLight';
+    color: #ffffff;
+}
+
+.fones {
+    font-family: 'KhmerOSMoulLight';
+}
+
+.bg_color {
+    background: #007bff;
+    color: #ffffff;
+    font-family: 'KhmerOSMoulLight';
+}
+
+.bg_color_warning {
+    background: #ffc107;
+    color: #ffffff;
+    font-family: 'KhmerOSMoulLight';
+}
+
+.bg_color_danger {
+    background: #dc3545;
+    color: #ffffff;
+    font-family: 'KhmerOSMoulLight';
+}
+
+.bg_svay {
+    background: #a537e9;
+}
+
+.bg_color_success {
+    background: #28a745;
+    color: #ffffff;
+    font-family: 'KhmerOSMoulLight';
+}
+
+.label {
+    font-size: 97%;
+}
+
+
+/* img4x6 */
+
+#profiledisplay,
+#profiledisplay_edit{
+    display: block;
+    justify-content: center;
+    border-radius: 5px;
+    max-width: 100px;
+    height: 86px;
+    margin: 10px;
+    border: 1px solid rgb(158, 151, 151);
+}
+#profiledisplay_pay{
+    display: block;
+    justify-content: center;
+    border-radius: 5px;
+    height: 232px;
+    border: 1px solid rgb(158, 151, 151);
+}
+
+#profilImg,
+#profilImg_edit,#profilImge_pay {
+    display: none;
+}
+
+#profiledisplay:hover,
+#profiledisplay_edit:hover,#profiledisplay_pay:hover {
+    cursor: pointer;
+}
+
+
+
+.btn-xs {
+    font-size: 1rem;
+}
+
+.badgeth {
+    font-size: 97%;
+}
+
+
+/* .containerr {
+    text-align: center;
+}
+
+.col-sm-6 a {
+    text-decoration: none;
+}
+
+.thumbnail:hover {
+    background: #55a055;
+}
+
+.line_items .thname {
+    width: 150px;
+}
+
+.thumbnail .caption {
+    color: #000;
+}
+
+.thead tr th {
+    text-align: center;
+}
+
+tbody tr th,
+tbody tr td {
+    text-align: center;
+}
+
+.right {
+    float: right;
+}
+
+.invo {
+    font-family: Khmer OS Muol Light;
+}
+
+.line_invo {
+    text-align: center;
+}
+
+.totalinvo,
+.totalinvoo {
+    text-align: center;
+}
+
+.totalinvo td {
+    font-family: Khmer OS Muol Light;
+    color: #e63933;
+    font-weight: 600;
+}
+
+.col-sm-6 .btn-primary {
+    width: 100%;
+    font-size: 16px;
+    background-color: #333ab7;
+}
+
+.toder {
+    width: 100%;
+}
+
+.table>thead>tr>th {
+    text-align: center;
+}
+
+td p {
+    text-align: center;
+}
+
+.tablee {
+    width: 100%;
+    max-width: 100%;
+}
+
+#print-btn {
+    font-size: 18px;
+    height: 50px;
+}
+
+.tablew {
+    max-width: 30%;
+    margin-top: 195px;
+}
+
+.tablew>thead>tr>th,
+.tablew>tbody>tr>th {
+    padding: 10px;
+    border-top: 1px solid #ddd;
+}
+
+.tablew th {
+    font-size: 16px;
+}
+
+.col_md_6 {
+    width: 50%;
+    float: left;
+    padding-right: 2px;
+    padding-left: 2px;
+}
+
+.col_md_4 {
+    width: 33%;
+    float: left;
+    padding-right: 2px;
+    padding-left: 2px;
+}
+
+.col_md_8 {
+    padding-top: 5px;
+    float: left;
+}
+
+.btnn {
+    position: absolute;
+    top: 4px;
+    left: 180px;
+    height: 45px;
+    width: 45px;
+    text-align: center;
+    background: #1b1b1b;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: left 0.4s ease;
+}
+
+.btnn span {
+    color: white;
+    font-size: 28px;
+    line-height: 45px;
+}
+
+.btnn.click span:before {
+    content: '\f00d';
+}
+
+.side-nav {
+    position: fixed;
+    left: 0px;
+    transition: left 0.4s ease;
+}
+
+.side-nav.show {
+    left: 225px;
+}
+
+#wrapper.show {
+    padding-left: 225px;
+    transition: right 0.4s ease;
+}
+
+.boderr {
+    color: #1b00ff;
+    font-weight: bolder;
+}
+
+.boderRR {
+    color: #ff6600;
+    font-weight: bolder;
+}
+
+.bTH {
+    padding: 4px 5px;
+}
+
+.nav.navbar-nav li span.rotate {
+    transform: translateY(-10%) rotate(-180deg);
+}
+
+.top {
+    padding-top: 5px;
+}
+
+.font td {
+    font-size: 14px;
+}
+
+.padig {
+    margin-top: 10px;
+    padding-left: 31px;
+}
+
+.background {
+    background: #ffe8a7;
+    height: 67px;
+    text-align: center;
+    padding-top: 20px;
+    color: #5745f8;
+    font-family: Khmer OS Muol Light;
+}
+
+.background1 {
+    background: #e6e4ff;
+    height: 67px;
+    text-align: center;
+    padding-top: 20px;
+    color: #1b00ff;
+    font-family: Khmer OS Muol Light;
+}
+
+.background2 {
+    background: #ffd1bb;
+    height: 67px;
+    text-align: center;
+    padding-top: 20px;
+    color: #ff5200;
+    font-family: Khmer OS Muol Light;
+} */
+
+.pa-hd {
+    border-bottom: 1px solid rgb(255, 21, 21);
+    height: 42px;
+    color: #013aa1;
+    background: aliceblue;
+    font-family: Khmer OS Muol Light;
+}
+
+.pa-hd-1 {
+    border-bottom: 1px solid rgb(255, 21, 21);
+    height: 42px;
+    color: #4604e5;
+    text-align: center;
+    background: #fcffcc;
+    font-family: Khmer OS Muol Light;
+}
+
+.name_navbar {
+    background: #ffaaaa;
+    height: 40px;
+    text-align: center;
+    color: #3905d9;
+    padding-top: 14px;
+}
+
+.navbar-inverse .navbar-nav li a {
+    color: #e4e6eb;
+    font-weight: 500;
+}
+
+.form-controlth {
+    height: 46px;
+    font-size: 20px;
+}
+
+/* .table td,
+.table th {
+    padding: 8px;
+} */
+
+.labelth {
+    display: inline;
+    padding: 0.2em 0.6em 0.3em;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25em;
+}
+
+.padd{
+    padding: 6px;
+    display: flex;
+    word-wrap: break-word;
+}
+/* .nav-link {
+    display: block;
+    padding: 0.5rem 0rem;
+} */
+
+.defaultt {
+    pointer-events: none;
+    cursor: default;
+  }
+
+/* .come-from-modal.right .modal-dialog {
+   float: right;
+} */
+
+

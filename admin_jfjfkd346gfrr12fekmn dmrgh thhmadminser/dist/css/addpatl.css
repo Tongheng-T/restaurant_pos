@@ -1,0 +1,33 @@
+@font-face {
+    font-family: "OSbattambang";
+    src: url(../../fone/KhmerOSbattambang.ttf)format("truetype");
+}
+@font-face {
+    font-family: "KhmerOSMoulLight";
+    src: url(../../fone/KhmerOSMoulLight.ttf)format("truetype");
+}
+.patbg {
+    margin: 10px;
+    width: 206px;
+    margin-top: 37px;
+    font-size: 26px;
+    font-family: "OSbattambang";
+    padding: 7px;
+    background: #129b38;
+    box-shadow: 0 0 10px rgb(0 0 0 / 51%);
+    text-align: center;
+    border-radius: 0.25rem;
+}
+.patbg a{
+    color: white;
+
+}
+.patbg:hover{
+    background: #19ce4c;
+    color: white;
+}
+
+.title_item{
+    font-family: "KhmerOSMoulLight";
+    font-weight: 500;
+}
