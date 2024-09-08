@@ -1,4 +1,4 @@
-<?php require_once("resources/config.php"); ?>
+<?php require_once("../resources/config.php"); ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,8 +16,8 @@
     <title>TONGHENG-T</title>
 
 
-    <link href="css/style_loinn.css" rel="stylesheet">
-    <link href="css/staye.css" rel="stylesheet">
+    <link href="../css/style_loinn.css" rel="stylesheet">
+    <link href="../css/staye.css" rel="stylesheet">
 
 
 
@@ -30,7 +30,7 @@
 <?php verify();?>
 <div class="topnav">
     <div class="container" align="center">
-      <a class="navbar-brand" href="#"><img src="../../resources/img/logo/tongheng-t2.jpg" alt="" width="130px"></a>
+      <a class="navbar-brand" href="#"><img src="../resources/img/logo/tongheng-t2.jpg" alt="" width="130px"></a>
     </div>
   </div>
     <div class="container">

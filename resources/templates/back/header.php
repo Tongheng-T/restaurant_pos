@@ -8,12 +8,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>POS RESTAURANT | SYSTEMS | By:TH</title>
-    <link rel='shortcut icon' href="../ui/logo/256.ico" type="image/x-icon">
-    <link rel="icon" href="../ui/logo/32.ico" sizes="32x32">
-    <link rel="icon" href="../ui/logo/48.ico" sizes="48x48">
-    <link rel="icon" href="../ui/logo/96.ico" sizes="96x96">
-    <link rel="icon" href="../ui/logo/256.ico" sizes="144x144">
+    <title>RESTAURANT POS | By:TH</title>
+    <link rel='shortcut icon' href="logo/b256.ico" type="image/x-icon">
+    <link rel="icon" href="logo/b32.ico" sizes="32x32">
+    <link rel="icon" href="logo/b48.ico" sizes="48x48">
+    <link rel="icon" href="logo/b96.ico" sizes="96x96">
+    <link rel="icon" href="logo/b256.ico" sizes="144x144">
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome Icons -->
@@ -162,14 +162,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
         } else {
             $color = 'danger';
         }
+        $aus = $_SESSION['aus'];
+        $select_logo = query("SELECT * from tbl_logo where aus='$aus'");
+        $rowg = $select_logo->fetch_object();
+        $logo = $rowg->img;
+      
 
         ?>
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="itemt?pos" class="brand-link">
-                <img src="../ui/logo/logo1.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">POS RESTAURANT</span>
+                <img src="../productimages/logo/<?php echo $logo ?>" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <span class="brand-text font-weight-light">RESTAURANT POS</span>
             </a>
 
             <!-- Sidebar -->

@@ -1,4 +1,4 @@
-<?php require_once "resources/config.php"; ?>
+<?php require_once "../resources/config.php"; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,54 +7,71 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>POS BARCODE | Log in | By:TH</title>
   <link rel='shortcut icon' href="ui/logo/256.ico" type="image/x-icon">
-  <link rel="icon" href="ui/logo/32.ico" sizes="32x32">
-  <link rel="icon" href="ui/logo/48.ico" sizes="48x48">
-  <link rel="icon" href="ui/logo/96.ico" sizes="96x96">
-  <link rel="icon" href="ui/logo/256.ico" sizes="144x144">
+  <link rel="icon" href="../ui/logo/32.ico" sizes="32x32">
+  <link rel="icon" href="../ui/logo/48.ico" sizes="48x48">
+  <link rel="icon" href="../ui/logo/96.ico" sizes="96x96">
+  <link rel="icon" href="../ui/logo/256.ico" sizes="144x144">
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
   <!-- icheck bootstrap -->
-  <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <link rel="stylesheet" href="../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="../dist/css/adminlte.min.css">
   <!-- SweetAlert2 -->
-  <link rel="stylesheet" href="plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+  <link rel="stylesheet" href="../plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
   <!-- Toastr -->
-  <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
+  <link rel="stylesheet" href="../plugins/toastr/toastr.min.css">
 
   <!-- jQuery -->
-  <script src="plugins/jquery/jquery.min.js"></script>
+  <script src="../plugins/jquery/jquery.min.js"></script>
   <!-- SweetAlert2 -->
-  <script src="plugins/sweetalert2/sweetalert2.min.js"></script>
+  <script src="../plugins/sweetalert2/sweetalert2.min.js"></script>
 
 </head>
 
 <style>
   @font-face {
     font-family: "OSbattambang";
-    src: url(fone/KhmerOSbattambang.ttf)format("truetype");
+    src: url(../fone/KhmerOSbattambang.ttf)format("truetype");
   }
 
   * {
     font-family: "OSbattambang";
   }
+
+  .back {
+    width: 318px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    height: 196px;
+    opacity: 16%;
+
+  }
+
+  .form-control {
+    background-color: #ffffff69;
+  }
 </style>
-<?php 
+<?php
 $email = "";
 if (isset($_SESSION['useremail'])) {
-    $email  = $_SESSION['useremail'];
+  $email  = $_SESSION['useremail'];
 }
 ?>
-<?php  forgot_pass();?>
+<?php forgot_pass(); ?>
+
 <body class="hold-transition login-page">
   <div class="login-box">
     <div class="card card-outline card-primary">
       <div class="card-header text-center">
-        <a href="login" class="h1"><b>TH</b>POS</a>
+        <a href="login" class="h1"><img width="60" src="../resources/images/logo/logo2.png" alt=""><b>TH</b>POS</a>
       </div>
       <div class="card-body">
+        <div class="back"> <img width="200" src="../resources/images/logo/logo2.png" alt=""></div>
         <p class="login-box-msg">You forgot your password? Here you can easily retrieve a new password.</p>
         <?php display_messag_signin(); ?>
         <form action="" method="post">
@@ -74,7 +91,7 @@ if (isset($_SESSION['useremail'])) {
           </div>
         </form>
         <p class="mt-3 mb-1">
-          <a href="./">Login</a>
+          <a href="login">Login</a>
         </p>
       </div>
       <!-- /.login-card-body -->

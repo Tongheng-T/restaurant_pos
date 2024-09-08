@@ -12,10 +12,10 @@
 <footer class="main-footer">
   <!-- To the right -->
   <div class="float-right d-none d-sm-inline">
-    POS RESTAURANT INVENTORY SYSTEM V-3.1
+    POS RESTAURANT INVENTORY SYSTEM V-3.2
   </div>
   <!-- Default to the left -->
-  <strong>BY: <a href="https://web.facebook.com/TonghengCoding " target="_blank">Tongheng-T</a></strong>
+  <strong>BY: <a href="https://www.thpos.store/" target="_blank">THPOS.STORE</a></strong>
 </footer>
 
 <!-- ./wrapper -->

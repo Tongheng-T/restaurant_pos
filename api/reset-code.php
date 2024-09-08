@@ -1,4 +1,4 @@
-<?php require_once("resources/config.php"); ?>
+<?php require_once("../resources/config.php"); ?>
 
 <?php
 $email = $_SESSION['useremail'];
@@ -14,27 +14,27 @@ if ($email == false) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>POS BARCODE | Log in | By:TH</title>
   <link rel='shortcut icon' href="ui/logo/256.ico" type="image/x-icon">
-  <link rel="icon" href="ui/logo/32.ico" sizes="32x32">
-  <link rel="icon" href="ui/logo/48.ico" sizes="48x48">
-  <link rel="icon" href="ui/logo/96.ico" sizes="96x96">
-  <link rel="icon" href="ui/logo/256.ico" sizes="144x144">
+  <link rel="icon" href="../ui/logo/32.ico" sizes="32x32">
+  <link rel="icon" href="../ui/logo/48.ico" sizes="48x48">
+  <link rel="icon" href="../ui/logo/96.ico" sizes="96x96">
+  <link rel="icon" href="../ui/logo/256.ico" sizes="144x144">
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
   <!-- icheck bootstrap -->
-  <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <link rel="stylesheet" href="../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="../dist/css/adminlte.min.css">
   <!-- SweetAlert2 -->
-  <link rel="stylesheet" href="plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+  <link rel="stylesheet" href="../plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
   <!-- Toastr -->
-  <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
+  <link rel="stylesheet" href="../plugins/toastr/toastr.min.css">
 
   <!-- jQuery -->
-  <script src="plugins/jquery/jquery.min.js"></script>
+  <script src="../plugins/jquery/jquery.min.js"></script>
   <!-- SweetAlert2 -->
-  <script src="plugins/sweetalert2/sweetalert2.min.js"></script>
+  <script src="../plugins/sweetalert2/sweetalert2.min.js"></script>
 
 
 
@@ -55,7 +55,7 @@ if ($email == false) {
         <div class="register-box">
           <div class="card card-outline card-primary">
             <div class="card-header text-center">
-              <a href="login" class="h1"><b>TH</b>POS</a>
+              <a href="login" class="h1"><img width="60" src="../resources/images/logo/logo2.png" alt=""><b>TH</b>POS</a>
             </div>
             <div class="card-body">
               <?php display_messag_signin(); ?>

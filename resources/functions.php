@@ -131,7 +131,7 @@ function login_user()
                     })
                 });
               </script>");
-                header('refresh:2;user/');
+                header('refresh:2;../user/');
             }
         } else {
             $row =  $query->fetch_assoc();
@@ -167,14 +167,14 @@ function login_user()
             });
           </script>");
 
-                header('refresh:2;ui/');
+                header('refresh:2;../ui/');
             } else {
 
                 $_SESSION['useremail'] = $row['useremail'];
                 $_SESSION['aus'] = $row['aus'];
                 set_message_signin("<div class='alert alert-success text-center'>
                 It's look like you haven't still verify your email - $email on $date</div>");
-                header('location: verify.php');
+                header('location: verify');
             }
         }
     }
@@ -317,9 +317,9 @@ use PHPMailer\PHPMailer\Exception;
 
 function create_acc()
 {
-    require 'PHPMailer/src/Exception.php';
-    require 'PHPMailer/src/PHPMailer.php';
-    require 'PHPMailer/src/SMTP.php';
+    require '../PHPMailer/src/Exception.php';
+    require '../PHPMailer/src/PHPMailer.php';
+    require '../PHPMailer/src/SMTP.php';
     if (isset($_POST['signup'])) {
         $username = $_POST['username'];
         $email = $_POST['ap_email'];
@@ -375,7 +375,7 @@ function create_acc()
 
             $query_change = query("INSERT INTO tbl_change (aus) VALUES('{$user_id}')");
             $query_taxdis = query("INSERT INTO tbl_taxdis (aus) VALUES('{$user_id}')");
-            $tbl_logo = query("INSERT INTO tbl_logo (img,aus) VALUES('logo1.png','{$user_id}')");
+            $tbl_logo = query("INSERT INTO tbl_logo (name,img,aus) VALUES('TH POS','logo.png','{$user_id}')");
             confirm($query_change);
 
             // $to = $email;
@@ -480,9 +480,9 @@ function qr($idd, $aus, $user)
 
 function forgot_pass()
 {
-    require 'PHPMailer/src/Exception.php';
-    require 'PHPMailer/src/PHPMailer.php';
-    require 'PHPMailer/src/SMTP.php';
+    require '../PHPMailer/src/Exception.php';
+    require '../PHPMailer/src/PHPMailer.php';
+    require '../PHPMailer/src/SMTP.php';
     //if user click continue button in forgot password form
     if (isset($_POST['check-email'])) {
         $email = escape_string($_POST['email']);
@@ -532,7 +532,7 @@ function forgot_pass()
                   </script>");
 
                     $_SESSION['useremail'] = $email;
-                    header('location: reset-code.php');
+                    header('location: reset-code');
                     exit();
                 } else {
                     set_message_signin(" <script>
@@ -613,7 +613,7 @@ function reset_code()
                 })
             });
           </script>");
-            header('location: new-password.php');
+            header('location: new-password');
             exit();
         } else {
             set_message_signin(" <script>
@@ -1287,7 +1287,7 @@ function query_table()
         echo '
         <tr>
         <td>' . $no . '</td>
-        <td><img height=100 src="' . qr($row->id, $aus, $userid) . '"></td>
+     
         <td>' . $row->name . '</td>
         <td>
         <button type="submit" class="btn btn-warning" value="' . $row->id . '" name="btnedit">Edit</button>
@@ -1299,7 +1299,7 @@ function query_table()
         $no++;
     }
 }
-
+// <td><img height=100 src="' . qr($row->id, $aus, $userid) . '"></td>
 
 function insert_update_delete()
 {
