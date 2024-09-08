@@ -37,11 +37,11 @@
 
         <ul class="nav-links">
             <li class="link"><a href="#">Home</a></li>
-            <li id="link1" class="link"><a href="#">Features</a></li>
-            <li id="link2" class="link"><a href="#">Pricing</a></li>
+            <li id="link1" class="link"><a href="#">Service</a></li>
+            <li id="link2" class="link"><a href="#">Price</a></li>
             <li id="link3" class="link"><a href="#">About</a></li>
         </ul>
-        <button class="btn">Hire Me</button>
+        <!-- <button class="btn">Hire Me</button> -->
     </nav>
 
 
@@ -72,7 +72,7 @@
                     ប្រព័ន្ធគ្រប់គ្រងភោជនីយដ្ឋាន។
                     Restaurant Management System.
                 </p>
-                <a href="api/">Login in Now <i class="ri-arrow-right-line"></i></a>
+                <a href="api/">Login Now <i class="ri-arrow-right-line"></i></a>
             </div>
             <div class="card">
                 <span><i class="ri-shopping-bag-3-fill"></i></span>
