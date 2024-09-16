@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>RESTAURANT POS | Order QR | By:TH</title>
+    <title>RESTAURANT POS | Order QR | By:THPOS</title>
     <link rel='shortcut icon' href="ui/logo/256.ico" type="image/x-icon">
     <link rel="icon" href="../ui/logo/32.ico" sizes="32x32">
     <link rel="icon" href="../ui/logo/48.ico" sizes="48x48">
