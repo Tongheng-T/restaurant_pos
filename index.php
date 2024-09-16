@@ -75,7 +75,7 @@
                 <a href="api/">Login Now <i class="ri-arrow-right-line"></i></a>
             </div>
             <div class="card">
-                <span><i class="ri-shopping-bag-3-fill"></i></span>
+                <span><i class="ri-cup-fill"></i></span>
                 <h4 class="fonkh"> និងមកដល់ឆាប់ៗ</h4>
                 <p class="fonkh">
                     ប្រព័ន្ធគ្រប់គ្រងហាងកាហ្វេ។

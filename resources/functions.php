@@ -960,7 +960,7 @@ function registration()
                 }
             }
         } else {
-        
+
             if (isset($_POST['txtemail'])) {
 
                 $select = query("SELECT useremail from tbl_user where useremail='$useremail'");
@@ -1531,6 +1531,19 @@ function addproduct()
         $f_newfile     = uniqid() . '.' . $f_extension;
         $aus = $_SESSION['aus'];
 
+        $change = query("SELECT * from tbl_change where aus='$aus'");
+        confirm($change);
+        $row_exchange = $change->fetch_object();
+        $exchange = $row_exchange->exchange;
+        $usd_or_real = $row_exchange->usd_or_real;
+        if ($usd_or_real == "usd") {
+            $salepricee = $saleprice;
+            $txtm_pricee = $txtm_price;
+        } else {
+            $salepricee = $saleprice / $exchange;
+            $txtm_pricee = $txtm_price / $exchange;
+        }
+
         $store = "../productimages/" . $f_newfile;
 
         if ($f_extension == 'jpg' || $f_extension == 'jpeg' ||   $f_extension == 'png' || $f_extension == 'gif') {
@@ -1551,7 +1564,7 @@ function addproduct()
                     $productimage = $f_newfile;
 
                     $insert = query("INSERT into tbl_product ( product,category_id,description, saleprice,m_price,num_category,image,aus) 
-                        values('{$product}','{$category}','{$description}','{$saleprice}','{$txtm_price}','{$num_category}','{$productimage}','{$aus}')");
+                        values('{$product}','{$category}','{$description}','{$salepricee}','{$txtm_pricee}','{$num_category}','{$productimage}','{$aus}')");
                     confirm($insert);
                     $pid = last_id(); // which was the 5
                     if ($insert) {

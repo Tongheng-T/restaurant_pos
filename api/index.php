@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>RESTAURANT POS | By:THPOS</title>
+    <title>RESTAURANT POS | Log in | By:THPOS</title>
     <link rel='shortcut icon' href="../ui/logo/b256.ico" type="image/x-icon">
     <link rel="icon" href="../ui/logo/b32.ico" sizes="32x32">
     <link rel="icon" href="../ui/logo/b48.ico" sizes="48x48">
@@ -41,6 +41,20 @@
     * {
         font-family: "OSbattambang";
     }
+
+    .back {
+        width: 353px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        height: 548px;
+        opacity: 49%;
+
+    }
+    .back .img {
+        width: 1112px;
+    }
 </style>
 <?php
 
@@ -58,6 +72,8 @@ unset($_SESSION['messagee']) ?>
 
 <body class="hold-transition login-page" onload="getLocation();">
     <div class="login-box">
+
+        <!-- <div class="back"> <img class="img" src="../resources/images/logo/backg.png" alt=""></div> -->
         <!-- /.login-logo -->
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
@@ -66,7 +82,7 @@ unset($_SESSION['messagee']) ?>
 
             <div class="card-body">
                 <p class="login-box-msg">Sign in to start your session</p>
-                <p class="center text-center"><img src="../resources/images/logo3.png"  height="200px" alt=""></p>
+                <p class="center text-center"><img src="../resources/images/logo3.png" height="200px" alt=""></p>
                 <?php login_user(); ?>
                 <?php display_message(); ?>
                 <form action="" method="post">
@@ -87,8 +103,8 @@ unset($_SESSION['messagee']) ?>
                         </div>
                     </div>
 
-                    <input type="hidden" class="form-control" value="" name="latitude" >
-                    <input type="hidden" class="form-control" value="" name="longitude" >
+                    <input type="hidden" class="form-control" value="" name="latitude">
+                    <input type="hidden" class="form-control" value="" name="longitude">
 
                     <div class="row">
                         <div class="col-8">
