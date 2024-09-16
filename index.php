@@ -15,6 +15,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.min.css">
     <link rel="stylesheet" href="dist/css/ab/styledoo.css">
     <title>THPOS</title>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QRFPMKNEVL"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-QRFPMKNEVL');
+    </script>
 </head>
 <style>
     @font-face {
@@ -81,7 +94,7 @@
                 <p class="fonkh">
                     ប្រព័ន្ធគ្រប់គ្រងហាងកាហ្វេ។
                     Coffee Shop Management System.
-                   
+
                 </p>
                 <a href="#">Login Now <i class="ri-arrow-right-line"></i></a>
             </div>
@@ -96,7 +109,7 @@
     <section class="container">
         <h2 class="header">PROJECT PRICING PLANS</h2>
         <p class="sub-header">
-           .
+            .
         </p>
         <div class="pricing">
             <?php service_list_dom() ?>
