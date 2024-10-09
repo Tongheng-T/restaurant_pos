@@ -269,6 +269,18 @@
     });
   });
 
+  $('.showmess').on('click', function() {
+
+$.ajax({
+  url: "../resources/templates/back/showmess.php",
+  success: function(data) {
+    $('#showmess').html(data);
+    $('#showmess').append(data.htmlresponse);
+
+  }
+});
+});
+
   function getUserStatus() {
     jQuery.ajax({
       url: '../resources/templates/back/a.php',
