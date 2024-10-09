@@ -324,3 +324,18 @@ function service_list_dom()
         $i++;
     }
 }
+
+
+function show_usd()
+{
+    $aus = $_SESSION['aus'];
+    $change = query("SELECT * from tbl_change where aus='$aus'");
+    confirm($change);
+    $row_exchange = $change->fetch_object();
+    $exchange = $row_exchange->usd_or_real;
+    if ($exchange == "usd") {
+        echo '$';
+    } else {
+        echo '៛';
+    }
+}

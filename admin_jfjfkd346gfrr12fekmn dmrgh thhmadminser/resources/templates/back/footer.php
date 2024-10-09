@@ -208,7 +208,35 @@
     });
 
     notification.addEventListener('click', function() {
-      window.open('http://localhost/coffee%20-%20Copy/ui/');
+      window.open('http://admin_jfjfkd346gfrr12fekmn%20dmrgh%20thhmadminser/ui/itemt?payment_lis');
+    });
+    setTimeout(() => notification.close(), 5 * 2000);
+
+  }
+
+  // //////////////////////
+
+  function getUserStatusalertC() {
+    jQuery.ajax({
+      url: '../resources/templates/back/c.php',
+      success: function(result) {
+        jQuery('#notificationsC').html(result);
+      }
+    })
+  }
+
+  setInterval(function() {
+    getUserStatusalertC();
+  }, 1000);
+  function notify() {
+    const notificationC = new Notification('THPOS:', {
+      body: `Notifications`,
+      icon: 'logo/logo1.png',
+      vibration: [300, 200, 300],
+    });
+
+    notificationC.addEventListener('click', function() {
+      window.open('http://admin_jfjfkd346gfrr12fekmn%20dmrgh%20thhmadminser/ui/itemt?payment_lis');
     });
     setTimeout(() => notification.close(), 5 * 2000);
 

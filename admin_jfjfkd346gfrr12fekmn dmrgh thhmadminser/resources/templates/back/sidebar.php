@@ -28,8 +28,15 @@
             <span class="material-icons-sharp">
                 create_new_folder
             </span>
-            <h3>Payment <span class="count badge badge-warning navbar-badge" id="notifications"><?php echo num_alert()?></span></h3>
-            
+            <h3>Payment <span class="count badge badge-warning navbar-badge" id="notifications"><?php echo num_alert() ?></span></h3>
+
+        </a>
+        <a href="itemt?payment_lis_coffee" class="<?php actr("payment_lis_coffee"); ?>">
+            <span class="material-icons-sharp">
+                create_new_folder
+            </span>
+            <h3>payment_coffee <span class="count badge badge-warning navbar-badge" id="notificationsC"><?php echo num_alert() ?></span></h3>
+
         </a>
         <a href="itemt?users" class="<?php actr("users"); ?>">
             <span class="material-icons-sharp">

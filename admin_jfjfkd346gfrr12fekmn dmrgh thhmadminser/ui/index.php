@@ -39,6 +39,10 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
 
         include(TEMPLATE_BACK . "/payment_lis.php");
     }
+    if (isset($_GET['payment_lis_coffee'])) {
+
+        include(TEMPLATE_BACK . "/payment_lis_coffee.php");
+    }
     if (isset($_GET['movies'])) {
 
         include(TEMPLATE_BACK . "/addpat_movies.php");
@@ -50,6 +54,10 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
     if (isset($_GET['viewpay'])) {
 
         include(TEMPLATE_BACK . "/viewpay.php");
+    }
+    if (isset($_GET['viewpayC'])) {
+
+        include(TEMPLATE_BACK . "/viewpayC.php");
     }
     if (isset($_GET['editmovies'])) {
 

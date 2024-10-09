@@ -2059,7 +2059,7 @@ function hang()
 
                     if (move_uploaded_file($f_tmp, $store)) {
                         $f_newfile;
-                        if ($image_db != 'logo1.png') {
+                        if ($image_db != 'logo.png') {
                             unlink("../productimages/logo/$image_db");
                         }
 

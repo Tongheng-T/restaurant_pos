@@ -252,31 +252,27 @@ $total_category = $row->cate;
 
                                     $select = query("SELECT product_id,product_name,saleprice,sum(qty) as q , sum(saleprice) as total from tbl_invoice_details where aus='$aus' group by product_id order by sum(qty) DESC LIMIT 12");
                                     confirm($select);
-
+                                    $no = 1;
                                     while ($row = $select->fetch_object()) {
-                                        $change = query("SELECT * from tbl_change");
-                                        confirm($change);
-                                        $row_exchange = $change->fetch_object();
-                                        $exchange = $row_exchange->exchange;
-                                        $usd_or_real = $row_exchange->usd_or_real;
 
                                         if ($usd_or_real == "usd") {
-                                            $saleprice = $row->saleprice;
-                                            $total = $row->total;
+                                            $saleprice = $USD_usd . number_format($row->saleprice, 2);
+                                            $total = $USD_usd . number_format($row->total, 2);
                                         } else {
-                                            $saleprice = $row->saleprice * $exchange;
-                                            $total = $row->total * $exchange;
-                                        }
+                                            $saleprice = number_format($row->saleprice * $exchange) . $USD_usd;
 
+                                            $total = number_format($row->total * $exchange) . $USD_usd;
+                                        }
                                         echo '
                                         <tr>
                                         
-                                        <td>' . $row->product_id   . '</td>
-                                        <td><span class="badge badge-dark">' . $row->product_name   . '</td></span>
+                                        <td>' . $no   . '</td>
+                                         <td><span class="badge badge-dark">' . $row->product_name   . '</td></span>
                                         
                                         <td><span class="badge badge-success">' . $row->q   . '</td></span>
                                         <td><span class="badge badge-primary">' . $saleprice   . '</td>
                                         <td><span class="badge badge-danger">' . $total . '</td>';
+                                        $no++;
                                     }
                                     ?>
                                 </tbody>

@@ -1,0 +1,161 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+/* *{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins',sans-serif;
+} */
+/* body{
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: #647df9;
+} */
+.contentt {
+  max-width: 1090px;
+  width: 100%;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.contentt .card {
+  background: #fff;
+  width: calc(26% - 20px);
+  text-align: center;
+  padding: 15px 30px 30px 30px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+}
+
+.contentt .card .top {
+  height: 130px;
+  color: #fff;
+  padding: 12px 0 0 0;
+  clip-path: polygon(0 0, 100% 0, 100% 53%, 49% 100%, 0 53%);
+}
+
+.contentt .card .top .title {
+  font-size: 27px;
+  font-weight: 600;
+}
+
+.contentt .card .top .price-sec {
+  margin-top: -10px;
+  font-weight: 600;
+}
+
+.contentt .card .top .price {
+  font-size: 45px;
+}
+
+.contentt .card .info {
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+.contentt .card .details .one {
+  margin-top: 25px;
+  font-size: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.contentt .card .details .one::before {
+  position: absolute;
+  content: "";
+  width: 100%;
+  background: #ddd;
+  height: 1px;
+  left: 0;
+  top: -12px;
+  border-radius: 25px;
+}
+
+.contentt .card .details .one i {
+  color: #2db94d;
+}
+
+.contentt .card .details i.fa-times {
+  color: #cd3241;
+}
+
+.contentt .card button {
+  outline: none;
+  border: none;
+  height: 42px;
+  color: #fff;
+  margin-top: 30px;
+  border-radius: 3px;
+  font-size: 18px;
+  width: 100%;
+  display: block;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  letter-spacing: 1px;
+}
+
+.contentt .one .top,
+.contentt .one button {
+  background: #14eb6e;
+}
+
+.contentt .two .top,
+.contentt .two button {
+  background: #e87130;
+}
+
+.contentt .three .top,
+.contentt .three button {
+  background: #11BCC3;
+}
+
+.contentt .four .top,
+.contentt .four button {
+  background: #a0b1d4;
+}
+
+.contentt button:hover {
+  filter: brightness(90%);
+}
+
+.contentt .one ::selection {
+  background: #8af5b6;
+}
+
+.contentt .two ::selection {
+  background: #f2b08c;
+}
+
+.contentt .three ::selection {
+  background: #d0f9fb;
+}
+
+.contentt .four ::selection {
+  background: #d4a0a9;
+}
+
+@media (max-width:1200px) {
+  .contentt .card .top .price {
+    font-size: 39px;
+  }
+}
+
+@media (max-width:1000px) {
+  .contentt .card {
+    background: #fff;
+    width: calc(50% - 20px);
+    margin-bottom: 30px;
+  }
+}
+
+@media (max-width:715px) {
+  .contentt .card {
+    width: 48%;
+  }
+}

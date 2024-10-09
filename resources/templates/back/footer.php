@@ -17,6 +17,7 @@
   <!-- Default to the left -->
   <strong>BY: <a href="https://www.thpos.store/" target="_blank">THPOS.STORE</a></strong>
 </footer>
+</div>
 
 <!-- ./wrapper -->
 
@@ -374,7 +375,7 @@ $usd_or_real = $row_exchange->usd_or_real; ?>
     });
 
     notification.addEventListener('click', function() {
-      window.open('http://localhost/coffee%20-%20Copy/ui/');
+      window.open('https://www.thpos.store/ui/');
     });
     setTimeout(() => notification.close(), 5 * 2000);
 

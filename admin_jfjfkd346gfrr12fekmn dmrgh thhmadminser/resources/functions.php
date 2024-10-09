@@ -38,6 +38,12 @@ function redirect($location)
     header("Location: $location");
 }
 
+function queryC($sql)
+{
+    global $connectionC;
+    return mysqli_query($connectionC, $sql);
+}
+
 function query($sql)
 {
     global $connection;
@@ -1311,4 +1317,142 @@ function free_trial()
            </td>
            </tr>';
     }
+}
+
+
+
+// ///////////////////coffee
+
+
+function payment_lisC()
+{
+    $select = queryC("SELECT * from tbl_payment order by id DESC");
+    confirm($select);
+    $no = 1;
+    while ($row = $select->fetch_object()) {
+        $success = '';
+        if ($row->alert == 0) {
+            $success = '<i class="fa fa-circle text-warning"></i>';
+        }
+
+        echo '
+           <tr class="">
+            <td>' . $row->id . '</td>
+            <td><span class="badge badge-dark">' . $row->user_name . '</span>' . $success . '</td>
+            
+            <td><span class="badge badge-success">' . $row->numberidpay . '</span></td>
+            <td>  <img  src="../../coffee/resources/images/userpay/' . $row->img . '" alt="" style="width: 100px;"></td>
+            <td>' . $row->date . '</td>
+            <td>' . $row->num_month . '</td>
+            <td>' . $row->tim . '</td>
+            <td>' . $row->aus . '</td>
+            <td>' . $row->alert . '</td>  
+           
+           <td>
+           
+           <div class="btn-group">
+                      
+           
+           <a href="itemt?viewpayC&id=' . $row->id  . '" class="btn btn-warning btn-xs" role="button"><span class="fa fa-eye" style="color:#ffffff" data-toggle="tooltip" title="View Product"></span></a>
+           
+           
+           <a href="itemt?editpay&id=' . $row->id  . '" class="btn btn-success btn-xs" role="button"><span class="fa fa-edit" style="color:#ffffff" data-toggle="tooltip" title="Edit Product"></span></a>
+           
+           ' . show_delete($row->id) . '
+           </div>
+           
+           </td>
+           
+           </tr>';
+        $no++;
+    }
+}
+
+
+function viewpayC()
+{
+    $id_pay = $_GET['id'];
+
+    $select = queryC("SELECT * from tbl_payment where id = $id_pay");
+    $sow = '';
+
+    while ($row = $select->fetch_object()) {
+        // $minpat = show_pat($id);
+        $id_service = $row->id_service;
+        $aus = $row->aus;
+        $tbl_user = queryC("SELECT * from tbl_user where aus = $aus");
+        $rowu = $tbl_user->fetch_object();
+        $timu = $rowu->tim;
+        $select2 = queryC("SELECT * from tbl_service where id = $id_service");
+        confirm($select);
+        $select_message = queryC("SELECT * from tbl_message where id_payment = $id_pay");
+        $sow .= '
+<div class="row">
+<div class="col-md-6 movi_view">
+
+<ul class="list-group">
+
+<center><p class="list-group-item list-group-item-info"><b>MOVIES DETAILS</b></p></center>  
+
+  <li class="list-group-item text-align"><b>User Name:</b><span class="badge badge-warning float-right">' . $row->user_name . '</span></li>
+  <li class="list-group-item text-align"><b>IDPay:</b> <span class="badge badge-success float-right">' . $row->numberidpay . '</span></li>
+
+  <li class="list-group-item text-align"><b>ចំនួនថ្ងៃនៅសល់:</b> <span class="badge badge-dark float-right">' . $timu . '</span></li>
+  <li class="list-group-item text-align"><b>ថ្ងៃខែបានបញ្ជាទិញ:</b> <span class="badge badge-dark float-right">' . $row->date . '</span></li>
+  <li class="list-group-item text-align"><b>ចំនួនខែ:</b> <span class="badge badge-danger float-right">' . $row->num_month . '</span></li>
+';
+
+
+        while ($roww = $select2->fetch_object()) {
+
+            $sow .= '
+            <li class="list-group-item text-align"><b>Price:</b> <span class="badge badge-primary float-right">' . $roww->price . '</span></li>
+            <li class="list-group-item text-align"><b>Text:</b> <span class="badge badge-info float-right">' . $roww->expires . '</span></li>
+            
+
+            ';
+        }
+        while ($rowmes = $select_message->fetch_object()) {
+            $viw = $rowmes->viw;
+            if ($viw == 0) {
+                $alert = '<li class="list-group-item text-align"><b>View :</b> <span class="badge badge-danger float-right"><i class="fas fa-eye-slash"></i> មិនបានមើល</span></li> ';
+            } else {
+                $alert = '<li class="list-group-item text-align"><b>View :</b> <span class="badge badge-primary float-right"><i class="fas fa-eye"></i> បានមើល</span></li> ';
+            }
+
+            $sow .= '  
+            <li class="list-group-item text-align"><b>Messages:</b> <span class="badge badge-success float-right">' . $rowmes->messages . '</span></li>
+            <li class="list-group-item text-align"><b>Date:</b> <span class="badge badge-warning float-right">' . $rowmes->date . '</span></li>
+            ' . $alert . '
+            <li class="list-group-item text-align"><b class="text-info">User AUS:</b> <span class="badge badge-secondary float-right">' . $rowmes->aus . '</span></li>
+
+            ';
+        }
+
+        $sow .= '
+        
+        <li class="list-group-item text-align">
+        <form action="" method="post">
+        <button type="submit" class="btn btn-primary" name="send" value="ការទូទាត់ទទួលបានជោគជ័យ">ការទូទាត់ទទួលបានជោគជ័យ</button>
+        <button type="submit" class="btn btn-danger" name="send" value="ការទូទាត់បរាជ័យ">ការទូទាត់បរាជ័យ</button>
+        <input type="hidden" class="form-control" placeholder="Enter Category"  value="' . $aus . '" name="txtaus" >
+        <input type="hidden" class="form-control" placeholder="Enter Category"  value="' . $row->tim . '" name="txttim" >
+        <input type="hidden" class="form-control" placeholder="Enter Category"  value="' . $row->id . '" name="txtid_pay" >
+        </form></li>
+</ul>
+
+</div>
+
+<div class="col-md-6">
+<ul class="list-group">
+<center><p class="list-group-item list-group-item-info"><b>MOVIES IMAGE</b></p></center>  
+<img src="../../coffee/resources/images/userpay/' . $row->img . '" class="img-thumbnail"/>
+</ul>
+</div>
+</div>
+
+
+';
+    }
+    echo $sow;
 }

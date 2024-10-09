@@ -90,7 +90,7 @@ if (isset($_SESSION['useremail'])) {
             <!-- /.col -->
           </div>
         </form>
-        <p class="mt-3 mb-1">
+        <p class="col-8 mt-3 mb-1">
           <a href="login">Login</a>
         </p>
       </div>

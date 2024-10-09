@@ -86,9 +86,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="itemt?pos" class="nav-link">Home</a>
                 </li>
-                <!-- <li class="nav-item d-none d-sm-inline-block">
-                    <a href="#" class="nav-link">Contact</a>
-                </li> -->
+                <li class="nav-item d-none d-sm-inline-block">
+                    <p class="nav-link"><?php show_usd() ?></p>
+                </li>
 
 
             </ul>
