@@ -7,8 +7,13 @@ function savepay()
         $numberidpay = $_POST['numberidpay'];
         $id_service = $_POST['payuser'];
 
-        $user_photo = $_FILES['file']['name'];
-        $image_temp_location = $_FILES['file']['tmp_name'];
+        $f_name                 = $_FILES['file']['name'];
+        $image_temp_location    = $_FILES['file']['tmp_name'];
+        $f_size                 = $_FILES['file']['size'];
+        $f_extension            = explode('.', $f_name);
+        $f_extension            = strtolower(end($f_extension));
+        $user_photo             = uniqid() . '.' . $f_extension;
+
         $aus = $_SESSION['aus'];
         $username = $_SESSION['username'];
 
