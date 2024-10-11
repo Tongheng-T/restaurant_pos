@@ -259,6 +259,18 @@
   setInterval(function(){
     getUserStatuss();
   },7000);
+
+  function getUserStatussC(){
+    jQuery.ajax({
+      url:'../resources/templates/get_user_onlinC.php',
+      success:function(result){
+        jQuery('#user_onlinc').html(result);
+      }
+    })
+  }
+  setInterval(function(){
+    getUserStatussC();
+  },7000);
 </script>
 
 

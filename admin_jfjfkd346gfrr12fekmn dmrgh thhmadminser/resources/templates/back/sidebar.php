@@ -44,6 +44,12 @@
             </span>
             <h3>Users</h3>
         </a>
+        <a href="itemt?users_coffee" class="<?php actr("users_coffee"); ?>">
+            <span class="material-icons-sharp">
+                person_outline
+            </span>
+            <h3>Users Coffee</h3>
+        </a>
         <a href="#" class="<?php actr("y"); ?>">
             <span class="material-icons-sharp">
                 receipt_long

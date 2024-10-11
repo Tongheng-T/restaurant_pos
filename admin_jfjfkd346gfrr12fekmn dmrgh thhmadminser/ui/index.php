@@ -75,6 +75,10 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
 
         include(TEMPLATE_BACK . "/users.php");
     }
+    if (isset($_GET['users_coffee'])) {
+
+        include(TEMPLATE_BACK . "/users_coffee.php");
+    }
     ?>
 
 

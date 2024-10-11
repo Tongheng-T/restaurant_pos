@@ -316,6 +316,19 @@ $.ajax({
   }
 
 
+  function updateUserStatuss(){
+    jQuery.ajax({
+      url:'../resources/templates/update_user_status.php',
+      success:function(){
+  
+      }
+    })
+  }
+  
+  setInterval(function(){
+    updateUserStatuss();
+  },3000);
+  
 
 
 </script>

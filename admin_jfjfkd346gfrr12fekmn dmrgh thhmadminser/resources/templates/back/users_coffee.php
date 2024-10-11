@@ -1,30 +1,31 @@
 <main>
   <h1>Users</h1>
   <?php
-  $selectn = query("SELECT count(user_id) as number from tbl_user ");
+  $selectn = queryC("SELECT count(user_id) as number from tbl_user ");
   $rown = $selectn->fetch_object();
   $number = $rown->number; ?>
+
   <div class="new-users">
-    <h2>Users List <?php echo $number?></h2>
-    <div class="user-list" id="user_onlin">
+    <h2>Users Coffee List <?php echo $number?></h2>
+    <div class="user-list" id="user_onlinc">
       <?php
       $time = new DateTime('now', new DateTimeZone('Asia/bangkok'));
       $datee =  $time->format('Y-m-d H:i:s');
       $time = time();
-      $select = query("SELECT * from tbl_user ");
+      $select = queryC("SELECT * from tbl_user ");
       confirm($select);
 
       while ($row = $select->fetch_assoc()) {
         extract($row);
 
         $aus = $row['aus'];
-        $selectt = query("SELECT min(user_id) as user from tbl_user where aus= '$aus' ");
+        $selectt = queryC("SELECT min(user_id) as user from tbl_user where aus= '$aus' ");
         $roww = $selectt->fetch_object();
         $user = $roww->user;
-        $selectk = query("SELECT * from tbl_user where user_id = '$user'");
+        $selectk = queryC("SELECT * from tbl_user where user_id = '$user'");
         $rows = $selectk->fetch_object();
         $user_id = $rows->user_id;
-        
+
         $classs = '';
         $id = $row['user_id'];
         if ($id == $user_id) {
@@ -59,8 +60,8 @@
         <div class="user">
           <img src="../../resources/images/userpic/<?php echo $row['img'] ?>">
           <h2><?php echo $row['username'] . ' ' . $numdatee . 'day' ?></h2>
-          <p class="<?php echo $classs ?>"> <i class="fas fa-id-card"></i><?php echo ' '. $aus?></p>
-          <p class="<?php echo $classs ?>"> <i class="fas fa-id-card"></i><?php echo ' '. $row['useremail'] ?></p>
+          <p class="<?php echo $classs ?>"> <i class="fas fa-id-card"></i><?php echo ' ' . $aus ?></p>
+          <p class="<?php echo $classs ?>"> <i class="fas fa-id-card"></i><?php echo ' ' . $row['useremail'] ?></p>
           <p class="<?php echo $class ?>"><i class="fas fa-signal"></i> <?php echo $status ?></p>
         </div>
       <?php } ?>
