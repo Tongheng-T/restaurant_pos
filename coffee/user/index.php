@@ -22,7 +22,7 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "Admin") {
 
     <?php
 
-if ($_SERVER['REQUEST_URI'] == "/user/" || $_SERVER['REQUEST_URI'] == "/user/itemt") {
+if ($_SERVER['REQUEST_URI'] == "/coffee/user/" || $_SERVER['REQUEST_URI'] == "/coffee/user/itemt") {
 
     include(TEMPLATE_BACK . "/pos.php");
 }

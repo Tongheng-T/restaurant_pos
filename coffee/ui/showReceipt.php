@@ -175,7 +175,7 @@
       <p>Power by TH_POS</p>
     </div>
     <div id="buttons">
-      <a href="/ui/itemt?pos">
+      <a href="/coffee/ui/itemt?pos">
         <button class="btn btn-back">
           Back to Cashier
         </button>

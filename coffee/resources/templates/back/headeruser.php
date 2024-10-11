@@ -56,6 +56,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
     * {
         font-family: "OSbattambang";
     }
+
+    .table {
+        background-color: white;
+    }
+
+    .dropdown-menu {
+        max-height: 411px;
+        overflow: auto;
+    }
 </style>
 
 <body class="hold-transition sidebar-mini sidebar-collapse">
@@ -71,9 +80,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="itemt?pos" class="nav-link">Home</a>
                 </li>
-                <!-- <li class="nav-item d-none d-sm-inline-block">
-                    <a href="#" class="nav-link">Contact</a>
-                </li> -->
+                <li class="nav-item d-none d-sm-inline-block">
+                    <p class="nav-link"><?php show_usd() ?></p>
+                </li>
             </ul>
 
             <!-- Right navbar links -->
@@ -92,13 +101,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </ul>
         </nav>
         <!-- /.navbar -->
-
+        <?php 
+        $aus = $_SESSION['aus'];
+        $select_logo = query("SELECT * from tbl_logo where aus='$aus'");
+        $rowg = $select_logo->fetch_object();
+        $logo = $rowg->img;
+        ?>
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="itemt?pos" class="brand-link">
-                <img src="../ui/logo/logo1.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">POS BARCODE</span>
+                <img src="../productimages/logo/<?php echo $logo ?>" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <span class="brand-text font-weight-light">COFFEE POS</span>
             </a>
 
             <!-- Sidebar -->

@@ -130,7 +130,7 @@ function login_user()
                     })
                 });
               </script>");
-                header('refresh:2;../user/');
+                header('refresh:2;user/');
             }
         } else {
             $row =  $query->fetch_assoc();
@@ -237,9 +237,9 @@ function changepassword()
 {
     if (isset($_POST['btnupdate'])) {
 
-        $oldpassword_txt = $_POST['txt_oldpassword'];
-        $newpassword_txt = $_POST['txt_newpassword'];
-        $rnewpassword_txt = $_POST['txt_rnewpassword'];
+        $oldpassword_txt = md5($_POST['txt_oldpassword']);
+        $newpassword_txt = md5($_POST['txt_newpassword']);
+        $rnewpassword_txt = md5($_POST['txt_rnewpassword']);
 
         //echo $oldpassword_txt."-".$newpassword_txt."-".$rnewpassword_txt;
 
