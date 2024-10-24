@@ -131,7 +131,7 @@
             <div class="socials">
                 <!-- <a href="#"><i class="ri-youtube-line"></i></a> -->
                 <a href="https://web.facebook.com/TonghengCoding/" target="_blank"><i class="ri-facebook-circle-fill"></i></a>
-                <a href="https://t.me/Tongheng_T" target="_blank"><i class="ri-telegram-fill"></i></a>
+                <a href="https://t.me/THPOS_store" target="_blank"><i class="ri-telegram-fill"></i></a>
             </div>
         </div>
         <!-- <div class="column">
