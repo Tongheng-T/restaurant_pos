@@ -6,96 +6,125 @@ use PHPMailer\PHPMailer\Exception;
 
 function create_acc()
 {
-    require '../PHPMailer/src/Exception.php';
-    require '../PHPMailer/src/PHPMailer.php';
-    require '../PHPMailer/src/SMTP.php';
+
+    require '../../PHPMailer/src/Exception.php';
+    require '../../PHPMailer/src/PHPMailer.php';
+    require '../../PHPMailer/src/SMTP.php';
     if (isset($_POST['signup'])) {
-        $username = $_POST['username'];
-        $email = $_POST['ap_email'];
+        $username = trim($_POST['username']);
+        $email = trim($_POST['ap_email']);
         $password = $_POST['password'];
         $password_re = $_POST['password_re'];
-
         $lat = $_POST['latitude'];
         $lng = $_POST['longitude'];
 
+        // 1. Validate email format
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            set_message("<div class='alert alert-danger text-center'>
+                <p>Email format is invalid!</p></div>");
+            return;
+        }
 
-        $email_check = query("SELECT * FROM tbl_user WHERE useremail = '$email'");
-        confirm($email_check);
-        $username_check = query("SELECT * FROM tbl_user WHERE username = '$username'");
-        confirm($username_check);
+        // 2. Check for duplicate username or email
+        $email_check = query("SELECT 1 FROM tbl_user WHERE useremail = '$email'");
+        $username_check = query("SELECT 1 FROM tbl_user WHERE username = '$username'");
 
         if (strlen($username) < 5) {
             set_message("<div class='alert alert-danger text-center'>
-            <p>Your username must be at least 5 characters!</p></div>");
-        } elseif ($password_re != $password) {
-            set_message("<div class='alert alert-danger text-center'>
-            <p>Your passwords do not match!</p></div>");
-        } elseif (mysqli_num_rows($email_check) > 0) {
-            set_message("<div class='alert alert-danger text-center'>
-            <p>Email that you have entered is already exist!</p></div>");
-        } elseif (mysqli_num_rows($username_check) > 0) {
-            set_message("<div class='alert alert-danger text-center'>
-            <p>username that you have entered is already exist!</p></div>");
-        } else {
-            $tbl_date_free = query("SELECT * FROM tbl_date_free");
-            confirm($tbl_date_free);
-            $row = $tbl_date_free->fetch_assoc();
-            $numdatefree = $row['number_of_date'];
+                <p>Username must be at least 5 characters!</p></div>");
+            return;
+        }
 
-            $vkey =  rand(999999, 111111);
-            $password = md5($password);
-            $numtimm =   time();
+        if ($password !== $password_re) {
+            set_message("<div class='alert alert-danger text-center'>
+                <p>Passwords do not match!</p></div>");
+            return;
+        }
 
-            $passwordd = $vkey + $numtimm;
-            $user_id = $passwordd;
+        if (mysqli_num_rows($email_check) > 0) {
+            set_message("<div class='alert alert-danger text-center'>
+                <p>Email already exists!</p></div>");
+            return;
+        }
 
-            $useraus_check = query("SELECT * FROM tbl_user WHERE aus = '$user_id'");
-            confirm($useraus_check);
-            if (mysqli_num_rows($username_check) > 0) {
+        if (mysqli_num_rows($username_check) > 0) {
+            set_message("<div class='alert alert-danger text-center'>
+                <p>Username already exists!</p></div>");
+            return;
+        }
+
+        // 3. Free Trial Logic
+        $tbl_date_free = query("SELECT number_of_date FROM tbl_date_free LIMIT 1");
+        $row = $tbl_date_free->fetch_assoc();
+        $numdatefree = $row['number_of_date'] ?? 30; // fallback if not set
+
+        $vkey = rand(111111, 999999);
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+        $user_id = $vkey + time();
+
+        $createdate = (new DateTime('now', new DateTimeZone('Asia/Bangkok')))->format('Y-m-d H:i:s');
+
+        // 1. Get the user's IP address
+        $ip = $_SERVER['REMOTE_ADDR'] ?? 'UNKNOWN';
+        $location = 'Unknown';
+
+        // 2. Check if not localhost (127.0.0.1) or private IP
+        if (!in_array($ip, ['127.0.0.1', '::1'])) {
+            $url = "http://ip-api.com/json/{$ip}";
+            $response = @file_get_contents($url);
+
+            if ($response !== false) {
+                $geo = json_decode($response, true);
+
+                if (!empty($geo) && $geo['status'] === 'success') {
+                    $city = $geo['city'] ?? '';
+                    $region = $geo['regionName'] ?? '';
+                    $country = $geo['country'] ?? '';
+                    $location = "{$city}, {$region}, {$country}";
+                }
             }
+        }
 
-            $date = new DateTime('now', new DateTimeZone('Asia/bangkok'));
-            $datee =  $date->format('Y-m-d H:i:s');
 
-            $query = query("INSERT INTO tbl_user (username,useremail,userpassword,createdate,date_new,code,aus,tim,lat,lng) VALUES('{$username}','{$email}','{$password}','{$datee}','{$datee}','{$vkey}','{$user_id}','{$numdatefree}','{$lat}','{$lng}')");
-            confirm($query);
-            $aus = last_id();
-            // $ress = query("UPDATE tbl_user set lat='$lat', lng='$lng' where user_id=" . $_SESSION['userid']);
 
-            $query_change = query("INSERT INTO tbl_change (aus) VALUES('{$user_id}')");
-            $query_taxdis = query("INSERT INTO tbl_taxdis (aus) VALUES('{$user_id}')");
-            $tbl_logo = query("INSERT INTO tbl_logo (name,img,aus) VALUES('TH POS','logo.png','{$user_id}')");
-            confirm($query_change);
-
-            // $to = $email;
-            // $subject = "Email Verification";
-            // $message = "Your verification code is: <h2>$vkey</h2>";
-            // $headers = "From: mrrbean88@gmail.com \r\n";
-            // $headers .= "MIME-Version: 1.0" . "\r\n";
-            // $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-
-            $_SESSION['useremail'] = $email;
-            $mail = new PHPMailer(true);
+        // 4. Email Verification First
+        $mail = new PHPMailer(true);
+        try {
             $mail->isSMTP();
             $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
-            $mail->Username = 'thpos.store@gmail.com';
-            $mail->Password = 'mkuq bumn cjzc pkyf';
-            $mail->Port     = 587;
+            $mail->Username = 'mrrbean88@gmail.com';
+            $mail->Password = 'lxrs caql ygwf xxol';
+            $mail->SMTPSecure = 'tls';
+            $mail->Port = 587;
 
-            $mail->setFrom('thpos.store@gmail.com');
+
+            $mail->setFrom('thpos.store@gmail.com', 'THPOS');
             $mail->addAddress($email);
             $mail->isHTML(true);
-            $mail->Subject = 'THPOS ';
+            $mail->CharSet = 'UTF-8';
+            $mail->Subject = 'THPOS - Email Verification';
             $mail->Body = "Your verification code is: <h2>$vkey</h2>";
             $mail->send();
 
 
-            if ($mail) {
-                redirect("verify");
-                set_message_signin("<div class='alert alert-success text-center'>
+            // 5. Save to DB after email sent
+            query("INSERT INTO tbl_user (username, useremail, userpassword, createdate, date_new, code, aus, tim, lat, lng,login_type,location_ip)
+                    VALUES ('$username', '$email', '$hashed_password', '$createdate', '$createdate', '$vkey', '$user_id', '$numdatefree', '$lat', '$lng','manual','$location')");
+
+            query("INSERT INTO tbl_change (aus) VALUES('$user_id')");
+            query("INSERT INTO tbl_taxdis (aus) VALUES('$user_id')");
+            query("INSERT INTO tbl_logo (name, img, aus) VALUES('TH POS', 'logo.png', '$user_id')");
+
+            $_SESSION['useremail'] = $email;
+
+            set_message_signin("<div class='alert alert-success text-center'>
                 We've sent a verification code to your email - $email</div>");
-            }
+            redirect("verify.php");
+        } catch (Exception $e) {
+            // ✅ Show generic error
+            set_message("<div class='alert alert-danger text-center'>
+                <p>Sorry, we couldn't send the verification email. Please try again later or use another email.</p></div>");
         }
     }
 }
@@ -140,7 +169,7 @@ function verify()
                 })
             });
           </script>");
-                redirect("../coffee");
+                redirect("../");
             } else {
                 set_message_signin("<div class='alert alert-danger text-center'>
                 <p>Failed while updating code!</p></div>");
@@ -156,43 +185,63 @@ function verify()
 
 function forgot_pass()
 {
-    require '../PHPMailer/src/Exception.php';
-    require '../PHPMailer/src/PHPMailer.php';
-    require '../PHPMailer/src/SMTP.php';
+    require '../../PHPMailer/src/Exception.php';
+    require '../../PHPMailer/src/PHPMailer.php';
+    require '../../PHPMailer/src/SMTP.php';
     //if user click continue button in forgot password form
     if (isset($_POST['check-email'])) {
         $email = escape_string($_POST['email']);
         $check_email = query("SELECT * FROM tbl_user WHERE useremail='$email'");
         if (mysqli_num_rows($check_email) > 0) {
-            $code = rand(999999, 111111);
-            $insert_code = query("UPDATE tbl_user SET code = $code WHERE useremail = '$email'");
-            if ($insert_code) {
-                // $subject = "Password Reset Code";
-                // $message = "Your password reset code is: <h2>$code</h2>";
-                // $headers = "From: mrrbean88@gmail.com \r\n";
-                // $headers .= "MIME-Version: 1.0" . "\r\n";
-                // $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-
-                $_SESSION['useremail'] = $email;
-                $mail = new PHPMailer(true);
-                $mail->isSMTP();
-                $mail->Host = 'smtp.gmail.com';
-                $mail->SMTPAuth = true;
-                $mail->Username = 'thpos.store@gmail.com';
-                $mail->Password = 'mkuq bumn cjzc pkyf';
-                $mail->Port     = 587;
-
-                $mail->setFrom('thpos.store@gmail.com');
-                $mail->addAddress($email);
-                $mail->isHTML(true);
-                $mail->Subject = 'THPOS ';
-                $mail->Body = "Your password reset code is: <h2>$code</h2>";
-                $mail->send();
+            $rowmail = $check_email->fetch_object();
+            $emailDB = $rowmail->role;
+            if ($emailDB == "User") {
+                set_message_signin(" <script>
+                $(function() {
+                    var Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top',
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                    Toast.fire({
+                        icon: 'warning',
+                        title: 'សូមទាក់ទងទៅអ្នកគ្រប់គ្រង!'
+                    })
+                });
+              </script>");
+            } else {
 
 
-                if ($mail) {
+                $code = rand(999999, 111111);
+                $insert_code = query("UPDATE tbl_user SET code = $code WHERE useremail = '$email'");
+                if ($insert_code) {
+                    // $subject = "Password Reset Code";
+                    // $message = "Your password reset code is: <h2>$code</h2>";
+                    // $headers = "From: mrrbean88@gmail.com \r\n";
+                    // $headers .= "MIME-Version: 1.0" . "\r\n";
+                    // $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 
-                    set_message_signin(" <script>
+                    $_SESSION['useremail'] = $email;
+                    $mail = new PHPMailer(true);
+                    $mail->isSMTP();
+                    $mail->Host = 'smtp.gmail.com';
+                    $mail->SMTPAuth = true;
+                    $mail->Username = 'thpos.store@gmail.com';
+                    $mail->Password = 'mkuq bumn cjzc pkyf';
+                    $mail->Port     = 587;
+
+                    $mail->setFrom('thpos.store@gmail.com');
+                    $mail->addAddress($email);
+                    $mail->isHTML(true);
+                    $mail->Subject = 'THPOS ';
+                    $mail->Body = "Your password reset code is: <h2>$code</h2>";
+                    $mail->send();
+
+
+                    if ($mail) {
+
+                        set_message_signin(" <script>
                     $(function() {
                         var Toast = Swal.mixin({
                             toast: true,
@@ -207,11 +256,11 @@ function forgot_pass()
                     });
                   </script>");
 
-                    $_SESSION['useremail'] = $email;
-                    header('location: reset-code');
-                    exit();
-                } else {
-                    set_message_signin(" <script>
+                        $_SESSION['useremail'] = $email;
+                        header('location: reset-code');
+                        exit();
+                    } else {
+                        set_message_signin(" <script>
                     $(function() {
                         var Toast = Swal.mixin({
                             toast: true,
@@ -225,9 +274,9 @@ function forgot_pass()
                         })
                     });
                   </script>");
-                }
-            } else {
-                set_message_signin(" <script>
+                    }
+                } else {
+                    set_message_signin(" <script>
                 $(function() {
                     var Toast = Swal.mixin({
                         toast: true,
@@ -241,6 +290,7 @@ function forgot_pass()
                     })
                 });
               </script>");
+                }
             }
         } else {
 
@@ -467,7 +517,7 @@ function service_list()
                  </div>
              </div>
              <div class="info">' . $row->text . '</div>
-             <div class="details">
+             <div class="detailss">
                  <div class="one">
                      <span>' . $row->expires . '</span>
                      <i class="fas fa-check"></i>
@@ -592,7 +642,7 @@ function service_list_dom()
                     ' . $free . '
                 </p>
             </div>
-            <button id="link'.$i.'" class="btn">Join Now</button>
+            <button id="link' . $i . '" class="btn">Join Now</button>
         </div>';
         $i++;
     }

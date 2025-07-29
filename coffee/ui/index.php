@@ -99,7 +99,7 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
 
     <?php
 
-    if ($_SERVER['REQUEST_URI'] == "/coffee/ui/" || $_SERVER['REQUEST_URI'] == "/ui/coffee/itemt") {
+    if ($_SERVER['REQUEST_URI'] == "/restaurant_pos/coffee/ui/" || $_SERVER['REQUEST_URI'] == "/restaurant_pos/coffee/ui/itemt") {
 
         include(TEMPLATE_BACK . "/pos.php");
     }

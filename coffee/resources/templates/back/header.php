@@ -51,7 +51,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="../dist/js/jquery.js"></script>
     <script src="../dist/js/scriptssk.js"></script>
 
-
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 
 </head>
 <style>
@@ -67,11 +67,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
     .table {
         background-color: white;
     }
+    .default_hover:hover{
+        cursor: not-allowed;
+    }
 
-    .dropdown-menu {
+    /* .dropdown-menu {
         max-height: 411px;
         overflow: auto;
-    }
+    } */
 </style>
 
 <body class="hold-transition sidebar-mini sidebar-collapse">
@@ -299,7 +302,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </li> -->
                         <li class="nav-item">
                             <a href="itemt?registration" class="nav-link <?php actr("registration"); ?>">
-                                <i class="nav-icon far fa-plus-square"></i>
+                                <i class="nav-icon fa fa-user-plus"></i>
                                 <p>
                                     Registration
                                 </p>

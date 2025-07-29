@@ -1,6 +1,6 @@
 <?php
 ob_start();
-
+session_name("admintonghe");
 session_start();
 // session_destroy();
 

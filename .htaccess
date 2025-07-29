@@ -40,9 +40,8 @@ RewriteRule ^order_qr/?$ order_qr.php
 #RewriteCond %{REQUEST_FILENAME} !-f
 #RewriteRule ^([^\.]+)$ $1.php [NC,L]
 
-errorDocument 404 /ui/indexx.php
 
-
+ErrorDocument 404 /restaurant/ui/404.php
 # RewriteRule ^editscore/(.*)$ /date.php?tt=$1 [NC,L]
 
 # RewriteRule ^(.*)$ /dmizone_bkp/index.php?/$1 [L]

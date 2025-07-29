@@ -1,6 +1,6 @@
 <?php 
 ob_start(); 
-
+session_name("coffee_session");
 session_start();
 // session_destroy();
 
@@ -34,18 +34,6 @@ $connection = mysqli_connect(DB_HOST,DB_USER,DB_PASS,DB_NAME);
 // /////////////////////////// Coffee
 
 
-
-defined("DB_HOSTC") ? null : define("DB_HOSTC", "localhost");
-
-defined("DB_USERC") ? null : define("DB_USERC","root");
-
-
-defined("DB_PASSC") ? null : define("DB_PASSC", "");
-
-defined("DB_NAMEC") ? null : define("DB_NAMEC",  "coffee_db");
-
-
-$connectionC = mysqli_connect(DB_HOSTC,DB_USERC,DB_PASSC,DB_NAMEC);
 
 require_once("functions.php");
 require_once("functions_create.php");

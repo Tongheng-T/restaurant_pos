@@ -1,4 +1,4 @@
-<?php require_once "resources/config.php"; ?>
+<?php require_once "restaurant/resources/config.php"; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,10 +14,12 @@
     <link rel="icon" href="ui/logo/b256.ico" sizes="144x144">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.min.css">
     <link rel="stylesheet" href="dist/css/ab/styledoo.css">
+
     <title>THPOS</title>
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-QRFPMKNEVL"></script>
+    <script src="dist/js/scriptskk.js"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -45,7 +47,7 @@
     <nav>
         <div class="nav-logo">
             <a href="#">
-                <img src="resources/images/logo/logo1.png">
+                <img src="resources/images/logo/ff.png">
             </a>
         </div>
 
@@ -86,7 +88,7 @@
                     ប្រព័ន្ធគ្រប់គ្រងភោជនីយដ្ឋាន។
                     Restaurant Management System.
                 </p>
-                <a href="api/">Login Now <i class="ri-arrow-right-line"></i></a>
+                <a href="restaurant/api">Login Now <i class="ri-arrow-right-line"></i></a>
             </div>
             <div class="card">
                 <span><i class="ri-cup-fill"></i></span>
@@ -97,6 +99,26 @@
 
                 </p>
                 <a href="coffee/">Login Now <i class="ri-arrow-right-line"></i></a>
+            </div>
+            <div class="card">
+                <span><i class="ri-store-line"></i></span>
+                <h4 class="fonkh">Free Tier</h4>
+                <p class="fonkh">
+                    ប្រព័ន្ធគ្រប់គ្រងម៉ាត។ <br>
+                    Mart Shop Management System.
+
+                </p>
+                <a href="posbarcode/">Login Now <i class="ri-arrow-right-line"></i></a>
+            </div>
+            <div class="card">
+                <span><i class="x-mdi-application"></i></span>
+                <h4 class="fonkh">Free Tier</h4>
+                <p class="fonkh">
+                    ប្រព័ន្ធគ្រប់គ្រងទឹក។ <br>
+                    Water management system.
+
+                </p>
+                <a href="Water_management_system/">Login Now <i class="ri-arrow-right-line"></i></a>
             </div>
 
         </div>
@@ -156,8 +178,9 @@
         Copyright © 2024 THPOS.store. All Rights Reserved.
     </div>
 
-
+    <script src="dist/js/scriptskk.js"></script>
     <script src="dist/css/ab/scriptdol.js"></script>
+    
 </body>
 
 </html>

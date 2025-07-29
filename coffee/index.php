@@ -1,4 +1,6 @@
-<?php require_once "resources/config.php"; ?>
+<?php require_once "resources/config.php"; 
+require_once '../vendor/autoload.php';?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,6 +33,7 @@
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-QRFPMKNEVL"></script>
+
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -79,7 +82,7 @@ unset($_SESSION['messagee']) ?>
 
             <div class="card-body">
                 <p class="login-box-msg">Sign in to start your session</p>
-                <p class="center"><img src="resources/images/loog.png" style="align-content: center" height="200px" alt=""></p>
+                <p class="center"><img src="resources/images/logocof.png" style="align-content: center" height="200px" alt=""></p>
                 <?php login_user(); ?>
                 <?php display_message(); ?>
                 <form action="" method="post">
@@ -108,12 +111,23 @@ unset($_SESSION['messagee']) ?>
                             <div class="icheck-primary">
                                 <!-- <a href="#" class="toastrDefaultInfo">I forgot my password</a> -->
                                 <p class="mb-1">
-                                    <a href="../apii/forgot_password">I forgot my password</a>
+                                    <a href="apii/forgot_password">I forgot my password</a>
                                 </p>
 
                                 <p class="mb-0">
-                                    <a href="../apii/register" class="text-center">Register a new membership</a>
+                                    <a href="apii/register" class="text-center">Register a new membership</a>
                                 </p>
+                                <div class="text-center mt-3">
+                                    <a href="<?php
+                                                $client = new Google_Client();
+                                                $client->setClientId('678847511198-aonl23o0ennpnse1damqaj352j228np5.apps.googleusercontent.com');
+                                                $client->setClientSecret('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');
+                                                $client->setRedirectUri('http://thpos.com/coffee/google/google-callback.php');
+                                                $client->addScope('email');
+                                                $client->addScope('profile');
+                                                echo $client->createAuthUrl();
+                                                ?>" class="btn btn-danger btn-block" style="border-radius: 25px;"><i class="fab fa-google mr-2"></i>Sign in with Google</a>
+                                </div>
                             </div>
                         </div>
                         <!-- /.col -->

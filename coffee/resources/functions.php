@@ -44,11 +44,11 @@ function query($sql)
     return mysqli_query($connection, $sql);
 }
 
-function queryC($sql)
-{
-    global $connectionC;
-    return mysqli_query($connectionC, $sql);
-}
+// function queryC($sql)
+// {
+//     global $connectionC;
+//     return mysqli_query($connectionC, $sql);
+// }
 
 function confirm($result)
 {
@@ -76,107 +76,87 @@ function fetch_array($result)
 function login_user()
 {
     if (isset($_POST['btn_login'])) {
+        $useremail = trim($_POST['txt_email']);
+        $inputPassword = $_POST['txt_password'];
 
-        $useremail = $_POST['txt_email'];
-        $password = md5($_POST['txt_password']);
-
-        $query = query("SELECT * from tbl_user where useremail='$useremail' AND userpassword='$password' and role ='Admin'");
+        $query = query("SELECT * FROM tbl_user WHERE useremail = '$useremail'");
         confirm($query);
 
         if (mysqli_num_rows($query) == 0) {
-            $query2 = query("SELECT * from tbl_user where useremail='$useremail' AND userpassword='$password' and role ='User'");
-            confirm($query2);
-            if (mysqli_num_rows($query2) == 0) {
-                set_message(" <script>
-                $(function() {
-                    var Toast = Swal.mixin({
-                        toast: true,
-                        position: 'top',
-                        showConfirmButton: false,
-                        timer: 5000
-                    });
-                    Toast.fire({
-                        icon: 'error',
-                        title: 'អ៊ីមែល ឬពាក្យសម្ងាត់ខុស ឬវាលគឺទទេ!'
-                    })
-                });
-              </script>");
-                redirect("");
-            } else {
-                $row =  $query2->fetch_assoc();
-                $_SESSION['userid'] = $row['user_id'];
-                $_SESSION['username'] = $row['username'];
-                $_SESSION['useremail'] = $row['useremail'];
-                $_SESSION['role'] = $row['role'];
-                $_SESSION['aus'] = $row['aus'];
+            show_error();
+            return;
+        }
 
-                $date = new DateTime('now', new DateTimeZone('Asia/bangkok'));
-                $datee =  $date->format('Y-m-d H:i:s');
-                $time = time() + 10;
-                $res = query("UPDATE tbl_user set login_online='$time', last_login='$datee' where user_id=" . $_SESSION['userid']);
-                confirm($res);
+        $row = $query->fetch_assoc();
+        $hashedPassword = $row['userpassword'];
+        $role = $row['role'];
+        $verified = $row['verified'];
 
-                set_message(" <script>
-                $(function() {
-                    var Toast = Swal.mixin({
-                        toast: true,
-                        position: 'top',
-                        showConfirmButton: false,
-                        timer: 5000
-                    });
-                    Toast.fire({
-                        icon: 'success',
-                        title: 'Login success By User'
-                    })
-                });
-              </script>");
-                header('refresh:2;user/');
-            }
-        } else {
-            $row =  $query->fetch_assoc();
-            $verified = $row['verified'];
-            $email = $row['useremail'];
-            $date = $row['createdate'];
-            if ($verified == 1) {
+        if (!password_verify($inputPassword, $hashedPassword)) {
+            show_error();
+            return;
+        }
 
-                $_SESSION['userid'] = $row['user_id'];
-                $_SESSION['username'] = $row['username'];
-                $_SESSION['useremail'] = $row['useremail'];
-                $_SESSION['role'] = $row['role'];
-                $_SESSION['aus'] = $row['aus'];
+        // Verified check for Admin only
+        if ($role == 'Admin' && $verified != 1) {
+            $_SESSION['useremail'] = $row['useremail'];
+            $_SESSION['aus'] = $row['aus'];
+            set_message_signin("<div class='alert alert-warning text-center'>
+                Please verify your email before logging in - {$row['useremail']}</div>");
+            header('Location: verify.php');
+            return;
+        }
 
-                $date = new DateTime('now', new DateTimeZone('Asia/bangkok'));
-                $datee =  $date->format('Y-m-d H:i:s');
-                $time = time() + 10;
-                $res = query("UPDATE tbl_user set login_online='$time', last_login='$datee' where user_id=" . $_SESSION['userid']);
-                confirm($res);
+        // Set session
+        $_SESSION['userid'] = $row['user_id'];
+        $_SESSION['username'] = $row['username'];
+        $_SESSION['useremail'] = $row['useremail'];
+        $_SESSION['role'] = $row['role'];
+        $_SESSION['aus'] = $row['aus'];
+        $_SESSION['location'] = $row['location_ip'];
+        $_SESSION['login_type'] = $row['login_type'];
 
-                set_message(" <script>
+        // Update login time
+        $date = new DateTime('now', new DateTimeZone('Asia/Bangkok'));
+        $datee =  $date->format('Y-m-d H:i:s');
+        $time = time() + 10;
+        $res = query("UPDATE tbl_user SET login_online='$time', last_login='$datee' WHERE user_id=" . $_SESSION['userid']);
+        confirm($res);
+
+        // SweetAlert message
+        $roleText = ($role == 'Admin') ? 'Admin' : 'User';
+        set_message("<script>
             $(function() {
-                var Toast = Swal.mixin({
+                Swal.fire({
                     toast: true,
                     position: 'top',
+                    icon: 'success',
+                    title: 'Login success By $roleText',
                     showConfirmButton: false,
                     timer: 5000
                 });
-                Toast.fire({
-                    icon: 'success',
-                    title: 'Login success By Admin'
-                })
             });
-          </script>");
+        </script>");
 
-                header('refresh:2;ui/');
-            } else {
-
-                $_SESSION['useremail'] = $row['useremail'];
-                $_SESSION['aus'] = $row['aus'];
-                set_message_signin("<div class='alert alert-success text-center'>
-                It's look like you haven't still verify your email - $email on $date</div>");
-                header('location: ../apii/verify');
-            }
-        }
+        header('refresh:2;url=../coffee/' . (($role == 'Admin') ? 'ui/' : 'user/'));
     }
+}
+
+function show_error()
+{
+    set_message("<script>
+        $(function() {
+            Swal.fire({
+                toast: true,
+                position: 'top',
+                icon: 'error',
+                title: 'Email or password incorrect!',
+                showConfirmButton: false,
+                timer: 5000
+            });
+        });
+    </script>");
+    redirect("");
 }
 
 function set_message_signin($msgg)
@@ -314,13 +294,13 @@ function changepassword()
 }
 
 
-function registration()
+function registrationc()
 {
     if (isset($_POST['btnsave'])) {
 
         $username = $_POST['txtname'];
         $useremail = $_POST['txtemail'];
-        $userpassword = md5($_POST['txtpassword']);
+        $userpassword = password_hash($_POST['txtpassword'], PASSWORD_DEFAULT);
         $userrole = $_POST['txtselect_option'];
 
         $f_name                 = $_FILES['file']['name'];
@@ -450,6 +430,15 @@ function registration()
         }
     }
 
+
+    // 
+
+
+
+
+
+
+    // 
 
 
     if (isset($_POST['btnupdate'])) {
@@ -617,6 +606,82 @@ function registration()
         }
     }
 }
+
+// 
+
+    function registration()
+    {
+        if (!isset($_POST['btnsave'])) return;
+
+        $username = htmlspecialchars(trim($_POST['txtname']));
+        $useremail = filter_var($_POST['txtemail'], FILTER_SANITIZE_EMAIL);
+        $userpassword = password_hash($_POST['txtpassword'], PASSWORD_DEFAULT);
+        $userrole = $_POST['txtselect_option'];
+        $verified = 1;
+        $aus = $_SESSION['aus'];
+
+        $time = new DateTime('now', new DateTimeZone('Asia/Bangkok'));
+        $datee = $time->format('Y-m-d H:i:s');
+
+        // Get aus user info
+        $select_admin = query("SELECT * FROM tbl_user WHERE aus = '$aus'");
+        confirm($select_admin);
+        $admin = $select_admin->fetch_object();
+        $date_new = $admin->date_new;
+        $tim = $admin->tim;
+
+        // Check if image was uploaded
+        $image = 'user.png';
+        if (!empty($_FILES['file']['name'])) {
+            $f_name = $_FILES['file']['name'];
+            $f_size = $_FILES['file']['size'];
+            $tmp_name = $_FILES['file']['tmp_name'];
+            $f_extension = strtolower(pathinfo($f_name, PATHINFO_EXTENSION));
+
+            if (in_array($f_extension, ['jpg', 'jpeg', 'png', 'gif'])) {
+                if ($f_size > 1000000) {
+                    set_message(jsAlert("warning", "Max file should be 1MB"));
+                    redirect('itemt?registration');
+                }
+
+                $image = uniqid() . '.' . $f_extension;
+                move_uploaded_file($tmp_name, UPLOAD_DIRECTORY_UDER . DS . $image);
+            } else {
+                set_message(jsAlert("warning", "Only jpg, jpeg, png and gif allowed"));
+                redirect('itemt?registration');
+            }
+        }
+
+        // Check if email exists
+        $check = query("SELECT useremail FROM tbl_user WHERE useremail = '$useremail'");
+        confirm($check);
+        if (mysqli_num_rows($check) > 0) {
+            set_message(jsAlert("warning", "Email already exists. Create Account From New Email"));
+            redirect('itemt?registration');
+        }
+
+        // Insert new user
+        $insert = query("INSERT INTO tbl_user (username,useremail,userpassword,img,role,createdate,date_new,verified,aus,tim) 
+                   VALUES('$username','$useremail','$userpassword','$image','$userrole','$datee','$date_new','$verified','$aus','$tim')");
+        confirm($insert);
+        if ($insert) {
+            set_message(jsAlert("success", "Insert successfully the user into the database"));
+        } else {
+            set_message(jsAlert("error", "Error inserting the user into the database"));
+        }
+        redirect('itemt?registration');
+    }
+
+    function jsAlert($icon, $title)
+    {
+        return "<script>Swal.fire({icon: '$icon', title: '$title'});</script>";
+    }
+
+
+
+
+
+// 
 
 function show_delete($invoice_id)
 {
