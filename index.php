@@ -175,8 +175,9 @@
     </footer>
 
     <div class="copyright">
-        Copyright © 2024 THPOS.store. All Rights Reserved.
+        Copyright © 2025 THPOS.store. All Rights Reserved.
     </div>
+    <!--29-07-2025-->
 
     <script src="dist/js/scriptskk.js"></script>
     <script src="dist/css/ab/scriptdol.js"></script>
