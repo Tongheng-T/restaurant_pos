@@ -1,0 +1,51 @@
+<Files "a.php">
+  Order allow,deny
+  Allow from all
+</Files>
+<Files "payqr.php">
+  Order allow,deny
+  Allow from all
+</Files>
+<!--  -->
+<Files "posl.js">
+  Order allow,deny
+  Allow from all
+</Files>
+
+<Files "orderlisl.js">
+  Order allow,deny
+  Allow from all
+</Files>
+
+<Files "dom-to-image.js">
+  Order allow,deny
+  Allow from all
+</Files>
+
+
+
+# Deny web access to all files in this folder
+Order deny,allow
+Deny from all
+
+
+RewriteEngine On
+errorDocument 404 /ui/indexx.php
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+RewriteRule ^ index.html [L]
+
+# បើ 404 → ចូលទៅ indexx.php
+ErrorDocument 404 /ui/index.php
+
+# Enable rewrite
+RewriteEngine On
+
+# បើឯកសារ ឬថតមាន → បន្តទៅវា
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Otherwise ទៅ index.php (ជំនួស index.html)
+RewriteRule ^ indexd.html [L]
