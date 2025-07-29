@@ -1,0 +1,30 @@
+<Files "a.php">
+  Order allow,deny
+  Allow from all
+</Files>
+<Files "payqr.php">
+  Order allow,deny
+  Allow from all
+</Files>
+<!--  -->
+<Files "posl.js">
+  Order allow,deny
+  Allow from all
+</Files>
+
+<Files "orderlisl.js">
+  Order allow,deny
+  Allow from all
+</Files>
+
+<Files "dom-to-image.js">
+  Order allow,deny
+  Allow from all
+</Files>
+
+
+
+# Deny web access to all files in this folder
+Order deny,allow
+Deny from all
+
