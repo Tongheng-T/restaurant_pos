@@ -28,7 +28,6 @@ RewriteRule ^order_qr/?$ order_qr.php
 RewriteRule ^google/?$ order_qr.php
 
 
-
 # RewriteRule ^studentlist/?$ index.html
 # RewriteRule ^index/?$ index.html
 # RewriteRule ^index.php/?$ index.html

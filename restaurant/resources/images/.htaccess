@@ -21,6 +21,7 @@ RewriteRule ^resources/uploads/?$ index.html
 #RewriteCond %{REQUEST_FILENAME} !-f
 #RewriteRule ^([^\.]+)$ $1.php [NC,L]
 
+
 errorDocument 404 /ui/indexx.php
 
 

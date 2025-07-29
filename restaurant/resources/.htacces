@@ -27,3 +27,9 @@
 # Deny web access to all files in this folder
 Order deny,allow
 Deny from all
+
+
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^ - [L]
+RewriteRule ^ index.html [L]
