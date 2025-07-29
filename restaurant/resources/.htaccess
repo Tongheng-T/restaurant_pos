@@ -10,7 +10,7 @@
 </Files>
 
 # បើ 404 → ចូលទៅ indexx.php
-ErrorDocument 404 /ui/indexx.php
+ErrorDocument 404 /ui/index.php
 
 # Enable rewrite
 RewriteEngine On
