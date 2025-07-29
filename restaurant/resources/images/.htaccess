@@ -1,5 +1,6 @@
 RewriteEngine On
-
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^ - [L]
 RewriteRule ^imguser/?$ index.html
 
 RewriteRule ^resources/?$ index.html
