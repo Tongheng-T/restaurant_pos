@@ -31,5 +31,15 @@ Deny from all
 
 
 # បើ 404 → ចូលទៅ indexx.php
-ErrorDocument 404 /ui/index.php
+ErrorDocument 404 /index.php
 
+# Enable mod_rewrite
+RewriteEngine On
+
+# បើឯកសារ ឬថត​មាន​ទៅ​រក្សា​តាម​ដដែល
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# ផ្សេងពីនេះទាំងអស់ redirect ទៅ index.php
+RewriteRule ^ index.php [L]
