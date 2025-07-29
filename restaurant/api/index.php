@@ -115,7 +115,7 @@ unset($_SESSION['messagee']) ?>
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
 
-                <img src="../resources/images/logo3.png" alt="THPOS Logo" style="height: 80px; margin-bottom: 10px;">
+                <img src="../../resources/images/logo3.png" alt="THPOS Logo" style="height: 80px; margin-bottom: 10px;">
                 <h1 style="font-weight: bold; font-size: 26px; color: #007bff;">THPOS</h1>
 
 
