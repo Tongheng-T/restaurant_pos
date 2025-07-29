@@ -5,7 +5,7 @@ RewriteRule ^imguser/?$ index.html
 
 RewriteRule ^resources/?$ index.html
 RewriteRule ^resources/images/?$ index.php
-# RewriteRule ^resources/userpic/?$ index.php [L]
+RewriteRule ^resources/userpic/?$ index.php [L]
 RewriteRule ^resources/templates/?$ index.html
 RewriteRule ^resources/templates/back/?$ index.html
 RewriteRule ^resources/uploads/?$ index.html
@@ -21,12 +21,11 @@ RewriteRule ^resources/uploads/?$ index.html
 #RewriteCond %{REQUEST_FILENAME} !-f
 #RewriteRule ^([^\.]+)$ $1.php [NC,L]
 
-RewriteCond %{REQUEST_FILENAME} -f
+errorDocument 404 /ui/indexx.php
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
 RewriteRule ^ index.html [L]
-errorDocument 404 /ui/indexx.php
-
-
 # RewriteRule ^editscore/(.*)$ /date.php?tt=$1 [NC,L]
 
 # RewriteRule ^(.*)$ /dmizone_bkp/index.php?/$1 [L]
