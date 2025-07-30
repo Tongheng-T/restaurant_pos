@@ -50,11 +50,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="../plugins/toastr/toastr.min.js"></script>
 
     <script src="../dist/js/scriptskk.js"></script>
-  <!-- Leaflet CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 
-  <!-- Leaflet JS -->
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 
 
@@ -77,6 +77,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         max-height: 411px;
         overflow: auto;
     }
+
     /* #map {
       height: 400px;
       width: 100%;
@@ -274,6 +275,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     Table
 
                                 </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="itemt?expense" class="nav-link <?php actr('expense'); ?>">
+                                <i class="nav-icon fas fa-money-bill-wave"></i>
+                                <p>ចំណាយ (Expense)</p>
                             </a>
                         </li>
 

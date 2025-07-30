@@ -70,8 +70,8 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
             </div>
             <div class="modal-body">
                 <div class="contentt">
-                    
-                <?php service_list(); ?>
+
+                    <?php service_list(); ?>
                 </div>
             </div>
             <div class="modal-footer">
@@ -89,7 +89,7 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
 <div class="modal fade" id="exampleModalpay" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content" id="payuser">
-           
+
 
         </div>
     </div>
@@ -191,6 +191,10 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
     if (isset($_GET['settings'])) {
 
         include(TEMPLATE_BACK . "/settings.php");
+    }
+    if (isset($_GET['expense'])) {
+
+        include(TEMPLATE_BACK . "/payment_form.php");
     }
     if (isset($_GET['logout'])) {
 

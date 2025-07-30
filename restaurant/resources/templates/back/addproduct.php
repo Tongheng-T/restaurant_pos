@@ -45,102 +45,104 @@ addproduct();
           </div>
 
 
-          <form action="" method="post" enctype="multipart/form-data">
-            <div class="card-body">
-              <div class="row">
-                <div class="col-md-6">
+          <form action="" method="post" enctype="multipart/form-data" class="p-3">
+            <div class="row">
+              <!-- Left Column -->
+              <div class="col-md-6">
 
-                  <div class="form-group">
-                    <label>Product Name</label>
-                    <input type="text" class="form-control" placeholder="Enter Name" name="txtproductname" autocomplete="off" required>
-                  </div>
-
-                  <div class="form-group">
-                    <label>Category</label>
-                    <select class="form-control" name="txtselect_option" required>
-                      <option value="" disabled selected>Select Category</option>
-
-                      <?php
-                      $aus = $_SESSION['aus'];
-                      $select = query("SELECT * from tbl_category where aus='$aus' order by catid desc");
-                      confirm($select);
-
-                      while ($row = $select->fetch_assoc()) {
-                        extract($row);
-
-                      ?>
-                        <option value="<?php echo $row['catid']; ?>"><?php echo $row['category']; ?></option>
-
-                      <?php
-
-                      }
-
-                      ?>
-
-
-                    </select>
-                  </div>
-
-
-                  <div class="form-group">
-                    <label>Description</label>
-                    <textarea class="form-control" placeholder="Enter Description" name="txtdescription" rows="4"></textarea>
-                  </div>
-
-
-
-
+                <!-- Product Name -->
+                <div class="form-group">
+                  <label for="txtproductname">ឈ្មោះផលិតផល <span class="text-danger">*</span></label>
+                  <input type="text"
+                    id="txtproductname"
+                    class="form-control"
+                    placeholder="បញ្ចូលឈ្មោះផលិតផល"
+                    name="txtproductname"
+                    autocomplete="off"
+                    required>
                 </div>
 
+                <!-- Category -->
+                <div class="form-group">
+                  <label for="txtselect_option">ប្រភេទផលិតផល <span class="text-danger">*</span></label>
+                  <select class="form-control" id="txtselect_option" name="txtselect_option" required>
+                    <option value="" disabled selected>ជ្រើសរើសប្រភេទ</option>
+                    <?php
+                    $aus = $_SESSION['aus'];
+                    $select = query("SELECT * from tbl_category where aus='$aus' order by catid desc");
+                    confirm($select);
+                    while ($row = $select->fetch_assoc()) {
+                      echo "<option value='{$row['catid']}'>{$row['category']}</option>";
+                    }
+                    ?>
+                  </select>
+                </div>
 
+                <!-- Description -->
+                <div class="form-group">
+                  <label for="txtdescription">ពិពណ៌នា</label>
+                  <textarea id="txtdescription" class="form-control"
+                    placeholder="បញ្ចូលពិពណ៌នា"
+                    name="txtdescription" rows="4"></textarea>
+                </div>
 
+              </div>
 
-                <div class="col-md-6">
-                  <div class="form-group clearfix">
-                    <div class="icheck-danger d-inline">
-                      <input type="radio" id="radioPrimary1" name="r1" value="1" checked>
-                      <label for="radioPrimary1">
-                       ប្រភេទម្ហូប/ កែវ
-                      </label>
-                    </div>
-                    <div class="icheck-primary d-inline">
-                      <input type="radio" id="radioPrimary2" name="r1" value="2">
-                      <label for="radioPrimary2">
-                      ប្រភេទភេសជ្ជៈ
-                      </label>
-                    </div>
+              <!-- Right Column -->
+              <div class="col-md-6">
 
+                <!-- Type -->
+                <div class="form-group clearfix">
+                  <label>ប្រភេទ</label><br>
+                  <div class="icheck-danger d-inline mr-3">
+                    <input type="radio" id="radioPrimary1" name="r1" value="1" checked>
+                    <label for="radioPrimary1">ម្ហូប / កែវ</label>
                   </div>
-                  <div class="form-group">
-                    <label>Sale Price</label>
-
-                    <input type="number" min="1" step="any" class="form-control" placeholder="Enter Price" name="txtsaleprice" autocomplete="off" required>
+                  <div class="icheck-primary d-inline">
+                    <input type="radio" id="radioPrimary2" name="r1" value="2">
+                    <label for="radioPrimary2">ភេសជ្ជៈ</label>
                   </div>
+                </div>
 
-                  <div class="form-group">
-                    <label>Size M Price ចានធំ​​/ដប់</label>
-                    <input type="number" min="1" step="any" class="form-control" value="<?php echo $m_price_db; ?>" placeholder="Enter Price" name="txtm_price" autocomplete="off" >
-                  </div>
+                <!-- Sale Price -->
+                <div class="form-group">
+                  <label for="txtsaleprice">តម្លៃលក់ <span class="text-danger">*</span></label>
+                  <input type="number" min="1" step="any" id="txtsaleprice"
+                    class="form-control"
+                    placeholder="បញ្ចូលតម្លៃលក់"
+                    name="txtsaleprice"
+                    autocomplete="off"
+                    required>
+                </div>
 
+                <!-- Size M Price -->
+                <div class="form-group">
+                  <label for="txtm_price">តម្លៃ Size M (ចានធំ/ដប់)</label>
+                  <input type="number" min="1" step="any" id="txtm_price"
+                    class="form-control"
+                    value="<?php echo $m_price_db ?? ''; ?>"
+                    placeholder="បញ្ចូលតម្លៃ"
+                    name="txtm_price" autocomplete="off">
+                </div>
 
-                  <div class="form-group">
-                    <label>Product image</label>
-                    <input type="file" class="input-group" name="myfile" >
-                    <p>Upload image</p>
-                  </div>
-
+                <!-- Image -->
+                <div class="form-group">
+                  <label for="myfile">រូបភាពផលិតផល</label>
+                  <input type="file" id="myfile" class="form-control-file" name="myfile">
+                  <small class="form-text text-muted">ប្រភេទឯកសារ: jpg, jpeg, png, gif (Max: 1MB)</small>
                 </div>
 
               </div>
             </div>
 
-            <div class="card-footer">
-              <div class="text-center">
-                <button type="submit" class="btn btn-primary" name="btnsave">Save Product</button>
-              </div>
+            <!-- Submit -->
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary btn-lg px-5" name="btnsave">
+                <i class="fas fa-save"></i> រក្សាទុកផលិតផល
+              </button>
             </div>
-
           </form>
+
 
         </div>
 

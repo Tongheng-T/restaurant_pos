@@ -2269,3 +2269,60 @@ function save_st()
         }
     }
 }
+
+
+
+// 
+
+
+
+function add_expense() {
+    global $connection; // ប្រើតំណភ្ជាប់ DB
+
+    if (isset($_POST['btnsave_expense'])) {
+        $aus             = $_SESSION['aus'];
+        $expense_name    = trim($_POST['txt_expense_name']);
+        $expense_category= $_POST['txt_expense_category'];
+        $expense_date    = $_POST['txt_date'];
+        $amount          = $_POST['txt_amount'];
+        $description     = $_POST['txt_description'];
+
+        // Upload File
+        $receipt_path = null;
+        if (!empty($_FILES['txt_receipt']['name'])) {
+            $target_dir  = "../productimages/receipts/";
+            if (!is_dir($target_dir)) {
+                mkdir($target_dir, 0777, true);
+            }
+            $file_name   = time() . "_" . basename($_FILES["txt_receipt"]["name"]);
+            $target_file = $target_dir . $file_name;
+
+            $file_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+            $allowed   = ['jpg','jpeg','png','pdf'];
+
+            if (in_array($file_type, $allowed)) {
+                if (move_uploaded_file($_FILES["txt_receipt"]["tmp_name"], $target_file)) {
+                    $receipt_path = $file_name;
+                } else {
+                    set_message("<div class='alert alert-danger'>Upload file បរាជ័យ!</div>");
+                    return;
+                }
+            } else {
+                set_message("<div class='alert alert-danger'>ប្រភេទឯកសារមិនត្រឹមត្រូវ!</div>");
+                return;
+            }
+        }
+
+        // បញ្ចូលទៅក្នុង Database
+        $stmt = $connection->prepare("INSERT INTO tbl_expense (aus, expense_name, expense_category, expense_date, amount, description, receipt_path) VALUES (?,?,?,?,?,?,?)");
+        $stmt->bind_param("sssssss", $aus, $expense_name, $expense_category, $expense_date, $amount, $description, $receipt_path);
+
+        if ($stmt->execute()) {
+            set_message("<div class='alert alert-success'>បានបញ្ចូលចំណាយថ្មីដោយជោគជ័យ!</div>");
+        } else {
+            set_message("<div class='alert alert-danger'>មានបញ្ហា: " . $stmt->error . "</div>");
+        }
+
+        $stmt->close();
+    }
+}
