@@ -127,7 +127,7 @@ $aus = $_SESSION['aus'];
               $grand_totall = $row->grandtotal;
               $subtotall = $row->stotal;
               $invoice = $row->invoice;
-              $discountdd = $row->discountd;
+              $discountdd = $row->discountd ?? 0;
 
               if ($usd_or_real == "usd") {
                 $grand_totalg = $grand_totall;
