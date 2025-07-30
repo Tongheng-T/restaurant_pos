@@ -117,7 +117,7 @@ add_expense();
                           <td>{$row['description']}</td>
                           <td class='text-center'>";
                   if (!empty($row['receipt_path'])) {
-                    echo "<a href='../resources/receipts/{$row['receipt_path']}' target='_blank' class='btn btn-info btn-sm'>View</a>";
+                    echo "<a href='../productimages/receipts/{$row['receipt_path']}' target='_blank' class='btn btn-info btn-sm'>View</a>";
                   } else {
                     echo "-";
                   }
