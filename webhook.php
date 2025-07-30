@@ -2,7 +2,8 @@
 // Secure access
 if (!isset($_GET['token']) || $_GET['token'] !== 'MY_SECRET') {
     http_response_code(403);
-    exit('Forbidden');
+     header('Location: https://thpos.store/');
+    exit;
 }
 
 // Move to project root
