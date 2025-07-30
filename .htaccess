@@ -46,10 +46,3 @@ ErrorDocument 404 /restaurant/ui/404.php
 
 # RewriteRule ^(.*)$ /dmizone_bkp/index.php?/$1 [L]
 
-<Files "webhook.php">
-  Order deny,allow
-  Deny from all
-  Allow from 140.82.112.0/20
-  Allow from 185.199.108.0/22
-  Allow from 192.30.252.0/22
-</Files>
