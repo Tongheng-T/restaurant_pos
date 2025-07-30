@@ -1,9 +1,10 @@
 RewriteEngine On
-
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^ - [L]
 RewriteRule ^imguser/?$ index.html
 
 RewriteRule ^resources/?$ indexx.php
-RewriteRule ^productimages/?$ indexx.php
+RewriteRule ^productimages/?$ indexx.php [L]
 RewriteRule ^resources/?$ indexx.php
 RewriteRule ^fone/?$ indexx.php
 RewriteRule ^dist/?$ indexx.php
