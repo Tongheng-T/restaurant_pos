@@ -2276,13 +2276,14 @@ function save_st()
 
 
 
-function add_expense() {
+function add_expense()
+{
     global $connection; // ប្រើតំណភ្ជាប់ DB
 
     if (isset($_POST['btnsave_expense'])) {
         $aus             = $_SESSION['aus'];
         $expense_name    = trim($_POST['txt_expense_name']);
-        $expense_category= $_POST['txt_expense_category'];
+        $expense_category = $_POST['txt_expense_category'];
         $expense_date    = $_POST['txt_date'];
         $amount          = $_POST['txt_amount'];
         $description     = $_POST['txt_description'];
@@ -2298,7 +2299,7 @@ function add_expense() {
             $target_file = $target_dir . $file_name;
 
             $file_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-            $allowed   = ['jpg','jpeg','png','pdf'];
+            $allowed   = ['jpg', 'jpeg', 'png', 'pdf'];
 
             if (in_array($file_type, $allowed)) {
                 if (move_uploaded_file($_FILES["txt_receipt"]["tmp_name"], $target_file)) {
@@ -2318,11 +2319,66 @@ function add_expense() {
         $stmt->bind_param("sssssss", $aus, $expense_name, $expense_category, $expense_date, $amount, $description, $receipt_path);
 
         if ($stmt->execute()) {
-            set_message("<div class='alert alert-success'>បានបញ្ចូលចំណាយថ្មីដោយជោគជ័យ!</div>");
+
+            set_message(' <script>
+             Swal.fire({
+             icon: "success",
+             title: "បានបញ្ចូលចំណាយថ្មីដោយជោគជ័យ!"
+             });
+            </script>');
         } else {
-            set_message("<div class='alert alert-danger'>មានបញ្ហា: " . $stmt->error . "</div>");
+
+            set_message(' <script>
+             Swal.fire({
+             icon: "error",
+             title: "មានបញ្ហា: $stmt->error ' . $stmt->error . '"
+             });
+            </script>');
         }
 
         $stmt->close();
+    }
+}
+
+function update_expense()
+{
+    if (isset($_POST['btnupdate_expense'])) {
+        $id = escape_string($_POST['expense_id']);
+        $name = escape_string($_POST['edit_expense_name']);
+        $cat = escape_string($_POST['edit_expense_category']);
+        $date = escape_string($_POST['edit_date']);
+        $amount = escape_string($_POST['edit_amount']);
+        $desc = escape_string($_POST['edit_description']);
+
+        query("UPDATE tbl_expense SET 
+      expense_name='$name',
+      expense_category='$cat',
+      expense_date='$date',
+      amount='$amount',
+      description='$desc'
+      WHERE id='$id'");
+        set_message(' <script>
+             Swal.fire({
+             icon: "success",
+             title: "បានកែប្រែចំណាយ!"
+             });
+            </script>');
+        redirect("itemt?expense");
+    }
+}
+
+function delete_expense()
+{
+    if (isset($_GET['delete_expense'])) {
+        $id = escape_string(string: $_GET['delete_expense']);
+        query("DELETE FROM tbl_expense WHERE id='$id'");
+        set_message(' <script>
+             Swal.fire({
+             icon: "info",
+             title: "បានលុបចំណាយ!"
+             });
+            </script>');
+
+        redirect("itemt?expense");
     }
 }
