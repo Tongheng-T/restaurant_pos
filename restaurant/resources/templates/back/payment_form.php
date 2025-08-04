@@ -6,7 +6,7 @@ display_message();
 add_expense();
 update_expense();
 delete_expense();
-display_message();
+
 ?>
 
 <div class="content-header">

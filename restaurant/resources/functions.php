@@ -2367,16 +2367,35 @@ function update_expense()
     }
 }
 
+
 function delete_expense()
 {
     if (isset($_GET['delete_expense'])) {
-        $id = escape_string(string: $_GET['delete_expense']);
+        $id = escape_string($_GET['delete_expense']);
+
+        // ទាញ path រូបភាពមុនពេលលុប
+        $result = query("SELECT receipt_path FROM tbl_expense WHERE id='$id'");
+        confirm($result);
+
+        if ($row = fetch_array($result)) {
+            $file_path = "../productimages/receipts/" . $row['receipt_path'];
+
+            // បើមានរូបភាព និងមាន file នៅក្នុង folder ទើបលុប
+            if (!empty($row['receipt_path']) && file_exists($file_path)) {
+                unlink($file_path);
+            }
+        }
+
+        // លុបចំណាយចេញពី Database
         query("DELETE FROM tbl_expense WHERE id='$id'");
-        set_message(' <script>
-             Swal.fire({
-             icon: "info",
-             title: "បានលុបចំណាយ!"
-             });
+
+        // Message
+        set_message(' 
+            <script>
+                Swal.fire({
+                    icon: "success",
+                    title: "បានលុបចំណាយ និងរូបភាពជោគជ័យ!"
+                });
             </script>');
 
         redirect("itemt?expense");

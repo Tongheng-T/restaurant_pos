@@ -196,6 +196,10 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
 
         include(TEMPLATE_BACK . "/payment_form.php");
     }
+      if (isset($_GET['tablereport_copy'])) {
+
+        include(TEMPLATE_BACK . "/tablereport_copy.php");
+    }
     if (isset($_GET['logout'])) {
 
         include(TEMPLATE_BACK . "/logout.php");
