@@ -324,7 +324,10 @@ if (isset($_GET['export']) && $_GET['export'] == 'excel') {
         SUM((d.saleprice - d.original_price)) AS total_profit
         FROM tbl_invoice_details d
         WHERE d.product_name LIKE '%ឈ្នួលជាង%'
-        AND d.original_price = 0 AND d.aus='$aus'")->fetch_assoc();
+        AND d.original_price = 0 AND d.aus='$aus' 
+         " . ($start_date ? " AND DATE(d.order_date) >= '$start_date'" : "") . "
+         " . ($end_date ? " AND DATE(d.order_date) <= '$end_date'" : "") . "
+         " . ($saler_id ? " AND d.saler_id = '$saler_id'" : "") . "")->fetch_assoc();
         ?>
 
     <tfoot style="font-weight:bold; background-color:#f9f9f9;">
