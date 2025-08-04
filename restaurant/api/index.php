@@ -166,7 +166,7 @@ unset($_SESSION['messagee']) ?>
                                                 $client = new Google_Client();
                                                 $client->setClientId('678847511198-c7rhe1h2udm2urs3j1hsul7srm0i0m1q.apps.googleusercontent.com');
                                                 $client->setClientSecret('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');
-                                                $client->setRedirectUri('http://thpos.com/restaurant/google/google-callback.php');
+                                                $client->setRedirectUri('https://thpos.store/restaurant/google/google-callback.php');
                                                 $client->addScope('email');
                                                 $client->addScope('profile');
                                                 echo $client->createAuthUrl();
