@@ -411,5 +411,5 @@ $usd_or_real = $row_exchange->usd_or_real; ?>
 
 
 </body>
-
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC5j4O7YQw1pf6v_MpjOXT2h-eZgsc5nQ&callback=initMap"></script>
 </html>

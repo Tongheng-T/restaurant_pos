@@ -193,6 +193,7 @@ if (($cc == 'active')) {
 
                                                 <div id="map" style="height: 400px;" class="rounded shadow-sm mb-3"></div>
 
+
                                                 <button type="submit" name="savemap" class="btn btn-primary">Save Location</button>
                                             </form>
 
@@ -203,33 +204,53 @@ if (($cc == 'active')) {
 
                                 </div>
                             </div>
-
+                            <?php
+                            $lat = !empty($lat) ? $lat : 11.5564;
+                            $lng = !empty($lng) ? $lng : 104.9282; ?>
 
                             <script>
                                 let lat = <?php echo $lat ?> || 11.5564;
                                 let lng = <?php echo $lng ?> || 104.9282;
 
-                                setMap(lat, lng);
+                                let map;
 
-                                function setMap(lat, lng) {
-                                    const map = L.map('map').setView([lat, lng], 13);
+                                function showPosition(position) {
+                                    const lat = position.coords.latitude;
+                                    const lng = position.coords.longitude;
 
-                                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                                        maxZoom: 19,
-                                        attribution: '&copy; OpenStreetMap contributors'
-                                    }).addTo(map);
+                                    document.querySelector('input[name="lat"]').value = lat;
+                                    document.querySelector('input[name="lng"]').value = lng;
 
-                                    const marker = L.marker([lat, lng]).addTo(map)
-                                        .bindPopup("You are here!").openPopup();
+                                    document.getElementById('lat').textContent = lat.toFixed(6);
+                                    document.getElementById('lng').textContent = lng.toFixed(6);
 
-                                    map.on('click', function(e) {
-                                        document.getElementById('lat').value = e.latlng.lat;
-                                        document.getElementById('lng').value = e.latlng.lng;
+                                    // Initialize Map
+                                    initMap(lat, lng);
+                                }
 
-                                        marker.setLatLng(e.latlng)
-                                            .bindPopup("You picked here!")
-                                            .openPopup();
+                                function initMap() {
+                                    let lat = <?= $lat ?>;
+                                    let lng = <?= $lng ?>;
+                                    map = new google.maps.Map(document.getElementById("map"), {
+                                        center: {
+                                            lat: lat,
+                                            lng: lng
+                                        },
+                                        zoom: 15,
                                     });
+
+                                    new google.maps.Marker({
+                                        position: {
+                                            lat: lat,
+                                            lng: lng
+                                        },
+                                        map: map,
+                                        title: "Your Location",
+                                    });
+                                }
+
+                                function showError(error) {
+                                    alert("សូមអនុញ្ញាត Geolocation ដើម្បីបង្ហាញទីតាំង។");
                                 }
                             </script>
 
@@ -288,5 +309,4 @@ if (($cc == 'active')) {
         alert("✅ Start scanning QR...");
         // QR scan code here (add your real QR scan script)
     }
-
 </script>
