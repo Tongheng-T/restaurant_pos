@@ -78,7 +78,7 @@ if (($cc == 'active')) {
                                 <a class="list-group-item list-group-item-action <?php echo $change ?>" data-toggle="list" href="#account-change-password">Change password</a>
                             <?php endif; ?>
 
-                            <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-social-links">Location</a>
+                            <!-- <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-social-links">Location</a> -->
 
                         </div>
                     </div>
@@ -204,6 +204,7 @@ if (($cc == 'active')) {
 
                                 </div>
                             </div>
+                            
                             <?php
                             $lat = !empty($lat) ? $lat : 11.5564;
                             $lng = !empty($lng) ? $lng : 104.9282; ?>
@@ -264,9 +265,9 @@ if (($cc == 'active')) {
     </div>
 </section>
 
-
+<!-- 
 <h1>ស្កេន QR Code</h1>
-<button onclick="validateLocationBeforeScan()">📍 ស្កេន QR</button>
+<button onclick="validateLocationBeforeScan()">📍 ស្កេន QR</button> -->
 
 <script>
     const allowedLat = <?php echo $lat ?>; // ← ជំនួសជាទីតាំងកំណត់let lat = 
@@ -310,3 +311,4 @@ if (($cc == 'active')) {
         // QR scan code here (add your real QR scan script)
     }
 </script>
+
