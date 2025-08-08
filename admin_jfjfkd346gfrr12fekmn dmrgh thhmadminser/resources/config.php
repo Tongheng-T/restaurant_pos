@@ -19,10 +19,10 @@ defined("UPLOAD_DIRECTORY") ? null : define("UPLOAD_DIRECTORY", __DIR__ . DS . "
 
 defined("DB_HOST") ? null : define("DB_HOST", "localhost");
 
-defined("DB_USER") ? null : define("DB_USER", "root");
+defined("DB_USER") ? null : define("DB_USER", "restaurant_pos");
 
 
-defined("DB_PASS") ? null : define("DB_PASS", "");
+defined("DB_PASS") ? null : define("DB_PASS", "CCBkc5dYRjwRXdZF");
 
 defined("DB_NAME") ? null : define("DB_NAME",  "restaurant_pos");
 
