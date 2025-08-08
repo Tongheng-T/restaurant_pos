@@ -63,7 +63,7 @@ function savepay()
     $num_month = $row_service['num_month'];
     $store = '../resources/images/userpay/';
     // ផ្ទេររូបភាព
-    if (!move_uploaded_file($image_temp_location, $store)) {
+    if (!move_uploaded_file($image_temp_location, $store . $user_photo)) {
         set_message('<script>
             Swal.fire({
               icon: "error",
