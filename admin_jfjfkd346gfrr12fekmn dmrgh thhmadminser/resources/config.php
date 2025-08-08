@@ -40,10 +40,10 @@ require_once("functions.php");
 
 defined("DB_HOSTC") ? null : define("DB_HOSTC", "localhost");
 
-defined("DB_USERC") ? null : define("DB_USERC","root");
+defined("DB_USERC") ? null : define("DB_USERC","restaurant_pos");
 
 
-defined("DB_PASSC") ? null : define("DB_PASSC", "");
+defined("DB_PASSC") ? null : define("DB_PASSC", "CCBkc5dYRjwRXdZF");
 
 defined("DB_NAMEC") ? null : define("DB_NAMEC",  "coffee_db");
 
