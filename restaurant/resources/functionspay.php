@@ -25,7 +25,7 @@ function savepay()
 
         if (!empty($user_photo)) {
             // move_uploaded_file($image_temp_location, "../resources/images/userpic/" . $user_photo);
-            move_uploaded_file($image_temp_location,  UPLOAD_DIRECTORY_IDPAY . DS . $user_photo);
+            move_uploaded_file($image_temp_location,  UPLOAD_DIRECTORY_IDPAY . $user_photo);
             $image = $user_photo;
             $insert = query("INSERT INTO tbl_payment (user_name,id_service,numberidpay,img,num_month,tim,aus) values('{$username}','{$id_service}','{$numberidpay}','{$image}','{$num_month}','{$tim}','{$aus}')");
             confirm($insert);
