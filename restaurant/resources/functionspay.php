@@ -61,9 +61,9 @@ function savepay()
 
     $tim       = $row_service['tim'];
     $num_month = $row_service['num_month'];
-    $store = "/www/wwwroot/restaurant_pos/restaurant/resources/images/userpay/". $user_photo;
+
     // ផ្ទេររូបភាព
-    if (!move_uploaded_file($image_temp_location, $store )) {
+    if (!move_uploaded_file($image_temp_location, UPLOAD_DIRECTORY_IDPAY . DS . $user_photo)) {
         set_message('<script>
             Swal.fire({
               icon: "error",
@@ -357,7 +357,7 @@ function service_list_dom()
                     ' . $free . '
                 </p>
             </div>
-            <button id="link' . $i . '" class="btn">Join Now</button>
+            <button id="link'.$i.'" class="btn">Join Now</button>
         </div>';
         $i++;
     }
