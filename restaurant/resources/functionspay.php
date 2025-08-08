@@ -2,79 +2,111 @@
 
 function savepay()
 {
-    if (isset($_POST['payuser'])) {
-
-        $numberidpay = $_POST['numberidpay'];
-        $id_service = $_POST['payuser'];
-
-        $f_name                 = $_FILES['file']['name'];
-        $image_temp_location    = $_FILES['file']['tmp_name'];
-        $f_size                 = $_FILES['file']['size'];
-        $f_extension            = explode('.', $f_name);
-        $f_extension            = strtolower(end($f_extension));
-        $user_photo             = uniqid() . '.' . $f_extension;
-
-        $aus = $_SESSION['aus'];
-        $username = $_SESSION['username'];
-
-        $select = query("SELECT * from tbl_service where id='$id_service'");
-        confirm($select);
-        $row =  $select->fetch_assoc();
-        $tim = $row['tim'];
-        $num_month = $row['num_month'];
-
-        if (!empty($user_photo)) {
-            // move_uploaded_file($image_temp_location, "../resources/images/userpic/" . $user_photo);
-            move_uploaded_file($image_temp_location,  UPLOAD_DIRECTORY_IDPAY . DS . $user_photo);
-            $image = $user_photo;
-            $insert = query("INSERT INTO tbl_payment (user_name,id_service,numberidpay,img,num_month,tim,aus) values('{$username}','{$id_service}','{$numberidpay}','{$image}','{$num_month}','{$tim}','{$aus}')");
-            confirm($insert);
-
-            $id = $_SESSION['userid'];
-            $query = query("SELECT * from tbl_user where user_id = '$id' limit 1");
-            $row = $query->fetch_object();
-            $showdate = $row->date_new;
-            $date = new DateTime('now', new DateTimeZone('Asia/bangkok'));
-            $new_date =  $date->format('Y-m-d');
-            $datetime4 = new DateTime($new_date);
-            $datetime3 = new DateTime($showdate);
-            $intervall = $datetime3->diff($datetime4);
-            $texttt =   $intervall->format('%a');
-            $numdatee =  $texttt - $row->tim;
-
-            $update = query("UPDATE tbl_user set date_new='$new_date', tim='1' where user_id='$id'");
-            confirm($update);
-            if ($insert) {
-
-                set_message(' <script>
-                Swal.fire({
-                  title: "សូមរង់ចាំ... ",
-                  text: "អ្នកអាចប្រើបណ្ដោះអាសន្នបាន ប្រព័ន្ធកំពុងធ្វើការអនុម័ត។ លទ្ធផលនឹងត្រូវបានផ្ដល់ឲ្យដឹងក្នុងរយៈពេល១៥នាទីបន្ទាប់។ សូមអរគុណ!",
-                  width: 600,
-                  padding: "3em",
-                  color: "#716add",
-                  background: "#fff url(https://sweetalert2.github.io/images/trees.png)",
-                  backdrop: `
-                    rgba(0,0,123,0.4)
-                    url("https://sweetalert2.github.io/images/nyan-cat.gif")
-                    left top
-                    no-repeat
-                  `
-                 });
-                </script>');
-                redirect('itemt?pos');
-            }
-        } else {
-            set_message(' <script>
-                Swal.fire({
-                  icon: "warning",
-                  title: "សូមបញ្ចូលរូបភាពបង់ប្រាក់"
-                });
-               </script>');
-            redirect('itemt?pos');
-        }
+    if (!isset($_POST['payuser'])) {
+        return; // មិនមានការបញ្ជូន form
     }
+
+    $numberidpay = trim($_POST['numberidpay']);
+    $id_service  = intval($_POST['payuser']); // បម្លែងជាចំនួនសុវត្ថិភាព
+
+    // ពិនិត្យ File Upload
+    if (empty($_FILES['file']['name']) || $_FILES['file']['error'] !== 0) {
+        set_message('<script>
+            Swal.fire({
+              icon: "warning",
+              title: "សូមបញ្ចូលរូបភាពបង់ប្រាក់"
+            });
+        </script>');
+        redirect('itemt?pos');
+        return;
+    }
+
+    // ពិនិត្យប្រភេទឯកសារ (MIME type)
+    $allowed_types = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp'];
+    if (!in_array(mime_content_type($_FILES['file']['tmp_name']), $allowed_types)) {
+        set_message('<script>
+            Swal.fire({
+              icon: "error",
+              title: "ប្រភេទឯកសារមិនអនុញ្ញាត",
+              text: "សូមជ្រើសរូបភាព JPG, PNG ឬ WebP"
+            });
+        </script>');
+        redirect('itemt?pos');
+        return;
+    }
+
+    // បង្កើតឈ្មោះ File
+    $f_extension = strtolower(pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION));
+    $user_photo  = uniqid("pay_", true) . '.' . $f_extension;
+    $image_temp_location = $_FILES['file']['tmp_name'];
+
+    $aus      = $_SESSION['aus'] ?? '';
+    $username = $_SESSION['username'] ?? '';
+    $userid   = $_SESSION['userid'] ?? 0;
+
+    // ទាញព័ត៌មានសេវាកម្ម
+    $select = query("SELECT * FROM tbl_service WHERE id='$id_service' LIMIT 1");
+    confirm($select);
+    $row_service = $select->fetch_assoc();
+    if (!$row_service) {
+        set_message('<script>
+            Swal.fire({
+              icon: "error",
+              title: "មិនមានសេវាកម្មនេះទេ"
+            });
+        </script>');
+        redirect('itemt?pos');
+        return;
+    }
+
+    $tim       = $row_service['tim'];
+    $num_month = $row_service['num_month'];
+
+    // ផ្ទេររូបភាព
+    if (!move_uploaded_file($image_temp_location, UPLOAD_DIRECTORY_IDPAY . DS . $user_photo)) {
+        set_message('<script>
+            Swal.fire({
+              icon: "error",
+              title: "បញ្ហា Upload File"
+            });
+        </script>');
+        redirect('itemt?pos');
+        return;
+    }
+
+    // Insert ទៅ tbl_payment
+    $insert = query("
+        INSERT INTO tbl_payment 
+        (user_name, id_service, numberidpay, img, num_month, tim, aus) 
+        VALUES 
+        ('{$username}','{$id_service}','{$numberidpay}','{$user_photo}','{$num_month}','{$tim}','{$aus}')
+    ");
+    confirm($insert);
+
+    // Update tbl_user
+    $date_now = (new DateTime('now', new DateTimeZone('Asia/Bangkok')))->format('Y-m-d');
+    query("UPDATE tbl_user SET date_new='{$date_now}', tim='1' WHERE user_id='{$userid}'");
+
+    // Success Message
+    set_message('<script>
+        Swal.fire({
+          title: "សូមរង់ចាំ... ",
+          text: "អ្នកអាចប្រើបានបណ្ដោះអាសន្ន ប្រព័ន្ធកំពុងអនុម័ត។ លទ្ធផលនឹងបានក្នុង ១៥ នាទី!",
+          width: 600,
+          padding: "3em",
+          color: "#716add",
+          background: "#fff url(https://sweetalert2.github.io/images/trees.png)",
+          backdrop: `
+            rgba(0,0,123,0.4)
+            url("https://sweetalert2.github.io/images/nyan-cat.gif")
+            left top
+            no-repeat
+          `
+        });
+    </script>');
+    redirect('itemt?pos');
 }
+
 
 
 function service_list()
