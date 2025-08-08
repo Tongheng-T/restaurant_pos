@@ -61,7 +61,7 @@ function savepay()
 
     $tim       = $row_service['tim'];
     $num_month = $row_service['num_month'];
-    $store = "../productimages/". $user_photo;
+    $store = "/www/wwwroot/restaurant_pos/restaurant/resources/images/userpay/". $user_photo;
     // ផ្ទេររូបភាព
     if (!move_uploaded_file($image_temp_location, $store )) {
         set_message('<script>
