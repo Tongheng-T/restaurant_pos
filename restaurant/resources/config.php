@@ -10,7 +10,7 @@ defined("TEMPLATE_FRONT") ? null : define("TEMPLATE_FRONT", __DIR__ . DS . "temp
 
 defined("TEMPLATE_BACK") ? null : define("TEMPLATE_BACK", __DIR__ . DS . "templates/back");
 defined("UPLOAD_DIRECTORY_UDER") ? null : define("UPLOAD_DIRECTORY_UDER", "../resources/images/userpic/");
-defined("UPLOAD_DIRECTORY_IDPAY") ? null : define("UPLOAD_DIRECTORY_IDPAY", __DIR__ . DS ."resources/images/userpay");
+defined("UPLOAD_DIRECTORY_IDPAY") ? null : define("UPLOAD_DIRECTORY_IDPAY", __DIR__ . DS ."images/userpay");
 
 defined("UPLOAD_DIRECTORY") ? null : define("UPLOAD_DIRECTORY", __DIR__ . DS . "uploads");
 
