@@ -890,7 +890,7 @@ function payment_lis()
             <td><span class="badge badge-dark">' . $row->user_name . '</span>' . $success . '</td>
             
             <td><span class="badge badge-success">' . $row->numberidpay . '</span></td>
-            <td>  <img  src="../../resources/images/userpay/' . $row->img . '" alt="" style="width: 100px;"></td>
+            <td>  <img  src="../../restaurant/resources/images/userpay/' . $row->img . '" alt="" style="width: 100px;"></td>
             <td>' . $row->date . '</td>
             <td>' . $row->num_month . '</td>
             <td>' . $row->tim . '</td>
@@ -994,7 +994,7 @@ function viewpay()
 <div class="col-md-6">
 <ul class="list-group">
 <center><p class="list-group-item list-group-item-info"><b>MOVIES IMAGE</b></p></center>  
-<img src="../../resources/images/userpay/' . $row->img . '" class="img-thumbnail"/>
+<img src="../../restaurant/resources/images/userpay/' . $row->img . '" class="img-thumbnail"/>
 </ul>
 </div>
 </div>
