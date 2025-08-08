@@ -10,7 +10,7 @@ defined("TEMPLATE_FRONT") ? null : define("TEMPLATE_FRONT", __DIR__ . DS . "temp
 
 defined("TEMPLATE_BACK") ? null : define("TEMPLATE_BACK", __DIR__ . DS . "templates/back");
 defined("UPLOAD_DIRECTORY_UDER") ? null : define("UPLOAD_DIRECTORY_UDER", "../resources/images/userpic/");
-defined("UPLOAD_DIRECTORY_IDPAY") ? null : define("UPLOAD_DIRECTORY_IDPAY", __DIR__ . DS ."resources/images/userpay/");
+defined("UPLOAD_DIRECTORY_IDPAY") ? null : define("UPLOAD_DIRECTORY_IDPAY", __DIR__ . "/../resources/images/userpay/");
 
 defined("UPLOAD_DIRECTORY") ? null : define("UPLOAD_DIRECTORY", __DIR__ . DS . "uploads");
 
@@ -20,10 +20,10 @@ defined("UPLOAD_DIRECTORY") ? null : define("UPLOAD_DIRECTORY", __DIR__ . DS . "
 
 defined("DB_HOST") ? null : define("DB_HOST", "localhost");
 
-defined("DB_USER") ? null : define("DB_USER", "restaurant_pos");
+defined("DB_USER") ? null : define("DB_USER", "root");
 
 
-defined("DB_PASS") ? null : define("DB_PASS", "CCBkc5dYRjwRXdZF");
+defined("DB_PASS") ? null : define("DB_PASS", "");
 
 defined("DB_NAME") ? null : define("DB_NAME",  "restaurant_pos");
 

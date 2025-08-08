@@ -68,6 +68,7 @@ function savepay()
             Swal.fire({
               icon: "error",
               title: "បញ្ហា Upload File"
+              text: "សូមពិនិត្យប្រភេទឯកសារ ឬទំហំឯកសារ!"
             });
         </script>');
         redirect('itemt?pos');
