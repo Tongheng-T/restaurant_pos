@@ -13,7 +13,7 @@ RewriteRule ^build/?$ indexx.php
 RewriteRule ^docs/?$ indexx.php
 RewriteRule ^plugins/?$ indexx.php
 
-RewriteRule ^resources/images/?$ indexx.php
+RewriteRule ^resources/images/?$ indexx.php [L]
 
 RewriteRule ^resources/templates/back/?$ indexx.php
 RewriteRule ^resources/templates/front/?$ indexx.php
