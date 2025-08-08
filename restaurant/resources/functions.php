@@ -1582,7 +1582,7 @@ function addproduct()
             $txtm_pricee = $txtm_price / $exchange;
         }
 
-        $store = "../productimages/" . $f_newfile;
+        $store = "/www/wwwroot/restaurant_pos/restaurant/productimages/" . $f_newfile;
 
         if ($f_extension == 'jpg' || $f_extension == 'jpeg' ||   $f_extension == 'png' || $f_extension == 'gif') {
 
