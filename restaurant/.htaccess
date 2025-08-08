@@ -56,6 +56,6 @@ RewriteRule ^restauran/?$ /restaurant/ [R=301,L]
     Allow from env=ALLOW_IMAGE
 </FilesMatch>
 
-SetEnvIf Referer "thpos.store" ALLOW_IMAGE
+SetEnvIf Referer "thpos.com" ALLOW_IMAGE
 # Disable directory listing
 Options -Indexes
