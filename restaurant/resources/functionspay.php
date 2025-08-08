@@ -76,12 +76,8 @@ function savepay()
     }
 
     // Insert ទៅ tbl_payment
-    $insert = query("
-        INSERT INTO tbl_payment 
-        (user_name, id_service, numberidpay, img, num_month, tim, aus) 
-        VALUES 
-        ('{$username}','{$id_service}','{$numberidpay}','{$user_photo}','{$num_month}','{$tim}','{$aus}')
-    ");
+    $insert = query("INSERT INTO tbl_payment (user_name, id_service, numberidpay, img, num_month, tim, aus) 
+        VALUES ('{$username}','{$id_service}','{$numberidpay}','{$user_photo}','{$num_month}','{$tim}','{$aus}')");
     confirm($insert);
 
     // Update tbl_user
