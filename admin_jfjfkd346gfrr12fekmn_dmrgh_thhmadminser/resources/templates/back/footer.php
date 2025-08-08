@@ -208,7 +208,7 @@
     });
 
     notification.addEventListener('click', function() {
-      window.open('http://admin_jfjfkd346gfrr12fekmn%20dmrgh%20thhmadminser/ui/itemt?payment_lis');
+      window.open('https://thpos.store/admin_jfjfkd346gfrr12fekmn_dmrgh_thhmadminser/ui/itemt?payment_lis');
     });
     setTimeout(() => notification.close(), 5 * 2000);
 

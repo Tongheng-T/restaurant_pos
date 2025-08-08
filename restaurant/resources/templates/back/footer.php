@@ -375,7 +375,7 @@ $usd_or_real = $row_exchange->usd_or_real; ?>
     });
 
     notification.addEventListener('click', function() {
-      window.open('https://www.thpos.store/ui/');
+      window.open('https://www.thpos.store/restaurant/ui/');
     });
     setTimeout(() => notification.close(), 5 * 2000);
 
