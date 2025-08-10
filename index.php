@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="keywords" content="THPOS, thpos.store, ប្រព័ន្ធគ្រប់គ្រងទិន្នន័យ, Cambodia, Sales Management System, ប្រព័ន្ធគ្រប់គ្រងហាងកាហ្វេ ,ប្រព័ន្ធគ្រប់គ្រងភោជនីយដ្ឋាន,Restaurant Management System">
     <title>THPOS | By:THPOS</title>
-    <link rel='shortcut icon' href="ui/logo/b256.ico" type="image/x-icon">
-    <link rel="icon" href="ui/logo/b32.ico" sizes="32x32">
-    <link rel="icon" href="ui/logo/b48.ico" sizes="48x48">
-    <link rel="icon" href="ui/logo/b96.ico" sizes="96x96">
-    <link rel="icon" href="ui/logo/b256.ico" sizes="144x144">
+    <link rel='shortcut icon' href="restaurant/ui/logo/b256.ico" type="image/x-icon">
+    <link rel="icon" href="restaurant/ui/logo/b32.ico" sizes="32x32">
+    <link rel="icon" href="restaurant/ui/logo/b48.ico" sizes="48x48">
+    <link rel="icon" href="restaurant/ui/logo/b96.ico" sizes="96x96">
+    <link rel="icon" href="restaurant/ui/logo/b256.ico" sizes="144x144">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.min.css">
     <link rel="stylesheet" href="dist/css/ab/styledoo.css">
 
