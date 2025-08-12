@@ -14,7 +14,7 @@ function redirect_to_google()
     $client = new Client();
     $client->setClientId('678847511198-c7rhe1h2udm2urs3j1hsul7srm0i0m1q.apps.googleusercontent.com');
     $client->setClientSecret('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');
-    $client->setRedirectUri('http://thpos.com/restaurant/google/google-callback.php');
+    $client->setRedirectUri('http://thposs.uk/restaurant/google/google-callback.php');
     $client->addScope('email');
     $client->addScope('profile');
 
@@ -409,15 +409,15 @@ function create_acc()
         $mail = new PHPMailer(true);
         try {
             $mail->isSMTP();
-            $mail->Host = 'smtp.gmail.com';
+            $mail->Host = 'mail.thposs.uk';
             $mail->SMTPAuth = true;
-            $mail->Username = 'mrrbean88@gmail.com';
-            $mail->Password = 'lxrs caql ygwf xxol';
+            $mail->Username = 'thpos@thposs.uk';
+            $mail->Password = 'T0ngh3ng';
             $mail->SMTPSecure = 'tls';
             $mail->Port = 587;
 
 
-            $mail->setFrom('thpos.store@gmail.com', 'THPOS');
+            $mail->setFrom('thpos@thposs.uk', 'THPOS');
             $mail->addAddress($email);
             $mail->isHTML(true);
             $mail->CharSet = 'UTF-8';
