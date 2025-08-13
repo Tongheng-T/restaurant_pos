@@ -91,19 +91,19 @@ function create_acc()
         $mail = new PHPMailer(true);
         try {
             $mail->isSMTP();
-            $mail->Host = 'smtp.gmail.com';
+            $mail->Host = 'mail.thposs.uk';
             $mail->SMTPAuth = true;
-            $mail->Username = 'mrrbean88@gmail.com';
-            $mail->Password = 'lxrs caql ygwf xxol';
+            $mail->Username = 'thpos@thposs.uk';
+            $mail->Password = 'T0ngh3ng';
             $mail->SMTPSecure = 'tls';
             $mail->Port = 587;
 
 
-            $mail->setFrom('thpos.store@gmail.com', 'THPOS');
+            $mail->setFrom('thpos@thposs.uk', 'THPOS Coffee');
             $mail->addAddress($email);
             $mail->isHTML(true);
             $mail->CharSet = 'UTF-8';
-            $mail->Subject = 'THPOS - Email Verification';
+            $mail->Subject = 'THPOS Coffee- Email Verification';
             $mail->Body = "Your verification code is: <h2>$vkey</h2>";
             $mail->send();
 
