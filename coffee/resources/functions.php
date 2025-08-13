@@ -103,7 +103,7 @@ function login_user()
             $_SESSION['aus'] = $row['aus'];
             set_message_signin("<div class='alert alert-warning text-center'>
                 Please verify your email before logging in - {$row['useremail']}</div>");
-            header('Location:api/verify.php');
+            header('Location:apii/verify.php');
             return;
         }
 
