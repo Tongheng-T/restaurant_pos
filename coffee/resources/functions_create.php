@@ -169,7 +169,7 @@ function verify()
                 })
             });
           </script>");
-                redirect("../aii");
+                redirect("../");
             } else {
                 set_message_signin("<div class='alert alert-danger text-center'>
                 <p>Failed while updating code!</p></div>");
