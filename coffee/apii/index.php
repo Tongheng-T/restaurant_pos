@@ -80,7 +80,7 @@ unset($_SESSION['messagee']) ?>
         <!-- /.login-logo -->
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
-                <a href="https://www.thpos.store/" class="h1"><b>TH</b> POS</a>
+                <a href="https://thposs.uk/" class="h1"><b>TH</b> POS</a>
             </div>
 
             <div class="card-body">
@@ -126,7 +126,7 @@ unset($_SESSION['messagee']) ?>
                                                 $client = new Google_Client();
                                                 $client->setClientId('678847511198-aonl23o0ennpnse1damqaj352j228np5.apps.googleusercontent.com');
                                                 $client->setClientSecret('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');
-                                                $client->setRedirectUri('http://thpos.com/coffee/google/google-callback.php');
+                                                $client->setRedirectUri('https://thposs.uk/coffee/google/google-callback.php');
                                                 $client->addScope('email');
                                                 $client->addScope('profile');
                                                 echo $client->createAuthUrl();

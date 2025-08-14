@@ -119,7 +119,7 @@ unset($_SESSION['messagee']) ?>
                 <h1 style="font-weight: bold; font-size: 26px; color: #007bff;">THPOS</h1>
 
 
-                <a href="https://www.thpos.store/" class="h1"><b>TH</b> POS</a>
+                <a href="https://thposs.uk/" class="h1"><b>TH</b> POS</a>
             </div>
 
             <div class="card-body">
