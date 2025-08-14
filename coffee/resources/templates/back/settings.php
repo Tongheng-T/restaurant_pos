@@ -45,7 +45,7 @@ save_st();
 changepasswordd();
 
 $change = "";
-$cc = $_SESSION['change'];
+$cc = $_SESSION['change'] ?? null;
 if(($cc == 'active')){
     $change = 'active';
     $changee = 'active show';
