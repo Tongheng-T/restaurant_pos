@@ -62,7 +62,7 @@
   <div class="register-box">
     <div class="card card-outline card-primary">
       <div class="card-header text-center">
-        <a href="../apii" class="h1"><img width="60" src="../resources/images/logo/logo2.png" alt=""><b>TH</b>POS</a>
+        <a href="../" class="h1"><img width="60" src="../resources/images/logo/logo2.png" alt=""><b>TH</b>POS</a>
       </div>
       <div class="card-body">
         <div class="back"> <img width="200" src="../resources/images/logo/logo2.png" alt=""></div>
