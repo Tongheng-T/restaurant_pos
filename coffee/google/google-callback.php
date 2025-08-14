@@ -6,7 +6,7 @@ require_once "../resources/config.php"; // ត្រូវមាន function que
 $client = new Google_Client();
 $client->setClientId('678847511198-aonl23o0ennpnse1damqaj352j228np5.apps.googleusercontent.com');
 $client->setClientSecret('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');
-$client->setRedirectUri('http://thpos.com/coffee/google/google-callback.php');
+$client->setRedirectUri('https://thposs.uk/coffee/google/google-callback.php');
 $client->addScope('email');
 $client->addScope('profile');
 
