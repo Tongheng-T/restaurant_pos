@@ -156,7 +156,7 @@ if (isset($_POST['date_1'])) {
               if ($usd_or_real == "usd") {
                 $grand_total = $grand_totall;
                 $subtotal = $subtotall;
-                $discountddd = $discountdd;
+                $discountddd = $discountdd ?? 0;
                 $discountd = number_format($discountdd, 2);
                 $USD_usd = "$";
                 $USD_txt = "USD";
@@ -166,7 +166,7 @@ if (isset($_POST['date_1'])) {
                 $grand_total = number_format($grand_totalg);
                 $subtotalg = $subtotall * $exchange;
                 $subtotal = number_format($subtotalg);
-                $discountddd = $discountdd * $exchange;
+                $discountddd = ($discountdd ?? 0)* $exchange;
                 $discountd = number_format($discountddd);
                 $USD_usd = "៛";
                 $USD_txt = "KHR";
