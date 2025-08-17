@@ -39,7 +39,7 @@ confirm($select);
 
 $row = $select->fetch_object();
 
-$total_product = $row->pname;
+$total_product = $row->pname ?? 0;
 
 $select = query("SELECT count(category) as cate from tbl_category where aus='$aus'");
 confirm($select);
