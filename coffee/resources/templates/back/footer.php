@@ -15,7 +15,7 @@
     POS COFFEE SYSTEM V-2.1
   </div>
   <!-- Default to the left -->
-  <strong>BY: <a href="https://www.thpos.store/" target="_blank">THPOS.STORE</a></strong>
+  <strong>BY: <a href="https://www.thposs.uk/" target="_blank">THPOSS.UK</a></strong>
 </footer>
 </div>
 <!-- ./wrapper -->
@@ -306,7 +306,7 @@ $.ajax({
     });
 
     notification.addEventListener('click', function() {
-      window.open('https://www.thpos.store/coffee/ui/');
+      window.open('https://www.thposs.uk/coffee/ui/');
     });
     setTimeout(() => notification.close(), 5 * 2000);
 

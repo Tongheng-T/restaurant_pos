@@ -208,7 +208,7 @@
     });
 
     notification.addEventListener('click', function() {
-      window.open('https://thpos.store/admin_jfjfkd346gfrr12fekmn_dmrgh_thhmadminser/ui/itemt?payment_lis');
+      window.open('https://thposs.uk/admin_jfjfkd346gfrr12fekmn_dmrgh_thhmadminser/ui/itemt?payment_lis');
     });
     setTimeout(() => notification.close(), 5 * 2000);
 
@@ -236,7 +236,7 @@
     });
 
     notificationC.addEventListener('click', function() {
-      window.open('https://thpos.store/admin_jfjfkd346gfrr12fekmn_dmrgh_thhmadminser/ui/itemt?payment_lis');
+      window.open('https://thposs.uk/admin_jfjfkd346gfrr12fekmn_dmrgh_thhmadminser/ui/itemt?payment_lis');
     });
     setTimeout(() => notification.close(), 5 * 2000);
 
