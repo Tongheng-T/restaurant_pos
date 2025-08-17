@@ -157,7 +157,7 @@ if (isset($_POST['date_1'])) {
                 $grand_total = $grand_totall;
                 $subtotal = $subtotall;
                 $discountddd = $discountdd ?? 0;
-                $discountd = number_format($discountdd, 2);
+                $discountd = number_format((float)$discountdd, 2);
                 $USD_usd = "$";
                 $USD_txt = "USD";
               } else {
