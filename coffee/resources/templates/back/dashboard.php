@@ -24,11 +24,11 @@ $total_order = $row->invoice;
 $grand_total = $row->gt;
 
 if ($usd_or_real == "usd") {
-    $total_revn = $grand_total;
+    $total_revn = $grand_total ?? 0;
     $USD_usd = " $";
     $USD_txt = "USD";
 } else {
-    $total_revn = $grand_total * $exchange;
+    $total_revn = ($grand_total ?? 0) * $exchange;
     $USD_usd = " ៛";
     $USD_txt = "KHR";
 }
