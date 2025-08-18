@@ -107,7 +107,7 @@ display_message();
                     echo '
                     <td>
                     <div class="btn-group">
-                    <a href="showReceipt?id=' . $row->invoice_id . '" class="btn btn-info " role="button"><span class="fa fa-print ' . $defaultt . '" style="color:#ffffff" data-toggle="tooltip" title="Print Bill"></span></a>
+                    <a href="showReceipt?id=' . $row->invoice_id . '" class="btn btn-info " role="button" ' . $defaultt . '><span class="fa fa-print ' . $defaultt . '" style="color:#ffffff" data-toggle="tooltip" title="Print Bill"></span></a>
                     
                   
                     ' . show_delete($row->invoice_id) . '
