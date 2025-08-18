@@ -306,7 +306,7 @@ $.ajax({
     });
 
     notification.addEventListener('click', function() {
-      window.open('https://thposs.uk/coffee/ui/');
+      window.open('https://coffee.thposs.uk/');
     });
     setTimeout(() => notification.close(), 5 * 2000);
 
