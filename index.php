@@ -88,7 +88,7 @@
                     ប្រព័ន្ធគ្រប់គ្រងភោជនីយដ្ឋាន។
                     Restaurant Management System.
                 </p>
-                <a href="restaurant/api">Login Now <i class="ri-arrow-right-line"></i></a>
+                <a href="https://restaurant.thposs.uk/ui/">Login Now <i class="ri-arrow-right-line"></i></a>
             </div>
             <div class="card">
                 <span><i class="ri-cup-fill"></i></span>
@@ -98,7 +98,7 @@
                     Coffee Shop Management System.
 
                 </p>
-                <a href="coffee/">Login Now <i class="ri-arrow-right-line"></i></a>
+                <a href="https://coffee.thposs.uk/ui/">Login Now <i class="ri-arrow-right-line"></i></a>
             </div>
             <div class="card">
                 <span><i class="ri-store-line"></i></span>
@@ -153,7 +153,7 @@
             <div class="socials">
                 <!-- <a href="#"><i class="ri-youtube-line"></i></a> -->
                 <a href="https://web.facebook.com/TonghengCoding/" target="_blank"><i class="ri-facebook-circle-fill"></i></a>
-                <a href="https://t.me/THPOS_store" target="_blank"><i class="ri-telegram-fill"></i></a>
+                <a href="https://t.me/THPOS" target="_blank"><i class="ri-telegram-fill"></i></a>
             </div>
         </div>
         <!-- <div class="column">
