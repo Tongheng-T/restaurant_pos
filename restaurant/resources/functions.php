@@ -7,7 +7,7 @@ $upload_directory = "uploads";
 use Google\Client;
 use Google\Service\Oauth2;
 
-require_once __DIR__ . '/../../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 function redirect_to_google()
 {

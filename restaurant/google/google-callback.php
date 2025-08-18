@@ -1,5 +1,5 @@
 <?php
-require_once '../../vendor/autoload.php';
+require_once '../vendor/autoload.php';
 
 require_once "../resources/config.php"; // ត្រូវមាន function query() និង confirm()
 
