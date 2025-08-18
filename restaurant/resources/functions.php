@@ -325,9 +325,9 @@ use PHPMailer\PHPMailer\Exception;
 function create_acc()
 {
 
-    require '../../PHPMailer/src/Exception.php';
-    require '../../PHPMailer/src/PHPMailer.php';
-    require '../../PHPMailer/src/SMTP.php';
+    require '../PHPMailer/src/Exception.php';
+    require '../PHPMailer/src/PHPMailer.php';
+    require '../PHPMailer/src/SMTP.php';
     if (isset($_POST['signup'])) {
         $username = trim($_POST['username']);
         $email = trim($_POST['ap_email']);
@@ -518,9 +518,9 @@ function qr($idd, $aus, $user)
 
 function forgot_pass()
 {
-    require '../../PHPMailer/src/Exception.php';
-    require '../../PHPMailer/src/PHPMailer.php';
-    require '../../PHPMailer/src/SMTP.php';
+    require '../PHPMailer/src/Exception.php';
+    require '../PHPMailer/src/PHPMailer.php';
+    require '../PHPMailer/src/SMTP.php';
     //if user click continue button in forgot password form
     if (isset($_POST['check-email'])) {
         $email = escape_string($_POST['email']);
