@@ -1,4 +1,10 @@
-<?php require_once("../resources/config.php"); ?>
+<?php require_once("../resources/config.php"); 
+
+if ($_SESSION['useremail'] == ""  or $_SESSION['role'] == "User") {
+
+    header('location:../');
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 

@@ -79,7 +79,7 @@ display_message();
                     if ($usd_or_real == "usd") {
                       $USD_usd = "$";
                       $totall = $row->total;
-                      $total = number_format($totall,2);
+                      $total = number_format($totall, 2);
                     } else {
                       $USD_usd = "៛";
                       $totall = $row->total  * $exchange;
@@ -100,11 +100,14 @@ display_message();
                     } else {
                       echo '<td><span class="badge badge-success">' . $row->payment_type . '</td></span></td>';
                     }
+                    if ($row->paid <= 0) {
+                      $defaultt = 'defaultt';
+                    }
 
                     echo '
                     <td>
                     <div class="btn-group">
-                    <a href="showReceipt?id=' . $row->invoice_id . '" class="btn btn-info " role="button" ><span class="fa fa-print" style="color:#ffffff" data-toggle="tooltip" title="Print Bill"></span></a>
+                    <a href="showReceipt?id=' . $row->invoice_id . '" class="btn btn-info " role="button" ' . $defaultt . '><span class="fa fa-print" style="color:#ffffff" data-toggle="tooltip" title="Print Bill"></span></a>
                     
                   
                     ' . show_delete($row->invoice_id) . '
