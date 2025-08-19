@@ -11,7 +11,7 @@ foreach ($tables as $table) {
     $statusClass = ($table["status"] == "available") ? "badge-success" : "badge-danger";
 
     $html .= '<div class="col-md-1 col-sm-3 col-4 mb-4">';
-    $html .= '<button class="btn btn-primary btn-table w-100" 
+    $html .= '<button class="btn btn-primary btn-table" 
                    data-id="' . $table["id"] . '" 
                    data-name="' . $table["name"] . '">';
     $html .= '<img class="img-fluid md-2" src="../productimages/table/table.svg" />';
