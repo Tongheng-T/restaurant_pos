@@ -15,7 +15,7 @@
     POS RESTAURANT INVENTORY SYSTEM V-3.2
   </div>
   <!-- Default to the left -->
-  <strong>BY: <a href="https://www.thpos.store/" target="_blank">THPOS.STORE</a></strong>
+  <strong>BY: <a href="https://thposs.uk/" target="_blank">THPOSS.UK</a></strong>
 </footer>
 </div>
 
