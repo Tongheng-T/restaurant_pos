@@ -424,7 +424,7 @@ function create_acc()
             $mail->Subject = 'THPOS - Email Verification';
             $mail->Body = "Your verification code is: <h2>$vkey</h2>";
             $mail->send();
-            
+
 
 
             // 5. Save to DB after email sent
@@ -697,8 +697,8 @@ function change_pass()
         } else {
             $code = 0;
             $email = $_SESSION['useremail']; //getting this email using session
-            $password = md5($password);
-            $update_pass = query("UPDATE tbl_user SET code = $code, userpassword = '$password' WHERE useremail = '$email'");
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            $update_pass = query("UPDATE tbl_user SET code = $code, userpassword = '$hashed_password' WHERE useremail = '$email'");
             if ($update_pass) {
 
                 set_message_signin(" <script>
