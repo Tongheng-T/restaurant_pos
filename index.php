@@ -118,7 +118,7 @@
                     Water management system.
 
                 </p>
-                <a href="">Login Now <i class="ri-arrow-right-line"></i></a>
+                <a href="Water_management_system/">Login Now <i class="ri-arrow-right-line"></i></a>
             </div>
 
         </div>
@@ -175,7 +175,7 @@
     </footer>
 
     <div class="copyright">
-        Copyright © 2025 THPOS.store. All Rights Reserved.
+        Copyright © 2025 THPOSS.UK. All Rights Reserved.
     </div>
     <!--29-07-2025-->
 
