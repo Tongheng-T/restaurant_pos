@@ -106,7 +106,10 @@ function login_user()
             header('Location:apii/verify.php');
             return;
         }
-
+        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'] ??
+            $_SERVER['HTTP_CLIENT_IP'] ??
+            $_SERVER['REMOTE_ADDR'] ?? 'UNKNOWN';
+        $location = getLocationByIP($ip);
         // Set session
         $_SESSION['userid'] = $row['user_id'];
         $_SESSION['username'] = $row['username'];
@@ -120,7 +123,7 @@ function login_user()
         $date = new DateTime('now', new DateTimeZone('Asia/Bangkok'));
         $datee =  $date->format('Y-m-d H:i:s');
         $time = time() + 10;
-        $res = query("UPDATE tbl_user SET login_online='$time', last_login='$datee' WHERE user_id=" . $_SESSION['userid']);
+        $res = query("UPDATE tbl_user SET login_online='$time', last_login='$datee',last_ip = '$ip', location_ip = '$location' WHERE user_id=" . $_SESSION['userid']);
         confirm($res);
 
         // SweetAlert message
@@ -609,73 +612,73 @@ function registrationc()
 
 // 
 
-    function registration()
-    {
-        if (!isset($_POST['btnsave'])) return;
+function registration()
+{
+    if (!isset($_POST['btnsave'])) return;
 
-        $username = htmlspecialchars(trim($_POST['txtname']));
-        $useremail = filter_var($_POST['txtemail'], FILTER_SANITIZE_EMAIL);
-        $userpassword = password_hash($_POST['txtpassword'], PASSWORD_DEFAULT);
-        $userrole = $_POST['txtselect_option'];
-        $verified = 1;
-        $aus = $_SESSION['aus'];
+    $username = htmlspecialchars(trim($_POST['txtname']));
+    $useremail = filter_var($_POST['txtemail'], FILTER_SANITIZE_EMAIL);
+    $userpassword = password_hash($_POST['txtpassword'], PASSWORD_DEFAULT);
+    $userrole = $_POST['txtselect_option'];
+    $verified = 1;
+    $aus = $_SESSION['aus'];
 
-        $time = new DateTime('now', new DateTimeZone('Asia/Bangkok'));
-        $datee = $time->format('Y-m-d H:i:s');
+    $time = new DateTime('now', new DateTimeZone('Asia/Bangkok'));
+    $datee = $time->format('Y-m-d H:i:s');
 
-        // Get aus user info
-        $select_admin = query("SELECT * FROM tbl_user WHERE aus = '$aus'");
-        confirm($select_admin);
-        $admin = $select_admin->fetch_object();
-        $date_new = $admin->date_new;
-        $tim = $admin->tim;
+    // Get aus user info
+    $select_admin = query("SELECT * FROM tbl_user WHERE aus = '$aus'");
+    confirm($select_admin);
+    $admin = $select_admin->fetch_object();
+    $date_new = $admin->date_new;
+    $tim = $admin->tim;
 
-        // Check if image was uploaded
-        $image = 'user.png';
-        if (!empty($_FILES['file']['name'])) {
-            $f_name = $_FILES['file']['name'];
-            $f_size = $_FILES['file']['size'];
-            $tmp_name = $_FILES['file']['tmp_name'];
-            $f_extension = strtolower(pathinfo($f_name, PATHINFO_EXTENSION));
+    // Check if image was uploaded
+    $image = 'user.png';
+    if (!empty($_FILES['file']['name'])) {
+        $f_name = $_FILES['file']['name'];
+        $f_size = $_FILES['file']['size'];
+        $tmp_name = $_FILES['file']['tmp_name'];
+        $f_extension = strtolower(pathinfo($f_name, PATHINFO_EXTENSION));
 
-            if (in_array($f_extension, ['jpg', 'jpeg', 'png', 'gif'])) {
-                if ($f_size > 1000000) {
-                    set_message(jsAlert("warning", "Max file should be 1MB"));
-                    redirect('itemt?registration');
-                }
-
-                $image = uniqid() . '.' . $f_extension;
-                move_uploaded_file($tmp_name, UPLOAD_DIRECTORY_UDER . DS . $image);
-            } else {
-                set_message(jsAlert("warning", "Only jpg, jpeg, png and gif allowed"));
+        if (in_array($f_extension, ['jpg', 'jpeg', 'png', 'gif'])) {
+            if ($f_size > 1000000) {
+                set_message(jsAlert("warning", "Max file should be 1MB"));
                 redirect('itemt?registration');
             }
-        }
 
-        // Check if email exists
-        $check = query("SELECT useremail FROM tbl_user WHERE useremail = '$useremail'");
-        confirm($check);
-        if (mysqli_num_rows($check) > 0) {
-            set_message(jsAlert("warning", "Email already exists. Create Account From New Email"));
+            $image = uniqid() . '.' . $f_extension;
+            move_uploaded_file($tmp_name, UPLOAD_DIRECTORY_UDER . DS . $image);
+        } else {
+            set_message(jsAlert("warning", "Only jpg, jpeg, png and gif allowed"));
             redirect('itemt?registration');
         }
+    }
 
-        // Insert new user
-        $insert = query("INSERT INTO tbl_user (username,useremail,userpassword,img,role,createdate,date_new,verified,aus,tim) 
-                   VALUES('$username','$useremail','$userpassword','$image','$userrole','$datee','$date_new','$verified','$aus','$tim')");
-        confirm($insert);
-        if ($insert) {
-            set_message(jsAlert("success", "Insert successfully the user into the database"));
-        } else {
-            set_message(jsAlert("error", "Error inserting the user into the database"));
-        }
+    // Check if email exists
+    $check = query("SELECT useremail FROM tbl_user WHERE useremail = '$useremail'");
+    confirm($check);
+    if (mysqli_num_rows($check) > 0) {
+        set_message(jsAlert("warning", "Email already exists. Create Account From New Email"));
         redirect('itemt?registration');
     }
 
-    function jsAlert($icon, $title)
-    {
-        return "<script>Swal.fire({icon: '$icon', title: '$title'});</script>";
+    // Insert new user
+    $insert = query("INSERT INTO tbl_user (username,useremail,userpassword,img,role,createdate,date_new,verified,aus,tim) 
+                   VALUES('$username','$useremail','$userpassword','$image','$userrole','$datee','$date_new','$verified','$aus','$tim')");
+    confirm($insert);
+    if ($insert) {
+        set_message(jsAlert("success", "Insert successfully the user into the database"));
+    } else {
+        set_message(jsAlert("error", "Error inserting the user into the database"));
     }
+    redirect('itemt?registration');
+}
+
+function jsAlert($icon, $title)
+{
+    return "<script>Swal.fire({icon: '$icon', title: '$title'});</script>";
+}
 
 
 
@@ -1808,4 +1811,29 @@ function show_usd()
     } else {
         echo '៛';
     }
+}
+
+function getLocationByIP($ip)
+{
+    $location = 'Unknown';
+
+    if (!in_array($ip, ['127.0.0.1', '::1']) && filter_var($ip, FILTER_VALIDATE_IP)) {
+        $url = "http://ip-api.com/json/{$ip}?fields=status,country,regionName,city";
+        $context = stream_context_create([
+            'http' => ['timeout' => 2]
+        ]);
+        $response = @file_get_contents($url, false, $context);
+
+        if ($response !== false) {
+            $geo = json_decode($response, true);
+            if (!empty($geo) && $geo['status'] === 'success') {
+                $city    = $geo['city'] ?? '';
+                $region  = $geo['regionName'] ?? '';
+                $country = $geo['country'] ?? '';
+                $location = trim("{$city}, {$region}, {$country}", ", ");
+            }
+        }
+    }
+
+    return $location;
 }
