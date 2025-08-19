@@ -85,7 +85,7 @@ unset($_SESSION['messagee']) ?>
 
             <div class="card-body">
                 <p class="login-box-msg">Sign in to start your session</p>
-                <p class="center text-center"><img src="../resources/images/logo3.png" height="200px" alt=""></p>
+                <p class="center text-center"><img src="../resources/images/logocof.png" height="200px" alt=""></p>
                 <?php login_user(); ?>
                 <?php display_message(); ?>
                 <form action="" method="post">
