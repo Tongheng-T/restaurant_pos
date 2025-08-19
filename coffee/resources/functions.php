@@ -116,7 +116,7 @@ function login_user()
         $_SESSION['useremail'] = $row['useremail'];
         $_SESSION['role'] = $row['role'];
         $_SESSION['aus'] = $row['aus'];
-        $_SESSION['location'] = $row['location_ip'];
+        $_SESSION['location'] = $location;
         $_SESSION['login_type'] = $row['login_type'];
 
         // Update login time
