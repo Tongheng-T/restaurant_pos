@@ -2403,3 +2403,36 @@ function delete_expense()
         redirect("itemt?expense");
     }
 }
+
+
+function vvv() {
+    // Get client IP (check proxy headers first)
+    $ip = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? 
+          $_SERVER['HTTP_CLIENT_IP'] ?? 
+          $_SERVER['REMOTE_ADDR'] ?? 'UNKNOWN';
+
+    $location = 'Unknown';
+
+    // Exclude localhost/private IPs
+    if (!in_array($ip, ['127.0.0.1', '::1']) && filter_var($ip, FILTER_VALIDATE_IP)) {
+        $url = "http://ip-api.com/json/{$ip}?fields=status,country,regionName,city";
+
+        $context = stream_context_create([
+            'http' => ['timeout' => 2] // prevent long hanging
+        ]);
+        
+        $response = @file_get_contents($url, false, $context);
+
+        if ($response !== false) {
+            $geo = json_decode($response, true);
+            if (!empty($geo) && $geo['status'] === 'success') {
+                $city    = $geo['city'] ?? '';
+                $region  = $geo['regionName'] ?? '';
+                $country = $geo['country'] ?? '';
+                $location = trim("{$city}, {$region}, {$country}", ", ");
+            }
+        }
+    }
+
+    return $location;
+}

@@ -101,7 +101,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </li>
 
                 <li class="nav-item d-none d-sm-inline-block">
-                    <p class="nav-link"><?php echo $_SESSION['location'] ?></p>
+                    <p class="nav-link"><?php echo vvv(); ?></p>
                 </li>
 
             </ul>
