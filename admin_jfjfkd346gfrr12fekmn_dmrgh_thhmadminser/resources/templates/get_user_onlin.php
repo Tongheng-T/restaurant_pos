@@ -53,6 +53,7 @@ while ($row = $select->fetch_assoc()) {
         	<h2> ' . $row['username'] . ' ' . $numdatee . 'day </h2>
 	        <p class="' . $classs . '"> <i class="fas fa-id-card"></i> ' . $row['aus'] . '</p>
 	        <p class="' . $classs . '"> <i class="fas fa-id-card"></i> ' . $row['useremail'] . '</p>
+	        <p class="text-info"> <i class="fas fa-map-pin"></i> ' . $row['location_ip'] . '</p>
 	        <p class="' . $class . '"> <i class="fas fa-signal"></i> ' . $status . '</p>
             </div>';
 	$i++;
