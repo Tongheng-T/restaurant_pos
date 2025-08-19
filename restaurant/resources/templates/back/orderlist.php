@@ -71,7 +71,7 @@ display_message();
                   $row_exchange = $change->fetch_object();
                   $exchange = $row_exchange->exchange;
                   $usd_or_real = $row_exchange->usd_or_real ?? "usd";
-                  $select = query("SELECT * from tbl_invoice where aus='" . intval($aus) . "' order by invoice_id DESC");
+                  $select = query("SELECT * from tbl_invoice where aus='" . intval($aus) . "' ORDER BY invoice_id DESC");
                   confirm($select);
                   $no = 1;
                   while ($row = $select->fetch_object()) {
