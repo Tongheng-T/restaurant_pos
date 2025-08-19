@@ -61,7 +61,7 @@
           <h2><?php echo $row['username'] . ' ' . $numdatee . 'day' ?></h2>
           <p class="<?php echo $classs ?>"> <i class="fas fa-id-card"></i><?php echo ' '. $aus?></p>
           <p class="<?php echo $classs ?>"> <i class="fas fa-id-card"></i><?php echo ' '. $row['useremail'] ?></p>
-          <p class="<?php echo $classs ?>"> <i class="fas fa-map-pin"></i><?php echo ' '. $row['location_ip'] ?></p>
+          <p class="info"> <i class="fas fa-map-pin"></i><?php echo ' '. $row['location_ip'] ?></p>
           <p class="<?php echo $class ?>"><i class="fas fa-signal"></i> <?php echo $status ?></p>
         </div>
       <?php } ?>
