@@ -6,12 +6,16 @@ require_once "../resources/config.php"; // ត្រូវមាន function que
 $client = new Google_Client();
 $client->setClientId('678847511198-c7rhe1h2udm2urs3j1hsul7srm0i0m1q.apps.googleusercontent.com');
 $client->setClientSecret('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');
-$client->setRedirectUri('https://thpos.store/restaurant/google/google-callback.php');
+$client->setRedirectUri('https://restaurant.thposs.uk/google/google-callback.php');
 $client->addScope('email');
 $client->addScope('profile');
 
 
 if (isset($_GET['code'])) {
+    $ip = $_SERVER['HTTP_X_FORWARDED_FOR'] ??
+        $_SERVER['HTTP_CLIENT_IP'] ??
+        $_SERVER['REMOTE_ADDR'] ?? 'UNKNOWN';
+    $location = getLocationByIP($ip);
     $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
     if (!isset($token['error'])) {
         $client->setAccessToken($token['access_token']);
@@ -34,8 +38,9 @@ if (isset($_GET['code'])) {
             $_SESSION['useremail'] = $row['useremail'];
             $_SESSION['role'] = $row['role'];
             $_SESSION['aus'] = $row['aus'];
-            $_SESSION['location'] = $row['location'];
+            $_SESSION['location'] = $location;
             $_SESSION['login_type'] = 'google'; // អ្នកត្រូវ set វា
+            $res = query("UPDATE tbl_user SET login_online='$time', last_login='$datee',last_ip = '$ip', location_ip = '$location' WHERE user_id=" . $_SESSION['userid']);
 
             header("Location: ../ui/"); // redirect to dashboard
             exit;
@@ -49,8 +54,8 @@ if (isset($_GET['code'])) {
             $aus = $code + time();
             $createdate = (new DateTime('now', new DateTimeZone('Asia/Bangkok')))->format('Y-m-d H:i:s');
             $time = time() + 10;
-            query("INSERT INTO tbl_user (username, useremail, createdate, date_new, code, aus, role, verified,tim,login_online,login_type)
-                VALUES ('$name', '$email', '$createdate', '$createdate', '$code', '$aus', 'Admin', 2,$numdatefree,$time,'google')");
+            query("INSERT INTO tbl_user (username, useremail, createdate, date_new, code, aus, role, verified,tim,login_online,login_type,last_ip,location_ip)
+                VALUES ('$name', '$email', '$createdate', '$createdate', '$code', '$aus', 'Admin', 2,$numdatefree,$time,'google','$ip','$location')");
             $uid = last_id();
 
             $_SESSION['userid'] = $uid;

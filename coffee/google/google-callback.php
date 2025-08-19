@@ -35,7 +35,7 @@ if (isset($_GET['code'])) {
             $date = new DateTime('now', new DateTimeZone('Asia/Bangkok'));
             $datee =  $date->format('Y-m-d H:i:s');
             $time = time() + 10;
-
+            $row = $check_user->fetch_assoc();
             $_SESSION['userid'] = $row['user_id'];
             $_SESSION['username'] = $row['username'];
             $_SESSION['useremail'] = $row['useremail'];
@@ -44,7 +44,6 @@ if (isset($_GET['code'])) {
             $_SESSION['location'] = $location;
             $_SESSION['login_type'] = 'google'; // អ្នកត្រូវ set វា
             $res = query("UPDATE tbl_user SET login_online='$time', last_login='$datee',last_ip = '$ip', location_ip = '$location' WHERE user_id=" . $_SESSION['userid']);
-            $row = $check_user->fetch_assoc();
 
             header("Location: ../ui/"); // redirect to dashboard
             exit;
