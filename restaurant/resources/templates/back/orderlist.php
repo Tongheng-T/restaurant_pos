@@ -70,48 +70,48 @@ display_message();
                   confirm($change);
                   $row_exchange = $change->fetch_object();
                   $exchange = $row_exchange->exchange;
-                  $usd_or_real = $row_exchange->usd_or_real;
-                  $select = query("SELECT * from tbl_invoice where aus='$aus' order by invoice_id DESC");
+                  $usd_or_real = $row_exchange->usd_or_real ?? "usd";
+                  $select = query("SELECT * from tbl_invoice where aus='" . intval($aus) . "' order by invoice_id DESC");
                   confirm($select);
                   $no = 1;
                   while ($row = $select->fetch_object()) {
-
+                    $defaultt = '';
                     if ($usd_or_real == "usd") {
-                      $USD_usd = "$";
+                      $currency = "$";
                       $totall = $row->total;
                       $total = number_format($totall, 2);
                     } else {
-                      $USD_usd = "៛";
+                      $currency = "៛";
                       $totall = $row->total  * $exchange;
                       $total = number_format($totall);
-                    }
-
-                    echo '
-                  <tr>
-
-                  <td>' . $no   . '</td>
-                  <td>' . $row->receipt_id   . '</td>
-                  <td>' . $row->order_date   . '</td>
-                  <td>' . $total . $USD_usd . '</td>
-                  <td>' . $row->paid . '</td>
-                  <td>' . $row->due          . '</td>';
-                    if ($row->payment_type == "Cash") {
-                      echo '<td><span class="badge badge-warning">' . $row->payment_type . '</td></span></td>';
-                    } else {
-                      echo '<td><span class="badge badge-success">' . $row->payment_type . '</td></span></td>';
                     }
                     if ($row->paid <= 0) {
                       $defaultt = 'defaultt';
                     }
 
                     echo '
+                  <tr>
+
+                  <td>' . $no . '</td>
+                  <td>' . htmlspecialchars($row->receipt_id) . '</td>
+                  <td>' . htmlspecialchars($row->order_date) . '</td>
+                  <td>' . $total . ' ' . $currency . '</td>
+                  <td>' . $row->paid . '</td>
+                  <td>' . $row->due . '</td>';
+                    if ($row->payment_type == "Cash") {
+                      echo '<td><span class="badge badge-warning">' . $row->payment_type . '</span></td>';
+                    } else {
+                      echo '<td><span class="badge badge-success">' . $row->payment_type . '</span></td>';
+                    }
+
+
+                    echo '
                     <td>
                     <div class="btn-group">
-                    <a href="showReceipt?id=' . $row->invoice_id . '" class="btn btn-info " role="button" ' . $defaultt . '><span class="fa fa-print ' . $defaultt . '" style="color:#ffffff" data-toggle="tooltip" title="Print Bill"></span></a>
-                    
-                  
-                    ' . show_delete($row->invoice_id) . '
-                   
+                     <a href="showReceipt?id=' . $row->invoice_id . '" class="btn btn-info ' . $defaultt . '" role="button">
+                         <span class="fa fa-print" style="color:#ffffff" data-toggle="tooltip" title="Print Bill"></span>
+                     </a>
+                     ' . show_delete($row->invoice_id) . '
                     </div>
                     </td>
                     </tr>';
