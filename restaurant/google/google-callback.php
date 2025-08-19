@@ -32,6 +32,9 @@ if (isset($_GET['code'])) {
 
         if (mysqli_num_rows($check_user) > 0) {
             // ប្រើមានរួចហើយ -> login
+            $date = new DateTime('now', new DateTimeZone('Asia/Bangkok'));
+            $datee =  $date->format('Y-m-d H:i:s');
+            $time = time() + 10;
             $row = $check_user->fetch_assoc();
             $_SESSION['userid'] = $row['user_id'];
             $_SESSION['username'] = $row['username'];
