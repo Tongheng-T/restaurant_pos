@@ -130,6 +130,10 @@ function login_user()
             header('Location: verify.php');
             return;
         }
+        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'] ??
+            $_SERVER['HTTP_CLIENT_IP'] ??
+            $_SERVER['REMOTE_ADDR'] ?? 'UNKNOWN';
+        $location = getLocationByIP($ip);
 
         // Set session
         $_SESSION['userid'] = $row['user_id'];
@@ -137,14 +141,13 @@ function login_user()
         $_SESSION['useremail'] = $row['useremail'];
         $_SESSION['role'] = $row['role'];
         $_SESSION['aus'] = $row['aus'];
-        $_SESSION['location'] = $row['location_ip'];
+        $_SESSION['location'] = $location;
         $_SESSION['login_type'] = $row['login_type'];
-
         // Update login time
         $date = new DateTime('now', new DateTimeZone('Asia/Bangkok'));
         $datee =  $date->format('Y-m-d H:i:s');
         $time = time() + 10;
-        $res = query("UPDATE tbl_user SET login_online='$time', last_login='$datee' WHERE user_id=" . $_SESSION['userid']);
+        $res = query("UPDATE tbl_user SET login_online='$time', last_login='$datee',last_ip = '$ip', location_ip = '$location' WHERE user_id=" . $_SESSION['userid']);
         confirm($res);
 
         // SweetAlert message
@@ -2405,22 +2408,15 @@ function delete_expense()
 }
 
 
-function vvv() {
-    // Get client IP (check proxy headers first)
-    $ip = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? 
-          $_SERVER['HTTP_CLIENT_IP'] ?? 
-          $_SERVER['REMOTE_ADDR'] ?? 'UNKNOWN';
-
+function getLocationByIP($ip)
+{
     $location = 'Unknown';
 
-    // Exclude localhost/private IPs
     if (!in_array($ip, ['127.0.0.1', '::1']) && filter_var($ip, FILTER_VALIDATE_IP)) {
         $url = "http://ip-api.com/json/{$ip}?fields=status,country,regionName,city";
-
         $context = stream_context_create([
-            'http' => ['timeout' => 2] // prevent long hanging
+            'http' => ['timeout' => 2]
         ]);
-        
         $response = @file_get_contents($url, false, $context);
 
         if ($response !== false) {
