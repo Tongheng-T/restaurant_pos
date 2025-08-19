@@ -141,7 +141,7 @@ function login_user()
             });
         </script>");
 
-        header('refresh:2;url=../coffee/' . (($role == 'Admin') ? 'ui/' : 'user/'));
+        header('refresh:2;url=/' . (($role == 'Admin') ? 'ui/' : 'user/'));
     }
 }
 

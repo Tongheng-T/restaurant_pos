@@ -3,7 +3,7 @@
 <?php
 $email = $_SESSION['useremail'];
 if ($email == false) {
-  header('Location: ../coffee/');
+  header('Location: ../');
 }
 ?>
 <!DOCTYPE html>
@@ -57,7 +57,7 @@ if ($email == false) {
         <div class="register-box">
           <div class="card card-outline card-primary">
             <div class="card-header text-center">
-              <a href="../coffee" class="h1"><img width="60" src="../resources/images/logo/logo2.png" alt=""><b>TH</b>POS</a>
+              <a href="../" class="h1"><img width="60" src="../resources/images/logo/logo2.png" alt=""><b>TH</b>POS</a>
             </div>
             <div class="card-body">
               <?php display_messag_signin(); ?>

@@ -404,7 +404,7 @@ function change_pass()
                 })
             });
           </script>");
-                header('Location: ../coffee');
+                header('Location: ../');
             } else {
                 $errors['db-error'] = "Failed to change your password!";
             }
