@@ -225,16 +225,16 @@ function forgot_pass()
                     $_SESSION['useremail'] = $email;
                     $mail = new PHPMailer(true);
                     $mail->isSMTP();
-                    $mail->Host = 'smtp.gmail.com';
+                    $mail->Host = 'mail.thposs.uk';
                     $mail->SMTPAuth = true;
-                    $mail->Username = 'thpos.store@gmail.com';
-                    $mail->Password = 'mkuq bumn cjzc pkyf';
+                    $mail->Username = 'thpos@thposs.uk';
+                    $mail->Password = 'T0ngh3ng';
                     $mail->Port     = 587;
 
-                    $mail->setFrom('thpos.store@gmail.com');
+                    $mail->setFrom('thpos@thposs.uk');
                     $mail->addAddress($email);
                     $mail->isHTML(true);
-                    $mail->Subject = 'THPOS ';
+                    $mail->Subject = 'THPOS Coffee';
                     $mail->Body = "Your password reset code is: <h2>$code</h2>";
                     $mail->send();
 

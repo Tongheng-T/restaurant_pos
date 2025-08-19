@@ -424,6 +424,7 @@ function create_acc()
             $mail->Subject = 'THPOS - Email Verification';
             $mail->Body = "Your verification code is: <h2>$vkey</h2>";
             $mail->send();
+            
 
 
             // 5. Save to DB after email sent
@@ -538,19 +539,20 @@ function forgot_pass()
                 $_SESSION['useremail'] = $email;
                 $mail = new PHPMailer(true);
                 $mail->isSMTP();
-                $mail->Host = 'smtp.gmail.com';
+                $mail->Host = 'mail.thposs.uk';
                 $mail->SMTPAuth = true;
-                $mail->Username = 'mrrbean88@gmail.com';
-                $mail->Password = 'lxrs caql ygwf xxol';
-                $mail->Port     = 587;
+                $mail->Username = 'thpos@thposs.uk';
+                $mail->Password = 'T0ngh3ng';
+                $mail->SMTPSecure = 'tls';
+                $mail->Port = 587;
 
-                $mail->setFrom('thpos.store@gmail.com');
+                $mail->setFrom('thpos@thposs.uk', 'THPOS Restaurant');
                 $mail->addAddress($email);
                 $mail->isHTML(true);
-                $mail->Subject = 'THPOS ';
+                $mail->CharSet = 'UTF-8';
+                $mail->Subject = 'THPOS Restaurant- Email Verification';
                 $mail->Body = "Your password reset code is: <h2>$code</h2>";
                 $mail->send();
-
 
                 if ($mail) {
 
