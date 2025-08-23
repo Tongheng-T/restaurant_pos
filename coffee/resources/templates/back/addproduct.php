@@ -45,7 +45,7 @@ addproduct();
           </div>
 
 
-          <form method="post" enctype="multipart/form-data">
+          <!-- <form method="post" enctype="multipart/form-data">
             <div class="card-body">
               <div class="row">
                 <div class="col-md-6">
@@ -84,7 +84,42 @@ addproduct();
                 <button type="submit" name="btnsave" id="btnsave" class="btn btn-primary">Save</button>
               </div>
             </div>
-          </form>
+          </form> -->
+<form method="post" enctype="multipart/form-data">
+  <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
+
+  <div class="form-group">
+    <label>Product Name</label>
+    <input type="text" name="txtproductname" class="form-control" required>
+  </div>
+
+  <div class="form-group">
+    <label>Category</label>
+    <select name="txtselect_option" class="form-control" required>
+      <option value="">-- Select --</option>
+      <!-- loop category នៅទីនេះ -->
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label>Description</label>
+    <textarea name="txtdescription" class="form-control"></textarea>
+  </div>
+
+  <div class="form-group">
+    <label>Sale Price</label>
+    <input type="number" name="txtsaleprice" class="form-control" step="0.01" required>
+  </div>
+
+  <div class="form-group">
+    <label>Image</label>
+    <input type="file" name="myfile" accept=".jpg,.jpeg,.png,.gif" class="form-control" required>
+  </div>
+
+  <button type="submit" name="btnsave" id="btnsave" class="btn btn-primary">
+    Save
+  </button>
+</form>
 
         </div>
 
