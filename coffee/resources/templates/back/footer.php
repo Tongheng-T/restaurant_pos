@@ -72,6 +72,19 @@
 <?php require_once("posJS.php"); ?>
 
 
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll("form").forEach(form => {
+      form.addEventListener("submit", (e) => {
+        let btn = form.querySelector("[type=submit]");
+        if (btn) {
+          btn.disabled = true;
+          btn.innerText = "Processing...";
+        }
+      });
+    });
+  });
+</script>
 
 <script>
   $('.id').on('click', function() {
@@ -273,15 +286,15 @@
 
   $('.showmess').on('click', function() {
 
-$.ajax({
-  url: "../resources/templates/back/showmess.php",
-  success: function(data) {
-    $('#showmess').html(data);
-    $('#showmess').append(data.htmlresponse);
+    $.ajax({
+      url: "../resources/templates/back/showmess.php",
+      success: function(data) {
+        $('#showmess').html(data);
+        $('#showmess').append(data.htmlresponse);
 
-  }
-});
-});
+      }
+    });
+  });
 
   function getUserStatus() {
     jQuery.ajax({
@@ -318,21 +331,18 @@ $.ajax({
   }
 
 
-  function updateUserStatuss(){
+  function updateUserStatuss() {
     jQuery.ajax({
-      url:'../resources/templates/update_user_status.php',
-      success:function(){
-  
+      url: '../resources/templates/update_user_status.php',
+      success: function() {
+
       }
     })
   }
-  
-  setInterval(function(){
+
+  setInterval(function() {
     updateUserStatuss();
-  },3000);
-  
-
-
+  }, 3000);
 </script>
 
 
