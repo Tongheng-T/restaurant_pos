@@ -116,7 +116,7 @@ addproduct();
 
             <div class="card-footer">
               <div class="text-center">
-                <button type="submit" class="btn btn-primary" id="btnsaves" name="btnsave">Save Product</button>
+                <button type="submit" class="btn btn-primary" id="btnsave" name="btnsave">Save Product</button>
               </div>
             </div>
 
