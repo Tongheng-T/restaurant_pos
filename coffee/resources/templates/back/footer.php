@@ -73,17 +73,25 @@
 
 
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll("form").forEach(form => {
-      form.addEventListener("submit", (e) => {
-        let btn = form.querySelector("[type=submit]");
-        if (btn) {
-          btn.disabled = true;
-          btn.innerText = "Processing...";
-        }
-      });
-    });
-  });
+  // document.addEventListener("DOMContentLoaded", () => {
+  //   document.querySelectorAll("form").forEach(form => {
+  //     form.addEventListener("submit", (e) => {
+  //       let btn = form.querySelector("[type=submit]");
+  //       if (btn) {
+  //         btn.disabled = true;
+  //         btn.innerText = "Processing...";
+  //       }
+  //     });
+  //   });
+  // });
+
+document.getElementById("btnsave").addEventListener("click", function() {
+    this.disabled = true; // បិទ button
+    this.innerText = "Processing..."; // បង្ហាញថាកំពុងដំណើរការ
+    this.form.submit();
+});
+
+
 </script>
 
 <script>

@@ -49,7 +49,7 @@ addproduct();
             <div class="card-body">
               <div class="row">
                 <div class="col-md-6">
-
+                  <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
                   <div class="form-group">
                     <label>Product Name</label>
                     <input type="text" class="form-control" placeholder="Enter Name" name="txtproductname" autocomplete="off" required>
@@ -61,8 +61,8 @@ addproduct();
                       <option value="" disabled selected>Select Category</option>
 
                       <?php
-                       $aus = $_SESSION['aus'];
-                       $select = query("SELECT * from tbl_category where aus='$aus' order by catid desc");
+                      $aus = $_SESSION['aus'];
+                      $select = query("SELECT * from tbl_category where aus='$aus' order by catid desc");
                       confirm($select);
 
                       while ($row = $select->fetch_assoc()) {
@@ -71,7 +71,7 @@ addproduct();
                       ?>
                         <option value="<?php echo $row['catid']; ?>"><?php echo $row['category']; ?></option>
 
-                      <?php 
+                      <?php
 
                       }
 
@@ -84,7 +84,7 @@ addproduct();
 
                   <div class="form-group">
                     <label>Description</label>
-                    <textarea class="form-control" placeholder="Enter Description" name="txtdescription" rows="4" ></textarea>
+                    <textarea class="form-control" placeholder="Enter Description" name="txtdescription" rows="4"></textarea>
                   </div>
 
 
@@ -116,7 +116,7 @@ addproduct();
 
             <div class="card-footer">
               <div class="text-center">
-                <button type="submit" class="btn btn-primary" name="btnsave">Save Product</button>
+                <button type="submit" class="btn btn-primary" id="btnsaves" name="btnsave">Save Product</button>
               </div>
             </div>
 
@@ -131,5 +131,3 @@ addproduct();
   </div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->
-
-

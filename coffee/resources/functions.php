@@ -1007,89 +1007,103 @@ function addproduct()
 {
     if (isset($_POST['btnsave'])) {
 
+        // ✅ Check CSRF token
+        if (!validate_csrf_token($_POST['csrf_token'])) {
+            die("Invalid request, please try again.");
+        }
+
+        // ✅ Prevent duplicate submit by token
+        if (isset($_SESSION['form_submitted']) && $_SESSION['form_submitted'] === true) {
+            set_message('<script>
+                Swal.fire({
+                  icon: "warning",
+                  title: "Form already submitted, please wait..."
+                });
+            </script>');
+            redirect('itemt?addproduct');
+            return;
+        }
+        $_SESSION['form_submitted'] = true; // mark as submitted
+
         $product       = $_POST['txtproductname'];
         $category      = $_POST['txtselect_option'];
         $description   = $_POST['txtdescription'];
-
         $saleprice     = $_POST['txtsaleprice'];
 
-        //Image Code or File Code Start Here..
+        // Image Upload
         $f_name        = $_FILES['myfile']['name'];
         $f_tmp         = $_FILES['myfile']['tmp_name'];
         $f_size        = $_FILES['myfile']['size'];
         $f_extension   = explode('.', $f_name);
         $f_extension   = strtolower(end($f_extension));
         $f_newfile     = uniqid() . '.' . $f_extension;
-        $aus = $_SESSION['aus'];
+        $aus           = $_SESSION['aus'];
 
         $change = query("SELECT * from tbl_change where aus='$aus'");
         confirm($change);
         $row_exchange = $change->fetch_object();
-        $exchange = $row_exchange->exchange;
-        $usd_or_real = $row_exchange->usd_or_real;
+        $exchange     = $row_exchange->exchange;
+        $usd_or_real  = $row_exchange->usd_or_real;
+
         if ($usd_or_real == "usd") {
             $salepricee = $saleprice;
-            // $txtm_pricee = $txtm_price;
         } else {
             $salepricee = $saleprice / $exchange;
-            // $txtm_pricee = $txtm_price / $exchange;
         }
 
         $store = "../productimages/" . $f_newfile;
 
-        if ($f_extension == 'jpg' || $f_extension == 'jpeg' ||   $f_extension == 'png' || $f_extension == 'gif') {
-
+        if (in_array($f_extension, ['jpg', 'jpeg', 'png', 'gif'])) {
             if ($f_size >= 1000000) {
-
-                set_message(' <script>
-            Swal.fire({
-              icon: "warning",
-              title: "Max file should be 1MB"
-            });
-          </script>');
+                set_message('<script>
+                    Swal.fire({
+                      icon: "warning",
+                      title: "Max file should be 1MB"
+                    });
+                </script>');
                 redirect('itemt?addproduct');
             } else {
-
                 if (move_uploaded_file($f_tmp, $store)) {
-
                     $productimage = $f_newfile;
 
-                    $insert = query("INSERT into tbl_product ( product,category_id,description, saleprice,image,aus) 
-                        values('{$product}','{$category}','{$description}','{$salepricee}','{$productimage}','{$aus}')");
+                    $insert = query("INSERT into tbl_product 
+                        (product,category_id,description,saleprice,image,aus) 
+                        VALUES ('{$product}','{$category}','{$description}','{$salepricee}','{$productimage}','{$aus}')");
                     confirm($insert);
-                    $pid = last_id(); // which was the 5
-                    if ($insert) {
 
-                        set_message(' <script>
+                    if ($insert) {
+                        set_message('<script>
                             Swal.fire({
                               icon: "success",
                               title: "Product Inserted Successfully"
                             });
-                          </script>');
-                        redirect('itemt?addproduct');
+                        </script>');
                     } else {
-                        set_message(' <script>
+                        set_message('<script>
                             Swal.fire({
                               icon: "error",
-                              title: "Product Inserted Failed"
+                              title: "Product Insert Failed"
                             });
-                          </script>');
-                        redirect('itemt?addproduct');
+                        </script>');
                     }
+
+                    // ✅ Reset form token after success
+                    unset($_SESSION['form_submitted']);
+                    redirect('itemt?addproduct');
                 }
             }
         } else {
-
-            set_message(' <script>
-            Swal.fire({
-              icon: "warning",
-              title: "only jpg, jpeg, png and gif can be upload"
-            });
-          </script>');
+            set_message('<script>
+                Swal.fire({
+                  icon: "warning",
+                  title: "Only jpg, jpeg, png and gif can be uploaded"
+                });
+            </script>');
             redirect('itemt?addproduct');
         }
     }
 }
+
 
 
 
@@ -1836,4 +1850,15 @@ function getLocationByIP($ip)
     }
 
     return $location;
+}
+
+function generate_csrf_token() {
+    if (empty($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+    return $_SESSION['csrf_token'];
+}
+
+function validate_csrf_token($token) {
+    return isset($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], $token);
 }
