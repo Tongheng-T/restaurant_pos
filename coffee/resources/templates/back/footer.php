@@ -87,17 +87,18 @@
 
 
 
-document.addEventListener("DOMContentLoaded", () => {
-  const form = document.querySelector("form");
-  const btn = document.getElementById("btnsave");
+// document.addEventListener("DOMContentLoaded", () => {
+//   const form = document.querySelector("form");
+//   const btn = document.getElementById("btnsave");
 
-  if (form && btn) {
-    form.addEventListener("submit", function () {
-      btn.disabled = true;
-      btn.innerText = "Processing...";
-    });
-  }
-});
+//   if (form && btn) {
+//     form.addEventListener("submit", function () {
+//       btn.disabled = true;
+//       btn.innerText = "Processing...";
+//     });
+//   }
+// });
+
 
 </script>
 
