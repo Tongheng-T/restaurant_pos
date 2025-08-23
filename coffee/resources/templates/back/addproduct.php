@@ -45,82 +45,57 @@ addproduct();
           </div>
 
 
-          <form action="" method="post" enctype="multipart/form-data">
-            <div class="card-body">
-              <div class="row">
-                <div class="col-md-6">
-                  <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
-                  <div class="form-group">
-                    <label>Product Name</label>
-                    <input type="text" class="form-control" placeholder="Enter Name" name="txtproductname" autocomplete="off" required>
-                  </div>
+          <form method="post" enctype="multipart/form-data">
+            <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
 
-                  <div class="form-group">
-                    <label>Category</label>
-                    <select class="form-control" name="txtselect_option" required>
-                      <option value="" disabled selected>Select Category</option>
-
-                      <?php
-                      $aus = $_SESSION['aus'];
-                      $select = query("SELECT * from tbl_category where aus='$aus' order by catid desc");
-                      confirm($select);
-
-                      while ($row = $select->fetch_assoc()) {
-                        extract($row);
-
-                      ?>
-                        <option value="<?php echo $row['catid']; ?>"><?php echo $row['category']; ?></option>
-
-                      <?php
-
-                      }
-
-                      ?>
-
-
-                    </select>
-                  </div>
-
-
-                  <div class="form-group">
-                    <label>Description</label>
-                    <textarea class="form-control" placeholder="Enter Description" name="txtdescription" rows="4"></textarea>
-                  </div>
-
-
-
-
-                </div>
-
-
-
-
-                <div class="col-md-6">
-
-                  <div class="form-group">
-                    <label>Sale Price</label>
-                    <input type="number" min="1" step="any" class="form-control" placeholder="Enter Price" name="txtsaleprice" autocomplete="off" required>
-                  </div>
-
-
-                  <div class="form-group">
-                    <label>Product image</label>
-                    <input type="file" class="input-group" name="myfile" required>
-                    <p>Upload image</p>
-                  </div>
-
-                </div>
-
-              </div>
+            <div class="form-group">
+              <label>Product Name</label>
+              <input type="text" name="txtproductname" class="form-control" required>
             </div>
 
-            <div class="card-footer">
-              <div class="text-center">
-                <button type="submit" class="btn btn-primary" id="btnsave" name="btnsave">Save Product</button>
-              </div>
+            <div class="form-group">
+              <label>Category</label>
+              <select name="txtselect_option" class="form-control" required>
+                <option value="">-- Select --</option>
+                <?php
+                $aus = $_SESSION['aus'];
+                $select = query("SELECT * from tbl_category where aus='$aus' order by catid desc");
+                confirm($select);
+
+                while ($row = $select->fetch_assoc()) {
+                  extract($row);
+
+                ?>
+                  <option value="<?php echo $row['catid']; ?>"><?php echo $row['category']; ?></option>
+
+                <?php
+
+                }
+
+                ?>
+              </select>
             </div>
 
+            <div class="form-group">
+              <label>Description</label>
+              <textarea name="txtdescription" class="form-control"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label>Sale Price</label>
+              <input type="number" name="txtsaleprice" class="form-control" step="0.01" required>
+            </div>
+
+            <div class="form-group">
+              <label>Image</label>
+              <input type="file" name="myfile" accept=".jpg,.jpeg,.png,.gif" class="form-control" required>
+            </div>
+
+            <button type="submit" name="btnsave" id="btnsave" class="btn btn-primary">
+              Save
+            </button>
           </form>
+
 
         </div>
 
