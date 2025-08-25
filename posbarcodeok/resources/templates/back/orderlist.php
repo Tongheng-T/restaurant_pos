@@ -104,7 +104,7 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "") {
                     $qtyy = 0;
                     $total_ori = 0;
                     $total_orii = 0;
-                    $class ='class';
+                    $class ='badge-danger';
                     {
                       # code...
                     }
