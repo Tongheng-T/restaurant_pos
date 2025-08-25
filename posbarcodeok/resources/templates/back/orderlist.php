@@ -1,7 +1,7 @@
 <?php
 
 
-if ($_SESSION['useremail'] == ""  or $_SESSION['role'] == "") {
+if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "") {
 
   header('location:../');
 }
@@ -85,29 +85,39 @@ if ($_SESSION['useremail'] == ""  or $_SESSION['role'] == "") {
                     $total = number_format($totall, 2);
                   } else {
                     $USD_usd = "៛";
-                    $totall = $row->total  * $exchange;
+                    $totall = $row->total * $exchange;
                     $total = number_format($totall);
                   }
                   $invoice_id = $row->invoice_id;
                   $selectdetails = query("SELECT * from tbl_invoice_details where invoice_id='$invoice_id' ");
-                  $rowr = $selectdetails->fetch_object();
-                  
-                  $product_prie = show_prieori($rowr->product_id);
+                  if ($rowr = $selectdetails->fetch_object()) {
+                    $product_prie = show_prieori($rowr->product_id);
+                    $product_priee = show_prieorii($rowr->product_id);
+                    $qtyy = $rowr->qty;
 
-                  $product_priee = show_prieorii($rowr->product_id);
-                  $qtyy = $rowr->qty;
-            
-                  $total_ori = $product_prie * $qtyy;
+                    $total_ori = $product_prie * $qtyy;
+                    $total_orii = $product_priee * $qtyy;
+                    $class='';
+                  } else {
+                    $product_prie = 0;
+                    $product_priee = 0;
+                    $qtyy = 0;
+                    $total_ori = 0;
+                    $total_orii = 0;
+                    $class ='class';
+                    {
+                      # code...
+                    }
+                  }
 
-                  $total_orii = $product_priee * $qtyy;
                   echo '
-                      <tr>      
-                      <td>' . $no   . '</td>
-                      <td>' . $row->receipt_id   . '</td>
-                      <td>' . $row->order_date   . '</td>
+                      <tr class="'.$class.'">      
+                      <td>' . $no . '</td>
+                      <td>' . $row->receipt_id . '</td>
+                      <td>' . $row->order_date . '</td>
                       <td>' . $total . $USD_usd . '</td>
                       <td>' . $row->paid . '</td>
-                      <td>' . $row->due          . '</td>';
+                      <td>' . $row->due . '</td>';
                   if ($row->payment_type == "Cash") {
                     echo '<td><span class="badge badge-warning">' . $row->payment_type . '</td></span></td>';
                   } else {
@@ -130,7 +140,7 @@ if ($_SESSION['useremail'] == ""  or $_SESSION['role'] == "") {
                   $total_orig += $total_ori;
                   $total_origg += $total_orii;
 
-                  $ff =  $total_origg - $total_orig ;
+                  $ff = $total_origg - $total_orig;
                 }
 
                 echo '<tr>
