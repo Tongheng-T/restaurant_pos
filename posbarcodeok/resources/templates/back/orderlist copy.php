@@ -150,20 +150,20 @@ $aus = $_SESSION['aus'];
               $discountdd = $row->discountd;
 
               if ($usd_or_real == "usd") {
-                $grand_totalg = $grand_totall;
+                $grand_totalg = $grand_totall ?? 0;
                 $grand_total = number_format($grand_totalg, 2);
-                $subtotalg = $subtotall;
-                $subtotal = number_format($subtotalg, 2);
-                $discountddd = $discountdd;
+                $subtotalg = $subtotall ?? 0;
+                $subtotal = number_format((float)$subtotalg, 2);
+                $discountddd = $discountdd ?? 0;
                 $discountd = number_format($discountdd, 2);
                 $USD_usd = "$";
                 $USD_txt = "USD";
               } else {
-                $grand_totalg = $grand_totall * $exchange;
+                $grand_totalg = ($grand_totall ?? 0) * $exchange;
                 $grand_total = number_format($grand_totalg);
-                $subtotalg = $subtotall * $exchange;
+                $subtotalg = ($subtotall  ?? 0) * $exchange;
                 $subtotal = number_format($subtotalg);
-                $discountddd = $discountdd * $exchange;
+                $discountddd = ($discountdd  ?? 0) * $exchange;
                 $discountd = number_format($discountddd);
 
                 $USD_usd = "៛";
