@@ -155,7 +155,7 @@ $aus = $_SESSION['aus'];
                 $subtotalg = $subtotall ?? 0;
                 $subtotal = number_format((float)$subtotalg, 2);
                 $discountddd = $discountdd ?? 0;
-                $discountd = number_format($discountdd, 2);
+                $discountd = number_format((float)$discountdd, 2);
                 $USD_usd = "$";
                 $USD_txt = "USD";
               } else {
