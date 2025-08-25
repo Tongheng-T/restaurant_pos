@@ -310,7 +310,7 @@ if (isset($_GET['export']) && $_GET['export'] == 'excel') {
             echo "<td>{$i}</td>";
             echo "<td>{$row->product_name}</td>";
             echo "<td>{$row->qty_sold}</td>";
-            echo "<td>$ " . number_format($row->original_price, 2) . "</td>";
+            echo "<td>$ " . number_format(($row->original_price ?? 0), 2) . "</td>";
             echo "<td>$ " . number_format($row->rate, 2) . "</td>";
             echo "<td>$ " . number_format($row->total_cost, 2) . "</td>";
             echo "<td>$ " . number_format($row->total_sale, 2) . "</td>";
