@@ -88,15 +88,15 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "") {
                     $totall = $row->total * $exchange;
                     $total = number_format($totall);
                   }
-                  $invoice_id = $row->invoice_id;
-                  $selectdetails = query("SELECT * from tbl_invoice_details where invoice_id='$invoice_id' ");
-                  $rowr = $selectdetails->fetch_object();
-                  if ($rowr) {
-                    echo $row->product_id;
+                        if ($row) {
+                    echo $row->invoice_id;
                   } else {
                     echo "No product found";
                   }
-
+                  $invoice_id = $row->invoice_id;
+                  $selectdetails = query("SELECT * from tbl_invoice_details where invoice_id='$invoice_id' ");
+                  $rowr = $selectdetails->fetch_object();
+        
                   $product_prie = show_prieori($rowr->product_id);
 
                   $product_priee = show_prieorii($rowr->product_id);
