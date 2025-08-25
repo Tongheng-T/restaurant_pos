@@ -162,7 +162,7 @@ Content Header (Page header) -->
                             <td><?= $row['invoice_id'] ?></td>
                             <td><?= htmlspecialchars($row['product_name']) ?></td>
                             <td><?= $row['qty'] ?></td>
-                            <td>$ <?= number_format($row['original_price'], 2) ?></td>
+                            <td>$ <?= number_format(($row['original_price'] ?? 0), 2) ?></td>
                             <td class="text-danger">$ <?= number_format($row['saleprice'], 2) ?></td>
                         </tr>
                     <?php endwhile; ?>
