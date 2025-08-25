@@ -1,5 +1,6 @@
 <?php
 include_once '../../config.php';
+session_start();
 
 if ($_SESSION['useremail'] == "" || $_SESSION['role'] == "User") {
     header("Location: ../../../");
@@ -13,28 +14,27 @@ if (!$id) {
     exit();
 }
 
-// 1. Select detail (if exists)
-$select = query("SELECT * FROM tbl_invoice_details WHERE invoice_id=?", [$id]);
-$details = $select->fetchAll(PDO::FETCH_ASSOC);
+// 1. សួរទិន្នន័យ detail
+$select = mysqli_query($connection, "SELECT * FROM tbl_invoice_details WHERE invoice_id='$id'");
 
-// 2. Update stock if details exist
-if ($details) {
-    foreach ($details as $product_invoice_details) {
-        $update = query(
-            "UPDATE tbl_product SET stock = stock + ? WHERE pid=?",
-            [$product_invoice_details['qty'], $product_invoice_details['product_id']]
-        );
+// 2. បើមាន detail → update stock
+if (mysqli_num_rows($select) > 0) {
+    while ($row = mysqli_fetch_assoc($select)) {
+        $qty   = $row['qty'];
+        $pid   = $row['product_id'];
+
+        mysqli_query($connection, "UPDATE tbl_product SET stock = stock + $qty WHERE pid='$pid'");
     }
 }
 
-// 3. Delete details (safe, even if no row)
-query("DELETE FROM tbl_invoice_details WHERE invoice_id=?", [$id]);
+// 3. លុប detail ទាំងអស់ (មាន / មិនមានក៏បាន)
+mysqli_query($connection, "DELETE FROM tbl_invoice_details WHERE invoice_id='$id'");
 
-// 4. Delete invoice itself
-$delete = query("DELETE FROM tbl_invoice WHERE invoice_id=?", [$id]);
+// 4. លុប invoice
+$delete = mysqli_query($connection, "DELETE FROM tbl_invoice WHERE invoice_id='$id'");
 
-if ($delete->rowCount() > 0) {
+if ($delete) {
     echo "success";
 } else {
-    echo "error: Invoice not found or already deleted";
+    echo "error: cannot delete invoice";
 }
