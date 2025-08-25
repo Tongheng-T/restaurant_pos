@@ -47,7 +47,7 @@
 
 
 <!-- pos order -->
-<script src="../resources/templates/back/orderlistt.js"></script>
+<script src="../resources/templates/back/orderlist.js"></script>
 
 
 <?php require_once("edit_order.php"); ?>
