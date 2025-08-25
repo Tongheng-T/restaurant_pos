@@ -24,6 +24,9 @@ if (isset($_POST['btnsaveorder'])) {
   if ($free === '' || !is_numeric($free)) {
     $free = 0;
   }
+  if ($discount_h === '' || !is_numeric($discount_h)) {
+    $discount_h = 0;
+}
   /////
 
 
