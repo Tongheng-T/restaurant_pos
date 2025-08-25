@@ -46,7 +46,7 @@ if (!empty($_SESSION['message'])) {
     }
     if (isset($_GET['Add_stock'])) {
 
-        include(TEMPLATE_BACK . "/Add_stock.php");
+        include(TEMPLATE_BACK . "/add_stock.php");
     }
     if (isset($_GET['stock_list'])) {
 

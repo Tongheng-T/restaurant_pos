@@ -14,7 +14,7 @@ RewriteRule ^orderlist?$ index.php
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^([^\.]+)$ $1.php [NC,L]
 
-errorDocument 404 /admin/index.html
+errorDocument 404 /ui/index.php
 
 # RewriteRule ^([^\.]+)$ $1.php [NC,L]
 # RewriteRule ^editscore/(.*)$ /date.php?tt=$1 [NC,L]
