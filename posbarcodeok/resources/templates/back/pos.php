@@ -14,8 +14,8 @@
   $subtotall=$_POST['txtsubtotal'];
   $discount=$_POST['txtdiscount'];
   $discountp=$_POST['txtdiscountp'];
-  $discount_h=$_POST['discount_h'];
-  $free=$_POST['free'];
+  $discount_h=$_POST['discount_h'] ?? 0; 
+  $free=$_POST['free'] ?? 0; 
   $totall=$_POST['txttotal'];
   $payment_type=$_POST['rb'];
   $due=$_POST['txtdue'];
