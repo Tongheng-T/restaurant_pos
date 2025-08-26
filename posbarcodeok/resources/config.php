@@ -44,7 +44,7 @@ $country = trim($details);
 // ប្រសិនបើមិនមែនកម្ពុជា (KH) → block
 if ($country !== "Cambodia") {
     header("HTTP/1.1 403 Forbidden");
-    echo "Access denied. This website is only available in Cambodia.$location";
+    echo "Access denied. This website is only available in Cambodia.$location.$country";
     exit();
 }
 // session_destroy();
