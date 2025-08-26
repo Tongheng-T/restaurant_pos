@@ -5,7 +5,7 @@ session_start();
 $ip = $_SERVER['HTTP_X_FORWARDED_FOR'] ??
     $_SERVER['HTTP_CLIENT_IP'] ??
     $_SERVER['REMOTE_ADDR'] ?? 'UNKNOWN';
-$location = getLocationByIP($ip);
+
 
 $country = @file_get_contents("https://ipapi.co/{$ip}/country/");
 
