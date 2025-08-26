@@ -20,7 +20,7 @@ function getLocationByIP($ip)
                 $city = $geo['city'] ?? '';
                 $region = $geo['regionName'] ?? '';
                 $country = $geo['country'] ?? '';
-                $location = trim("{$city}, {$region}, {$country}", ", ");
+                $location = trim("{$country}", ", ");
             }
         }
     }
