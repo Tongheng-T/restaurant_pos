@@ -1,0 +1,7 @@
+<IfModule mod_geoip.c>
+    GeoIPEnable On
+    SetEnvIf GEOIP_COUNTRY_CODE KH AllowCountry
+    Order Deny,Allow
+    Deny from all
+    Allow from env=AllowCountry
+</IfModule>
