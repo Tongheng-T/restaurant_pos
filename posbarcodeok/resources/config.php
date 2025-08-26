@@ -32,19 +32,11 @@ $ip = $_SERVER['HTTP_X_FORWARDED_FOR'] ??
     $_SERVER['REMOTE_ADDR'] ?? 'UNKNOWN';
 $location = getLocationByIP($ip);
 
-$country = @file_get_contents("https://ipapi.co/{$ip}/country/");
-
-// Get client IP
-$ip = $_SERVER['REMOTE_ADDR'];
-
-// Call API ដើម្បីយក country code
-$details = @file_get_contents("https://ipapi.co/{$ip}/country/");
-$country = trim($details);
 
 // ប្រសិនបើមិនមែនកម្ពុជា (KH) → block
 if ($location !== "Cambodia") {
     header("HTTP/1.1 403 Forbidden");
-    echo "Access denied. This website is only available in Cambodia.$location. h$country";
+    echo "Access denied. This website is only available in Cambodia. $location";
     exit();
 }
 // session_destroy();
