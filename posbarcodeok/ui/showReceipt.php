@@ -191,7 +191,7 @@ use Vtiful\Kernel\Format;?>
       <p>Power by thpos.store</p>
     </div>
     <div id="buttons">
-      <a href="/posbarcode/ui/itemt?pos">
+      <a href="/ui/itemt?pos">
         <button class="btn btn-back">
           Back to Cashier
         </button>
