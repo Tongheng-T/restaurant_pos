@@ -285,7 +285,7 @@ if ($usd_or_real == " usd") {
                   <div class="input-group-prepend">
                     <span class="input-group-text">Free</span>
                   </div>
-                  <input type="text" class="form-control" name="free" id="discount_free">
+                  <input type="text" class="form-control" name="free" id="discount_free" value="0">
                   <div class="input-group-append">
                     <span class="input-group-text"><?php echo $USD_txt ?></span>
                   </div>
@@ -294,7 +294,7 @@ if ($usd_or_real == " usd") {
                   <div class="input-group-prepend">
                     <span class="input-group-text">DISCOUNT</span>
                   </div>
-                  <input type="text" class="form-control" name="discount_h" id="discount_h">
+                  <input type="text" class="form-control" name="discount_h" id="discount_h" value="0">
                   <div class="input-group-append">
                     <span class="input-group-text"><?php echo $USD_txt ?></span>
                   </div>
@@ -386,7 +386,7 @@ if ($usd_or_real == " usd") {
                   <div class="input-group-prepend">
                     <span class="input-group-text">Paid Amount(<?php echo $USD_txt ?>)</span>
                   </div>
-                  <input type="text" class="form-control" name="txtpaid" id="txtpaid">
+                  <input type="text" class="form-control" name="txtpaid" id="txtpaid" value="0">
                   <div class="input-group-append">
                     <span class="input-group-text"> <i class="fa"
                         style="font-size: 24px;"><?php echo $USD_usd ?></i></span>
