@@ -10,9 +10,9 @@
 
     var productarr = [];
 
-    $(function() {
+    $(function () {
 
-        $('#txtbarcode_id').on('change', function() {
+        $('#txtbarcode_id').on('change', function () {
 
 
             var barcode = $("#txtbarcode_id").val();
@@ -24,7 +24,7 @@
                 data: {
                     id: barcode
                 },
-                success: function(data) {
+                success: function (data) {
                     //alert("pid");
 
                     //console.log(data);
@@ -71,7 +71,7 @@
                             var tr = '<tr>' +
 
                                 '<input type="hidden" class="form-control barcode" name="barcode_arr[]" id="barcode_id' + barcode + '" value="' + barcode + '" >' +
-
+                                '<input type="hidden" class="form-control purchasepriceo" name="purchaseprice_arr[]" id="purchasepriceo' + pid + '" value="' + purchaseprice + '">' +
 
                                 '<td style="text-align:left; vertical-align:middle; font-size:17px;"><img src="../productimages/' + image + ' " alt="" height=50 >  &nbsp; <class="form-control product_c" name="product_arr[]" <span class="badge badge-dark">' + product + '</span><input type="hidden" class="form-control pid" name="pid_arr[]" value="' + pid + '" ><input type="hidden" class="form-control product" name="product_arr[]" value="' + product + '" >  </td>' +
 
@@ -110,9 +110,9 @@
 
     var productarr = [];
 
-    $(function() {
+    $(function () {
 
-        $('.select2').on('change', function() {
+        $('.select2').on('change', function () {
 
 
             var productid = $(".select2").val();
@@ -124,7 +124,7 @@
                 data: {
                     id: productid
                 },
-                success: function(data) {
+                success: function (data) {
                     //alert("pid");
 
                     //console.log(data);
@@ -195,7 +195,7 @@
 
                                 '<td><input type="text" class="form-control qty" name="quantity_arr[]" id="qty_id' + pid + '" value="' + 1 + '" size="1"></td>' +
 
-                
+
 
                                 '<td style="text-align:left; vertical-align:middle; font-size:17px;"><span class="badge badge-success totalamt" name="netamt_arr[]" id="saleprice_id' + pid + '">' + salepricee + '</span><input type="hidden" class="form-control saleprice" name="saleprice_arr[]" id="saleprice_idd' + pid + '" value="' + salepricee + '"></td>' +
 
@@ -221,7 +221,7 @@
         }) // end of onchange function
     }); // end of main function
 
-    $("#itemtable").delegate(".qty", "keyup change", function() {
+    $("#itemtable").delegate(".qty", "keyup change", function () {
 
         var quantity = $(this);
 
@@ -266,7 +266,7 @@
         var paid_amt = paid;
         var due = 0;
 
-        $(".saleprice").each(function() {
+        $(".saleprice").each(function () {
 
             subtotal = subtotal + ($(this).val() * 1);
         });
@@ -307,18 +307,18 @@
     } //end calculate function
 
 
-    $("#discount_h").keyup(function() {
+    $("#discount_h").keyup(function () {
 
         var discountt = $(this).val();
 
         calculate(0, 0);
 
     });
-    $("#discount_free").keyup(function() {
+    $("#discount_free").keyup(function () {
         calculate(0, 0);
     });
 
-    $("#txtpaid").keyup(function() {
+    $("#txtpaid").keyup(function () {
         txtdiscount_n
 
         // var paid = $(this).val();
@@ -347,10 +347,10 @@
 
 
 
-    $(document).on('click', '.btnremove', function() {
+    $(document).on('click', '.btnremove', function () {
 
         var removed = $(this).attr("data-id");
-        productarr = jQuery.grep(productarr, function(value) {
+        productarr = jQuery.grep(productarr, function (value) {
 
             return value != removed;
             calculate(0, 0);

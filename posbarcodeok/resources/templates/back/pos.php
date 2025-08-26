@@ -26,7 +26,7 @@ if (isset($_POST['btnsaveorder'])) {
   }
   if ($discount_h === '' || !is_numeric($discount_h)) {
     $discount_h = 0;
-}
+  }
   /////
 
 
@@ -37,6 +37,7 @@ if (isset($_POST['btnsaveorder'])) {
   $arr_qty = $_POST['quantity_arr'];
   $arr_pricee = $_POST['price_c_arr'];
   $arr_totall = $_POST['saleprice_arr'];
+  $purchaseprice_arr = $_POST['purchaseprice_arr'];
 
   $saler_name = $_SESSION['username'];
   $saler_id = $_SESSION['userid'];
@@ -88,7 +89,7 @@ if (isset($_POST['btnsaveorder'])) {
       } //else end here
 
 
-      $insert = query(" INSERT into tbl_invoice_details (invoice_id,barcode,product_id,product_name,qty,rate,saleprice,order_date,saler_id,aus) values ('{$invoice_id}','{$arr_barcode[$i]}','{$arr_pid[$i]}','{$arr_name[$i]}','{$arr_qty[$i]}','{$arr_price}','{$arr_total}','{$orderdate}','{$saler_id}','{$aus}')");
+      $insert = query(" INSERT into tbl_invoice_details (invoice_id,barcode,product_id,product_name,qty,original_price,rate,saleprice,order_date,saler_id,aus) values ('{$invoice_id}','{$arr_barcode[$i]}','{$arr_pid[$i]}','{$arr_name[$i]}','{$arr_qty[$i]}','{$purchaseprice_arr[$i]}','{$arr_price}','{$arr_total}','{$orderdate}','{$saler_id}','{$aus}')");
       confirm($insert);
     } //end for loop
 

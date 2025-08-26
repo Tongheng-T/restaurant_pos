@@ -2,6 +2,16 @@
 ob_start(); 
 session_name("project2_session");
 session_start();
+
+$ip = $_SERVER['REMOTE_ADDR'];
+$country = @file_get_contents("https://ipapi.co/{$ip}/country/");
+
+if (trim($country) !== "KH") {
+    header("HTTP/1.1 403 Forbidden");
+    echo "❌ Access denied. Cambodia only.";
+    exit();
+}
+
 // session_destroy();
 
 defined("DS") ? null : define("DS", DIRECTORY_SEPARATOR);
