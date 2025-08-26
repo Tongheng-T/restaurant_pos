@@ -1,9 +1,12 @@
-<?php 
-ob_start(); 
+<?php
+ob_start();
 session_name("project2_session");
 session_start();
+$ip = $_SERVER['HTTP_X_FORWARDED_FOR'] ??
+    $_SERVER['HTTP_CLIENT_IP'] ??
+    $_SERVER['REMOTE_ADDR'] ?? 'UNKNOWN';
+$location = getLocationByIP($ip);
 
-$ip = $_SERVER['REMOTE_ADDR'];
 $country = @file_get_contents("https://ipapi.co/{$ip}/country/");
 
 // Get client IP
@@ -38,15 +41,15 @@ defined("UPLOAD_DIRECTORY") ? null : define("UPLOAD_DIRECTORY", __DIR__ . DS . "
 
 defined("DB_HOST") ? null : define("DB_HOST", "localhost");
 
-defined("DB_USER") ? null : define("DB_USER","pos_barcode");
+defined("DB_USER") ? null : define("DB_USER", "pos_barcode");
 
 
 defined("DB_PASS") ? null : define("DB_PASS", "mLZdbWHz5MECMSMG");
 
-defined("DB_NAME") ? null : define("DB_NAME",  "pos_barcode_db");
+defined("DB_NAME") ? null : define("DB_NAME", "pos_barcode_db");
 
 
-$connection = mysqli_connect(DB_HOST,DB_USER,DB_PASS,DB_NAME);
+$connection = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
 require_once("functions.php");
 require_once("functions_create.php");
@@ -84,5 +87,3 @@ require_once("functions_create.php");
 require_once("functions.php");
 require_once("functions_create.php");
 ?>
-
-
