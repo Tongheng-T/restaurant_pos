@@ -6,12 +6,19 @@ session_start();
 $ip = $_SERVER['REMOTE_ADDR'];
 $country = @file_get_contents("https://ipapi.co/{$ip}/country/");
 
-if (trim($country) !== "KH") {
+// Get client IP
+$ip = $_SERVER['REMOTE_ADDR'];
+
+// Call API ដើម្បីយក country code
+$details = @file_get_contents("https://ipapi.co/{$ip}/country/");
+$country = trim($details);
+
+// ប្រសិនបើមិនមែនកម្ពុជា (KH) → block
+if ($country !== "KH") {
     header("HTTP/1.1 403 Forbidden");
-    echo "❌ Access denied. Cambodia only.";
+    echo "Access denied. This website is only available in Cambodia.";
     exit();
 }
-
 // session_destroy();
 
 defined("DS") ? null : define("DS", DIRECTORY_SEPARATOR);
