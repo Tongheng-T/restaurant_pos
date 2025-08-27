@@ -3,10 +3,10 @@
 include_once '../../config.php';
 
 
-
+$aus = $_SESSION['aus'];
 if (!empty($_GET["id"])) {
     $barcode = $_GET["id"];
-    $query =  query("SELECT * from tbl_product WHERE barcode = $barcode");
+    $query =  query("SELECT * from tbl_product WHERE barcode = $barcode and aus=$aus");
     confirm($query);
 
     if (mysqli_num_rows($query) == 1) {
@@ -17,7 +17,7 @@ if (!empty($_GET["id"])) {
 } elseif (!empty($_GET["pid"])) {
 
     $id = $_GET["pid"];
-    $query =  query("SELECT * from tbl_product WHERE pid = $id");
+    $query =  query("SELECT * from tbl_product WHERE pid = $id and aus=$aus");
     confirm($query);
 
     if (mysqli_num_rows($query) == 1) {
