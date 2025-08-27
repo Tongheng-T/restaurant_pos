@@ -159,59 +159,77 @@ function forgot_pass()
     require '../PHPMailer/src/Exception.php';
     require '../PHPMailer/src/PHPMailer.php';
     require '../PHPMailer/src/SMTP.php';
-    //if user click continue button in forgot password form
-    if (isset($_POST['check-email'])) {
-        $email = escape_string($_POST['email']);
-        $check_email = query("SELECT * FROM tbl_user WHERE useremail='$email'");
-        if (mysqli_num_rows($check_email) > 0) {
-            $code = rand(999999, 111111);
-            $insert_code = query("UPDATE tbl_user SET code = $code WHERE useremail = '$email'");
-            if ($insert_code) {
-                // $subject = "Password Reset Code";
-                // $message = "Your password reset code is: <h2>$code</h2>";
-                // $headers = "From: mrrbean88@gmail.com \r\n";
-                // $headers .= "MIME-Version: 1.0" . "\r\n";
-                // $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 
+    if (isset($_POST['check-email'])) {
+        $email = trim($_POST['email']); 
+
+        // ✅ ប្រើ PDO query()
+        $check_email = query("SELECT * FROM tbl_user WHERE useremail = :email", [':email' => $email]);
+
+        if ($check_email->rowCount() > 0) {
+            $code = rand(111111, 999999); // rand(min, max)
+
+            // ✅ update code with PDO
+            $insert_code = query("UPDATE tbl_user SET code = :code WHERE useremail = :email", [
+                ':code' => $code,
+                ':email' => $email
+            ]);
+
+            if ($insert_code) {
                 $_SESSION['useremail'] = $email;
+
                 $mail = new PHPMailer(true);
                 $mail->isSMTP();
                 $mail->Host = 'smtp.gmail.com';
                 $mail->SMTPAuth = true;
                 $mail->Username = 'thpos.store@gmail.com';
-                $mail->Password = 'mkuq bumn cjzc pkyf';
+                $mail->Password = 'mkuq bumn cjzc pkyf'; // ✅ ត្រូវប្រុងប្រយ័ត្ន កុំឲ្យ password លេចសាធារណៈ
+                $mail->SMTPSecure = 'tls'; // ✅ ចូលបន្ថែម security
                 $mail->Port     = 587;
 
-                $mail->setFrom('thpos.store@gmail.com');
+                $mail->setFrom('thpos.store@gmail.com', 'THPOS');
                 $mail->addAddress($email);
                 $mail->isHTML(true);
-                $mail->Subject = 'THPOS ';
+                $mail->Subject = 'THPOS Password Reset Code';
                 $mail->Body = "Your password reset code is: <h2>$code</h2>";
-                $mail->send();
 
-
-                if ($mail) {
-
-                    set_message_signin(" <script>
-                    $(function() {
-                        var Toast = Swal.mixin({
-                            toast: true,
-                            position: 'top',
-                            showConfirmButton: false,
-                            timer: 5000
+                if ($mail->send()) {
+                    set_message_signin("<script>
+                        $(function() {
+                            var Toast = Swal.mixin({
+                                toast: true,
+                                position: 'top',
+                                showConfirmButton: false,
+                                timer: 5000
+                            });
+                            Toast.fire({
+                                icon: 'success',
+                                title: 'We sent a password reset OTP to your email $email'
+                            })
                         });
-                        Toast.fire({
-                            icon: 'success',
-                            title: 'We sent a password reset otp to your email  $email'
-                        })
-                    });
-                  </script>");
+                    </script>");
 
                     $_SESSION['useremail'] = $email;
                     header('location: reset-code');
                     exit();
                 } else {
-                    set_message_signin(" <script>
+                    set_message_signin("<script>
+                        $(function() {
+                            var Toast = Swal.mixin({
+                                toast: true,
+                                position: 'top',
+                                showConfirmButton: false,
+                                timer: 5000
+                            });
+                            Toast.fire({
+                                icon: 'error',
+                                title: 'Failed while sending code!'
+                            })
+                        });
+                    </script>");
+                }
+            } else {
+                set_message_signin("<script>
                     $(function() {
                         var Toast = Swal.mixin({
                             toast: true,
@@ -220,31 +238,14 @@ function forgot_pass()
                             timer: 5000
                         });
                         Toast.fire({
-                            icon: 'error',
-                            title: 'Failed while sending code!'
+                            icon: 'warning',
+                            title: 'Something went wrong!'
                         })
                     });
-                  </script>");
-                }
-            } else {
-                set_message_signin(" <script>
-                $(function() {
-                    var Toast = Swal.mixin({
-                        toast: true,
-                        position: 'top',
-                        showConfirmButton: false,
-                        timer: 5000
-                    });
-                    Toast.fire({
-                        icon: 'warning',
-                        title: 'Something went wrong!'
-                    })
-                });
-              </script>");
+                </script>");
             }
         } else {
-
-            set_message_signin(" <script>
+            set_message_signin("<script>
                 $(function() {
                     var Toast = Swal.mixin({
                         toast: true,
@@ -257,7 +258,7 @@ function forgot_pass()
                         title: 'This email address does not exist!'
                     })
                 });
-              </script>");
+            </script>");
         }
     }
 }

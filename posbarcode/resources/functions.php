@@ -3,10 +3,11 @@ $upload_directory = "uploads";
 
 // helper function
 
+
 function last_id()
 {
-    global $connection;
-    return mysqli_insert_id($connection);
+    global $pdo;
+    return $pdo->lastInsertId();
 }
 
 function set_message($msg)
@@ -38,31 +39,32 @@ function redirect($location)
     header("Location: $location");
 }
 
-function query($sql)
+function query($sql, $params = [])
 {
-    global $connection;
-    return mysqli_query($connection, $sql);
+    global $pdo;
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute($params);
+    return $stmt;
 }
 
-function confirm($result)
+function confirm($stmt)
 {
-    global $connection;
-    if (!$result) {
-        die("QUERY FAILED" . mysqli_error($connection));
+    if (!$stmt) {
+        die("Database query failed.");
     }
+    return true;
 }
 
+// Fetch as associative array
+function fetch_array($stmt)
+{
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+// Escape string (PDO handles prepare, but for display use this)
 function escape_string($string)
 {
-    global $connection;
-    return mysqli_real_escape_string($connection, $string);
-}
-
-
-function fetch_array($result)
-{
-
-    return ($row = mysqli_fetch_array($result));
+    return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
 }
 
 /*********************************FRONT END FUNCTIONS************************************/
@@ -71,109 +73,113 @@ function login_user()
 {
     if (isset($_POST['btn_login'])) {
 
-        $useremail = $_POST['txt_email'];
-        $password = md5($_POST['txt_password']);
+        $useremail = trim($_POST['txt_email'] ?? '');
+        $password  = trim($_POST['txt_password'] ?? '');
 
-        $query = query("SELECT * from tbl_user where useremail='$useremail' AND userpassword='$password' and role ='Admin'");
-        confirm($query);
+        // Query by email only (NOT with password)
+        $query = query("SELECT * FROM tbl_user WHERE useremail = :email", [':email' => $useremail]);
 
-        if (mysqli_num_rows($query) == 0) {
-            $query2 = query("SELECT * from tbl_user where useremail='$useremail' AND userpassword='$password' and role ='User'");
-            confirm($query2);
-            if (mysqli_num_rows($query2) == 0) {
-
-                set_message(" <script>
-                $(function() {
-                    var Toast = Swal.mixin({
-                        toast: true,
-                        position: 'top',
-                        showConfirmButton: false,
-                        timer: 5000
+        if ($query->rowCount() == 0) {
+            // អ៊ីមែលមិនមាន
+            set_message("
+                <script>
+                    $(function() {
+                        var Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top',
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                        Toast.fire({
+                            icon: 'error',
+                            title: 'អ៊ីមែលនេះមិនមានក្នុងប្រព័ន្ធ!'
+                        })
                     });
-                    Toast.fire({
-                        icon: 'error',
-                        title: 'អ៊ីមែល ឬពាក្យសម្ងាត់ខុស ឬវាលគឺទទេ!'
-                    })
-                });
-              </script>");
-                redirect("");
-            } else {
-                $row =  $query2->fetch_assoc();
-                $_SESSION['userid'] = $row['user_id'];
-                $_SESSION['username'] = $row['username'];
-                $_SESSION['useremail'] = $row['useremail'];
-                $_SESSION['role'] = $row['role'];
-                $_SESSION['aus'] = $row['aus'];
+                </script>");
+            redirect("");
+            return;
+        }
 
-                $date = new DateTime('now', new DateTimeZone('Asia/bangkok'));
-                $datee =  $date->format('Y-m-d H:i:s');
-                $time = time() + 10;
-                $res = query("UPDATE tbl_user set login_online='$time', last_login='$datee' where user_id=" . $_SESSION['userid']);
-                confirm($res);
+        $row = $query->fetch(PDO::FETCH_ASSOC);
 
-                set_message(" <script>
-                $(function() {
-                    var Toast = Swal.mixin({
-                        toast: true,
-                        position: 'top',
-                        showConfirmButton: false,
-                        timer: 5000
+        // Verify password (សំខាន់)
+        if (!password_verify($password, $row['userpassword'])) {
+            set_message("
+                <script>
+                    $(function() {
+                        var Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top',
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                        Toast.fire({
+                            icon: 'error',
+                            title: 'ពាក្យសម្ងាត់មិនត្រឹមត្រូវ!'
+                        })
                     });
-                    Toast.fire({
-                        icon: 'success',
-                        title: 'Login success By User'
-                    })
-                });
-              </script>");
+                </script>");
+            redirect("");
+            return;
+        }
 
-                header('refresh:2;user/');
-            }
+        // If verified → Save session
+        $_SESSION['userid']   = $row['user_id'];
+        $_SESSION['username'] = $row['username'];
+        $_SESSION['useremail'] = $row['useremail'];
+        $_SESSION['role']     = $row['role'];
+        $_SESSION['aus']      = $row['aus'];
+
+        // Update last login + online time
+        $date = new DateTime('now', new DateTimeZone('Asia/Bangkok'));
+        $datee = $date->format('Y-m-d H:i:s');
+        $time = time() + 10;
+
+        query(
+            "UPDATE tbl_user SET login_online = :online, last_login = :last WHERE user_id = :id",
+            [':online' => $time, ':last' => $datee, ':id' => $_SESSION['userid']]
+        );
+
+        // Role check
+        if ($row['role'] === 'Admin') {
+            set_message("
+                <script>
+                    $(function() {
+                        var Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top',
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Login success By Admin'
+                        })
+                    });
+                </script>");
+            header('refresh:2;ui/');
         } else {
-            $row =  $query->fetch_assoc();
-            $verified = $row['verified'];
-            $email = $row['useremail'];
-            $date = $row['createdate'];
-            if ($verified == 1) {
-              
-                $_SESSION['userid'] = $row['user_id'];
-                $_SESSION['username'] = $row['username'];
-                $_SESSION['useremail'] = $row['useremail'];
-                $_SESSION['role'] = $row['role'];
-                $_SESSION['aus'] = $row['aus'];
-
-                $date = new DateTime('now', new DateTimeZone('Asia/bangkok'));
-                $datee =  $date->format('Y-m-d H:i:s');
-                $time = time() + 10;
-                $res = query("UPDATE tbl_user set login_online='$time', last_login='$datee' where user_id=" . $_SESSION['userid']);
-                confirm($res);
-
-                set_message(" <script>
-            $(function() {
-                var Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top',
-                    showConfirmButton: false,
-                    timer: 5000
-                });
-                Toast.fire({
-                    icon: 'success',
-                    title: 'Login success By Admin'
-                })
-            });
-          </script>");
-
-                header('refresh:2;ui/');
-            } else {
-
-                $_SESSION['useremail'] = $row['useremail'];
-                $_SESSION['aus'] = $row['aus'];
-                set_message_signin("<div class='alert alert-success text-center'>
-                It's look like you haven't still verify your email - $email on $date</div>");
-                header('location: ../-/verify');
-            }
+            set_message("
+                <script>
+                    $(function() {
+                        var Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top',
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Login success By User'
+                        })
+                    });
+                </script>");
+            header('refresh:2;user/');
         }
     }
 }
+
+
 function set_message_signin($msgg)
 {
     if (!empty($msgg)) {
@@ -186,39 +192,41 @@ function set_message_signin($msgg)
 function check_login()
 {
     if (isset($_SESSION['userid'])) {
-
         $id = $_SESSION['userid'];
-        $query = query("SELECT * from tbl_user where user_id = '$id' limit 1");
 
-        if ($query && mysqli_num_rows($query) > 0) {
+        // Prepared statement with limit 1
+        $stmt = query("SELECT * FROM tbl_user WHERE user_id = ? LIMIT 1", [$id]);
+        $user_data = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            $user_data = mysqli_fetch_assoc($query);
-            return $user_data;
+        if ($user_data) {
+            return $user_data; // return array with user info
         }
     }
 
-    //redirect to login
+    // Redirect to login if not found
     header("Location: ../");
-    die;
+    exit;
 }
+
 function name_user()
 {
     if (isset($_SESSION['userid'])) {
         $id = $_SESSION['userid'];
-        $query =  query("SELECT * FROM tbl_user WHERE user_id =  $id ");
-        confirm($query);
-        while ($row = fetch_array($query)) {
 
-            $name = <<<DELIMETER
-        {$row['username']}
+        // Query with prepared statement
+        $stmt = query("SELECT username FROM tbl_user WHERE user_id = ?", [$id]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        DELIMETER;
+        if ($row && !empty($row['username'])) {
+            return $row['username'];  // Return username
+        } else {
+            return "Hello";           // Default fallback
         }
-        echo $name;
     } else {
-        echo "Hello";
+        return "Hello";               // No user logged in
     }
 }
+
 
 /*********************************BACK END FUNCTIONS************************************/
 
@@ -309,7 +317,7 @@ function registration()
 
         $username = $_POST['txtname'];
         $useremail = $_POST['txtemail'];
-        $userpassword = md5($_POST['txtpassword']);
+        $userpassword = password_hash($_POST['txtpassword'],PASSWORD_DEFAULT);
         $userrole = $_POST['txtselect_option'];
 
         $f_name                 = $_FILES['file']['name'];
@@ -325,7 +333,7 @@ function registration()
 
         $select_andmin = query("SELECT * from tbl_user where aus='$aus'");
         confirm($select_andmin);
-        $rowadmin = $select_andmin->fetch_object();
+        $rowadmin = fetchOneObj($select_andmin);
         $date_new = $rowadmin->date_new;
         $tim = $rowadmin->tim;
 
@@ -617,7 +625,7 @@ function edit_category()
         confirm($select);
 
         if ($select) {
-            $row = $select->fetch_object();
+            $row = fetchOneObj($select);
 
             echo '<div class="col-md-4">
 
@@ -657,7 +665,7 @@ function query_category()
     $select = query("SELECT * from tbl_category where aus=$aus order by catid ASC");
     confirm($select);
     $no = 1;
-    while ($row = $select->fetch_object()) {
+    while ($row = fetchOneObj($select)) {
 
         echo '
         <tr>
@@ -806,7 +814,7 @@ function addproduct()
 
         $change = query("SELECT * from tbl_change where aus='$aus'");
         confirm($change);
-        $row_exchange = $change->fetch_object();
+        $row_exchange = fetchOneObj($change);
         $exchange = $row_exchange->exchange;
         $usd_or_real = $row_exchange->usd_or_real;
         if ($usd_or_real == "usd") {
@@ -915,11 +923,11 @@ function productlist()
 
     $change = query("SELECT * from tbl_change where aus='$aus'");
     confirm($change);
-    $row_exchange = $change->fetch_object();
+    $row_exchange = fetchOneObj($change);
     $exchange = $row_exchange->exchange;
     $usd_or_real = $row_exchange->usd_or_real;
 
-    while ($row = $select->fetch_object()) {
+    while ($row = fetchOneObj($select)) {
 
         if ($usd_or_real == "usd") {
             $USD_usd = "$";
@@ -978,7 +986,7 @@ function viewproduct()
     $select = query("SELECT * from tbl_product where pid = $id");
     confirm($select);
 
-    while ($row = $select->fetch_object()) {
+    while ($row = fetchOneObj($select)) {
 
         echo '
 <div class="row">
@@ -1057,7 +1065,7 @@ function edit_product()
 
         $change = query("SELECT * from tbl_change where aus='$aus'");
         confirm($change);
-        $row_exchange = $change->fetch_object();
+        $row_exchange = fetchOneObj($change);
         $exchange = $row_exchange->exchange;
         $usd_or_real = $row_exchange->usd_or_real;
         if ($usd_or_real == "usd") {
@@ -1158,7 +1166,7 @@ function edit_product()
 function show_name_category($catid)
 {
     $tblcategory = query("SELECT * from tbl_user where user_id = '$catid'");
-    $row = $tblcategory->fetch_object();
+    $row = fetchOneObj($tblcategory);
     echo '
     <option selected  value="' . $row->user_id . '">' . $row->username . '</option>
 ';
@@ -1166,9 +1174,10 @@ function show_name_category($catid)
 
 function show_name_product($id)
 {
-    $tblcategory = query("SELECT * from tbl_product where pid = '$id'");
-    $row = $tblcategory->fetch_object();
-    return  $row->product;
+    $stmt = query("SELECT product FROM tbl_product WHERE pid = ? LIMIT 1", [$id]);
+    $row = $stmt->fetch(PDO::FETCH_OBJ);
+
+    return $row->product ?? '';
 }
 
 
@@ -1292,14 +1301,14 @@ function edit_registration()
         confirm($select);
 
         $selectt = query("SELECT min(user_id) as user from tbl_user where aus= '$aus' ");
-        $roww = $selectt->fetch_object();
+        $roww = fetchOneObj($selectt);
         $user = $roww->user;
         $selectk = query("SELECT * from tbl_user where user_id = '$user'");
-        $rows = $selectk->fetch_object();
+        $rows = fetchOneObj($selectk);
         $useremail = $rows->useremail;
 
         if ($select) {
-            $row = $select->fetch_object();
+            $row = fetchOneObj($select);
 
             if ($row->useremail == $useremail) {
                 $default = 'defaultt';
@@ -1651,7 +1660,7 @@ function addstock()
         $aus = $_SESSION['aus'];
         $change = query("SELECT * from tbl_change where aus='$aus'");
         confirm($change);
-        $row_exchange = $change->fetch_object();
+        $row_exchange = fetchOneObj($change);
         $exchange = $row_exchange->exchange;
         $usd_or_real = $row_exchange->usd_or_real;
         if ($usd_or_real == "usd") {
@@ -1688,14 +1697,14 @@ function addstock()
 }
 
 
-function stock_list()
+function stock_liset()
 {
     $aus = $_SESSION['aus'];
     $select = query("SELECT * from tbl_product_stock where aus=$aus order by id desc");
     confirm($select);
     $change = query("SELECT * from tbl_change where aus='$aus'");
     confirm($change);
-    $row_exchange = $change->fetch_object();
+    $row_exchange = fetchOneObj($change);
     $exchange = $row_exchange->exchange;
     $usd_or_real = $row_exchange->usd_or_real;
     $subtotal = 0;
@@ -1703,9 +1712,9 @@ function stock_list()
     $subtotall = 0;
     $totalss = 0;
     $no = 1;
-    while ($row = $select->fetch_object()) {
+    while ($row = fetchOneObj($select)) {
         $selectt = query("SELECT * from tbl_product where pid= $row->product_id ");
-        $roww = $selectt->fetch_object();
+        $roww = fetchOneObj($selectt);
 
         if ($usd_or_real == "usd") {
             $USD_usd = "$";
@@ -1769,13 +1778,129 @@ function stock_list()
            </tr>';
 }
 
+
+
+//
+function stock_list()
+{
+    $aus = $_SESSION['aus'];
+    $selected_date = $_GET['date'] ?? null;
+
+    if ($selected_date) {
+        $stmt = query(
+            "SELECT * FROM tbl_product_stock 
+         WHERE aus = ? AND DATE(date) = ? 
+         ORDER BY id DESC",
+            [$aus, $selected_date]
+        );
+    } else {
+        $stmt = query(
+            "SELECT * FROM tbl_product_stock 
+         WHERE aus = ? 
+         ORDER BY id DESC",
+            [$aus]
+        );
+    }
+
+    $stocks = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+
+    // Get exchange rate
+    $stmt2 = query("SELECT * FROM tbl_change WHERE aus = ? LIMIT 1", [$aus]);
+    $row_exchange = $stmt2->fetch(PDO::FETCH_OBJ);
+
+    $exchange = $row_exchange->exchange ?? 4000;
+    $usd_or_real = $row_exchange->usd_or_real ?? "usd";
+
+    $subtotal = 0;
+    $totals = 0;
+    $no = 1;
+
+    foreach ($stocks as $row) {
+        // Get product
+        $stmt3 = query("SELECT * FROM tbl_product WHERE pid = ? LIMIT 1", [$row->product_id]);
+        $roww = $stmt3->fetch(PDO::FETCH_OBJ);
+        if ($usd_or_real === "usd") {
+            $USD_usd = "$";
+            $price_num = $row->price; // unit price
+        } else {
+            $USD_usd = "៛";
+            $price_num = $row->price * $exchange; // unit price in Riel
+        }
+
+        if ($usd_or_real == "usd") {
+            $USD_usd = "$";
+            $price = number_format($row->price, 2) . $USD_usd;
+            $total = number_format($row->price * $row->stock) . $USD_usd;
+            $totall = $row->price * $row->stock;
+            $subtotal += $row->price;
+            $totals += $totall;
+            $totalss = number_format($totals, 2) . $USD_usd;
+            $subtotall = number_format($subtotal, 2) . $USD_usd;
+        } else {
+            $USD_usd = "៛";
+            $pricee = $row->price * $exchange;
+            $price = number_format($pricee);
+            $total = number_format($pricee * $row->stock);
+            $totall = $pricee * $row->stock;
+            $subtotal += $pricee;
+            $totals += $totall;
+            $totalss = number_format($totals) . $USD_usd;
+            $subtotall = number_format($subtotal) . $USD_usd;
+        }
+
+
+        echo "
+           <tr>
+             <td>{$no}</td>
+             <td>{$row->id}</td>
+             <td>" . show_name_product($row->product_id) . "</td>
+             <td>{$row->stock}</td>
+             <td>{$price}</td>
+             <td>{$total}</td>
+             <td><img src='../productimages/{$roww->image}' class='img-rounded' width='40' height='40'></td>
+             <td>
+               <div class='btn-group'>
+                 <a href='itemt?editstock&id={$row->id}' class='btn btn-success'  role='button'>
+                   <span class='fa fa-edit' style='color:#fff' data-toggle='tooltip' title='Edit Product'></span>
+                 </a>
+                 <button id='{$row->id}' class='btn btn-danger btndelete'>
+                   <span class='fa fa-trash' style='color:#fff' data-toggle='tooltip' title='Delete Product'></span>
+                 </button>
+               </div>
+             </td>
+           </tr>";
+        $no++;
+    }
+    if ($usd_or_real == "usd") {
+
+        $totalss = number_format($totals, 2) . $USD_usd;
+        $subtotall = number_format($subtotal, 2) . $USD_usd;
+    } else {
+
+        $totalss = number_format($totals) . $USD_usd;
+        $subtotall = number_format($subtotal) . $USD_usd;
+    }
+
+    echo "
+        <tr>
+          <td></td><td></td><td></td>
+          <th>សរុប</th>
+          <td><span class='badge badgeth badge-danger'>{$subtotall}</span></td>
+          <td><span class='badge badgeth badge-success'>{$totalss}</span></td>
+          <td></td><td></td>
+        </tr>";
+}
+
+
+
 function update_stock()
 {
     if (isset($_POST['btnupdates'])) {
         $idp = $_POST['btnupdates'];
         $aus = $_SESSION['aus'];
         $selects = query("SELECT * from tbl_product_stock where id= $idp");
-        $row = $selects->fetch_object();
+        $row = fetchOneObj($selects);
         $dbstock = $row->stock;
         $dbid = $row->product_id;
         // $selectp = query("SELECT * from tbl_product where pid= $idp");
@@ -1788,7 +1913,7 @@ function update_stock()
 
         $change = query("SELECT * from tbl_change where aus='$aus'");
         confirm($change);
-        $row_exchange = $change->fetch_object();
+        $row_exchange = fetchOneObj($change);
         $exchange = $row_exchange->exchange;
         $usd_or_real = $row_exchange->usd_or_real;
         if ($usd_or_real == "usd") {
@@ -1841,7 +1966,7 @@ function show_usd()
     $aus = $_SESSION['aus'];
     $change = query("SELECT * from tbl_change where aus='$aus'");
     confirm($change);
-    $row_exchange = $change->fetch_object();
+    $row_exchange = fetchOneObj($change);
     $exchange = $row_exchange->usd_or_real;
     if ($exchange == "usd") {
         echo '$';
@@ -1854,24 +1979,32 @@ function img_user()
 {
     if (isset($_SESSION['userid'])) {
         $id = $_SESSION['userid'];
-        $query =  query("SELECT * FROM tbl_user WHERE user_id =  $id ");
-        confirm($query);
-        while ($row = fetch_array($query)) {
 
-            $name = <<<DELIMETER
-        {$row['img']}
+        // Query with prepared statement
+        $stmt = query("SELECT img FROM tbl_user WHERE user_id = ?", [$id]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        DELIMETER;
+        if ($row && !empty($row['img'])) {
+            return $row['img'];   // Return image filename from DB
+        } else {
+            return "Hello.png";   // Default fallback
         }
-        echo $name;
     } else {
-        echo "Hello.png";
+        return "Hello.png";       // No user logged in
     }
 }
+
 
 function display_messag_signin()
 {
     if (isset($_SESSION['messagee'])) {
         echo $_SESSION['messagee'];
     }
+}
+function fetchAllObj($stmt) {
+    return $stmt->fetchAll(PDO::FETCH_OBJ);
+}
+
+function fetchOneObj($stmt) {
+    return $stmt->fetch(PDO::FETCH_OBJ);
 }

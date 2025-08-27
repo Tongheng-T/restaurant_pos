@@ -1,51 +1,54 @@
 <?php
 
 
-if ($_SESSION['useremail'] == ""  or $_SESSION['role'] == "User") {
+if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
 
     header('location:../');
 }
 
 
+$aus = $_SESSION['aus'] ?? null;
 
-$aus = $_SESSION['aus'];
-$change = query("SELECT * from tbl_change where aus='$aus'");
-confirm($change);
-$row_exchange = $change->fetch_object();
-$exchange = $row_exchange->exchange;
-$usd_or_real = $row_exchange->usd_or_real;
+if ($aus) {
+    // Exchange
+    $stmt = query("SELECT * FROM tbl_change WHERE aus = ?", [$aus]);
+    $row_exchange = $stmt->fetch(PDO::FETCH_OBJ);
 
-$select = query("SELECT sum(total) as gt , count(invoice_id) as invoice from tbl_invoice where aus='$aus'");
-confirm($select);
-$row = $select->fetch_object();
+    if ($row_exchange) {
+        $exchange = $row_exchange->exchange;
+        $usd_or_real = $row_exchange->usd_or_real;
+    }
 
-$total_order = $row->invoice;
-$grand_total = $row->gt;
+    // Invoice
+    $stmt = query("SELECT SUM(total) AS gt, COUNT(invoice_id) AS invoice 
+                   FROM tbl_invoice 
+                   WHERE aus = ?", [$aus]);
+    $row = $stmt->fetch(PDO::FETCH_OBJ);
 
-if ($usd_or_real == "usd") {
-    $total_revn = $grand_total;
-    $USD_usd = " $";
-    $USD_txt = "USD";
-} else {
-    $total_revn = $grand_total * $exchange;
-    $USD_usd = " ៛";
-    $USD_txt = "KHR";
+    $total_order = $row->invoice ?? 0;
+    $grand_total = $row->gt ?? 0;
+
+    if ($usd_or_real === "usd") {
+        $total_revn = $grand_total;
+        $USD_usd = " $";
+        $USD_txt = "USD";
+    } else {
+        $total_revn = $grand_total * $exchange;
+        $USD_usd = " ៛";
+        $USD_txt = "KHR";
+    }
+
+    // Product
+    $stmt = query("SELECT COUNT(product) AS pname FROM tbl_product WHERE aus = ?", [$aus]);
+    $row = $stmt->fetch(PDO::FETCH_OBJ);
+    $total_product = $row->pname ?? 0;
+
+    // Category
+    $stmt = query("SELECT COUNT(category) AS cate FROM tbl_category WHERE aus = ?", [$aus]);
+    $row = $stmt->fetch(PDO::FETCH_OBJ);
+    $total_category = $row->cate ?? 0;
 }
 
-
-$select = query("SELECT count(product) as pname from tbl_product where aus='$aus'");
-confirm($select);
-
-$row = $select->fetch_object();
-
-$total_product = $row->pname;
-
-$select = query("SELECT count(category) as cate from tbl_category where aus='$aus'");
-confirm($select);
-
-$row = $select->fetch_object();
-
-$total_category = $row->cate;
 
 
 
@@ -154,13 +157,14 @@ $total_category = $row->cate;
 
                         <?php
 
-                        $select = query("SELECT order_date , total  from tbl_invoice where aus='$aus' group by order_date LIMIT 50");
-                        confirm($select);
+                        $select = query("SELECT order_date, total FROM tbl_invoice WHERE aus = ? GROUP BY order_date LIMIT 50", [$aus]);
+
                         $ttl = [];
                         $date = [];
 
-                        while ($row = $select->fetch_assoc()) {
-                            extract($row);
+                        while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
+                            $order_date = $row['order_date'];
+                            $total = $row['total'];
 
                             $date[] = $order_date;
 
@@ -172,7 +176,7 @@ $total_category = $row->cate;
                         }
 
                         // echo json_encode($total);
-
+                        
                         ?>
 
                         <div>
@@ -231,7 +235,7 @@ $total_category = $row->cate;
                             <thead>
                                 <tr>
 
-                                    <td>Product ID</td>
+                                    <td>N0</td>
                                     <td>Product Name</td>
 
                                     <td>QTY</td>
@@ -247,21 +251,21 @@ $total_category = $row->cate;
 
                                 <?php
 
-                                $select = query("SELECT product_id,product_name,rate,sum(qty) as q , sum(saleprice) as total from tbl_invoice_details where aus='$aus' group by product_id order by sum(qty) DESC LIMIT 12");
-                                confirm($select);
+                                $select = query("SELECT product_id, product_name, rate, SUM(qty) AS q, SUM(saleprice) AS total FROM tbl_invoice_details WHERE aus = ? GROUP BY product_id ORDER BY SUM(qty) DESC LIMIT 12", [$aus]);
 
-                                while ($row = $select->fetch_object()) {
-
+                                $no = 1;
+                                while ($row = $select->fetch(PDO::FETCH_OBJ)) {
                                     echo '
-                                        <tr>
-                                        
-                                        <td>' . $row->product_id   . '</td>
-                                        <td><span class="badge badge-dark">' . $row->product_name   . '</td></span>
-                                        
-                                        <td><span class="badge badge-success">' . $row->q   . '</td></span>
-                                        <td><span class="badge badge-primary">' . $row->rate   . '</td>
-                                        <td><span class="badge badge-danger">' . $row->total . '</td>';
+                                     <tr>
+                                         <td>' . $no. '</td>
+                                         <td><span class="badge badge-dark">' . $row->product_name . '</span></td>
+                                         <td><span class="badge badge-success">' . $row->q . '</span></td>
+                                         <td><span class="badge badge-primary">' . $row->rate . '</span></td>
+                                         <td><span class="badge badge-danger">' . $row->total . '</span></td>
+                                     </tr>';
+                                     $no++;
                                 }
+
                                 ?>
                             </tbody>
                         </table>
@@ -301,27 +305,25 @@ $total_category = $row->cate;
 
                                 <?php
 
-                                $select = query("SELECT * from tbl_invoice where aus='$aus'  order by invoice_id DESC LIMIT 30");
-                                confirm($select);
+                                $select = query("SELECT * FROM tbl_invoice WHERE aus = ? ORDER BY invoice_id DESC LIMIT 30", [$aus]);
 
-                                while ($row = $select->fetch_object()) {
+                                while ($row = $select->fetch(PDO::FETCH_OBJ)) {
 
                                     echo '
-                                         <tr>
-                                         
+                                     <tr>
                                          <td>' . $row->invoice_id . '</td>
-                                         <td><span class="badge badge-dark">' . $row->order_date   . '</td></span>
-                                         <td><span class="badge badge-danger">' . $row->total . '</td>';
+                                         <td><span class="badge badge-dark">' . $row->order_date . '</span></td>
+                                         <td><span class="badge badge-danger">' . $row->total . '</span></td>';
 
                                     if ($row->payment_type == "Cash") {
-                                        echo '<td><span class="badge badge-warning">' . $row->payment_type . '</td></span></td>';
-                                    } else if ($row->payment_type == "Card") {
-
-                                        echo '<td><span class="badge badge-success">' . $row->payment_type . '</td></span></td>';
+                                        echo '<td><span class="badge badge-warning">' . $row->payment_type . '</span></td>';
                                     } else {
-                                        echo '<td><span class="badge badge-danger">' . $row->payment_type . '</td></span></td>';
+                                        echo '<td><span class="badge badge-success">' . $row->payment_type . '</span></td>';
                                     }
+
+                                    echo '</tr>';
                                 }
+
                                 ?>
                             </tbody>
                         </table>
@@ -340,6 +342,3 @@ $total_category = $row->cate;
 
 </div>
 <!-- /.content -->
-
-
-

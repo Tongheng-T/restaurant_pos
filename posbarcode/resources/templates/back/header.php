@@ -88,10 +88,14 @@
             </ul>
         </nav>
         <!-- /.navbar -->
-        <?php $aus = $_SESSION['aus'];
-        $select_logo = query("SELECT * from tbl_logo where aus='$aus'");
-        $rowg = $select_logo->fetch_object();
-        $logo = $rowg->img; ?>
+        <?php
+        $aus = $_SESSION['aus'];
+        $select_logo = query("SELECT * FROM tbl_logo WHERE aus = :aus", [':aus' => $aus]);
+        $rowg = $select_logo->fetch(PDO::FETCH_OBJ);
+
+        $logo = $rowg->img ?? 'default.png'; // fallback if null
+        ?>
+
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
@@ -108,7 +112,7 @@
                         <img src="../resources/images/userpic/<?php img_user() ?>" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block"><?php name_user(); ?></a>
+                        <a href="#" class="d-block"><?php htmlspecialchars(name_user()); ?></a>
                     </div>
                 </div>
 
@@ -231,7 +235,7 @@
                             <a href="itemt?taxdis" class="nav-link <?php actr("taxdis"); ?>">
                                 <i class="nav-icon fa fa-cog"></i>
                                 <p>
-                                Settings
+                                    Settings
                                 </p>
                             </a>
                         </li>

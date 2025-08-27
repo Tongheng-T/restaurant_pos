@@ -40,8 +40,13 @@ display_message();
           <div class="card-header">
             <h5 class="m-0">Product List :</h5>
           </div>
-          <div class="card-body">
-
+            <form method="get" class="form-inline mb-3">
+              <input type="hidden" name="stock_list" >
+              <label for="date" class="mr-2">ជ្រើសរើសថ្ងៃ:</label>
+              <input type="date" name="date" id="date" class="form-control mr-2"
+                value="<?php echo $_GET['date'] ?? date('Y-m-d'); ?>">
+              <button type="submit" class="btn btn-primary">Filter</button>
+            </form>
             <table class="table table-striped table-hover " id="table_product">
               <thead>
                 <tr>
@@ -78,12 +83,3 @@ display_message();
   </div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->
-
-
-
-
-
-
-
-
-

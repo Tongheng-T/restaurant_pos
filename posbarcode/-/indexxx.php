@@ -1,55 +1,62 @@
-<?php require_once "resources/config.php"; ?>
+<?php require_once "../resources/config.php"; ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>POS BARCODE | Log in | By:TH</title>
-    <link rel='shortcut icon' href="ui/logo/256.ico" type="image/x-icon">
-    <link rel="icon" href="ui/logo/32.ico" sizes="32x32">
-    <link rel="icon" href="ui/logo/48.ico" sizes="48x48">
-    <link rel="icon" href="ui/logo/96.ico" sizes="96x96">
-    <link rel="icon" href="ui/logo/256.ico" sizes="144x144">
+    <meta name="keywords" content="THPOS, thpos.store, ប្រព័ន្ធគ្រប់គ្រងទិន្នន័យ, Cambodia, Sales Management System, ប្រព័ន្ធគ្រប់គ្រងភោជនីយដ្ឋាន, Restaurant Management System">
+    <title>RESTAURANT POS | Log in | By:THPOS</title>
+    <link rel='shortcut icon' href="../ui/logo/b256.ico" type="image/x-icon">
+    <link rel="icon" href="../ui/logo/b32.ico" sizes="32x32">
+    <link rel="icon" href="../ui/logo/b48.ico" sizes="48x48">
+    <link rel="icon" href="../ui/logo/b96.ico" sizes="96x96">
+    <link rel="icon" href="../ui/logo/b256.ico" sizes="144x144">
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
     <!-- icheck bootstrap -->
-    <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <link rel="stylesheet" href="../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="../dist/css/adminlte.min.css">
     <!-- SweetAlert2 -->
-    <link rel="stylesheet" href="plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+    <link rel="stylesheet" href="../plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
     <!-- Toastr -->
-    <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
+    <link rel="stylesheet" href="../plugins/toastr/toastr.min.css">
+
     <!-- jQuery -->
-    <script src="plugins/jquery/jquery.min.js"></script>
+    <script src="../plugins/jquery/jquery.min.js"></script>
     <!-- SweetAlert2 -->
-    <script src="plugins/sweetalert2/sweetalert2.min.js"></script>
+    <script src="../plugins/sweetalert2/sweetalert2.min.js"></script>
+
 </head>
 
-<script>
-    window.dataLayer = window.dataLayer || [];
-
-    function gtag() {
-        dataLayer.push(arguments);
-    }
-    gtag('js', new Date());
-
-    gtag('config', 'G-QRFPMKNEVL');
-</script>
 <style>
     @font-face {
         font-family: "OSbattambang";
-        src: url(fone/KhmerOSbattambang.ttf)format("truetype");
+        src: url(../fone/KhmerOSbattambang.ttf)format("truetype");
     }
 
     * {
         font-family: "OSbattambang";
     }
-</style>
 
+    .back {
+        width: 353px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        height: 548px;
+        opacity: 49%;
+
+    }
+    .back .img {
+        width: 1112px;
+    }
+</style>
 <?php
 
 $email = "";
@@ -64,17 +71,19 @@ if (isset($_POST['btn_login'])) {
 <?php display_messag_signin();
 unset($_SESSION['messagee']) ?>
 
-<body class="hold-transition login-page">
+<body class="hold-transition login-page" onload="getLocation();">
     <div class="login-box">
+
+        <!-- <div class="back"> <img class="img" src="../resources/images/logo/backg.png" alt=""></div> -->
         <!-- /.login-logo -->
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
-                <a href="https://www.thpos.store/" class="h1"><b>POS</b>BARCODE</a>
+                <a href="https://www.thpos.store/" class="h1"><b>TH</b> POS</a>
             </div>
 
             <div class="card-body">
                 <p class="login-box-msg">Sign in to start your session</p>
-                <p><img src="resources/images/loog.png" style="align-content: center;" height="200px" alt=""></p>
+                <p class="center text-center"><img src="../resources/images/logo3.png" height="200px" alt=""></p>
                 <?php login_user(); ?>
                 <?php display_message(); ?>
                 <form action="" method="post">
@@ -94,16 +103,20 @@ unset($_SESSION['messagee']) ?>
                             </div>
                         </div>
                     </div>
+
+                    <input type="hidden" class="form-control" value="" name="latitude">
+                    <input type="hidden" class="form-control" value="" name="longitude">
+
                     <div class="row">
                         <div class="col-8">
                             <div class="icheck-primary">
                                 <!-- <a href="#" class="toastrDefaultInfo">I forgot my password</a> -->
                                 <p class="mb-1">
-                                    <a href="-/forgot_password">I forgot my password</a>
+                                    <a href="forgot_password">I forgot my password</a>
                                 </p>
 
                                 <p class="mb-0">
-                                    <a href="-/register" class="text-center">Register a new membership</a>
+                                    <a href="register" class="text-center">Register a new membership</a>
                                 </p>
                             </div>
                         </div>
@@ -129,6 +142,8 @@ unset($_SESSION['messagee']) ?>
         <!-- /.card -->
     </div>
     <!-- /.login-box -->
+
+
 
     <script>
         $(function() {
@@ -177,6 +192,29 @@ unset($_SESSION['messagee']) ?>
                 hide();
             }
         }, false);
+
+
+
+
+        // function getLocation() {
+        //     if (navigator.geolocation) {
+        //         navigator.geolocation.getCurrentPosition(showPosition, showError);
+        //     }
+        // }
+
+        // function showPosition(position) {
+        //     document.querySelector('input[name = "latitude"]').value = position.coords.latitude;
+        //     document.querySelector('input[name = "longitude"]').value = position.coords.longitude;
+        // }
+
+        // function showError(error) {
+        //     switch (error.code) {
+        //         case error.PERMISSION_DENIED:
+        //             alert("You Must Allow The Request For Geolocation To Fill Out The Form ");
+        //             location.reload();
+        //             break;
+        //     }
+        // }
     </script>
 </body>
 
