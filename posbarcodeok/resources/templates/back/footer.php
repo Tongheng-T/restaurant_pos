@@ -49,10 +49,10 @@
 <!-- pos order -->
 <script src="../resources/templates/back/orderlist.js"></script>
 
-
+<?php require_once("jsl.php"); ?>
 <?php require_once("edit_order.php"); ?>
 <?php require_once("posjss.php"); ?>
-<?php require_once("jsl.php"); ?>
+
 
 
 
