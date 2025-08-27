@@ -16,7 +16,7 @@ if (!empty($_GET["id"])) {
 } elseif (!empty($_GET["pid"])) {
 
     $id = $_GET["pid"];
-    $query =  query("SELECT * from tbl_product WHERE pid = $idand aus=$aus");
+    $query =  query("SELECT * from tbl_product WHERE pid = $idand and aus=$aus");
     confirm($query);
 
     if (mysqli_num_rows($query) == 1) {
