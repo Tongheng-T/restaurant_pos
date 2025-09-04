@@ -1,5 +1,6 @@
 RewriteEngine On
 RewriteRule ^itemt?$ index.php
+RewriteRule ^ui?$ index.php
 RewriteRule ^orderlist?$ index.php
 
 
