@@ -1,5 +1,5 @@
-<?php require_once "resources/config.php"; 
-require_once 'vendor/autoload.php';?>
+<?php require_once "resources/config.php";
+require_once 'vendor/autoload.php'; ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -13,8 +13,11 @@ require_once 'vendor/autoload.php';?>
     <link rel="icon" href="ui/logo/48.ico" sizes="48x48">
     <link rel="icon" href="ui/logo/96.ico" sizes="96x96">
     <link rel="icon" href="ui/logo/256.ico" sizes="144x144">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#000000">
     <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
     <!-- icheck bootstrap -->
@@ -82,12 +85,14 @@ unset($_SESSION['messagee']) ?>
 
             <div class="card-body">
                 <p class="login-box-msg">Sign in to start your session</p>
-                <p class="center"><img src="resources/images/logocof.png" style="align-content: center" height="200px" alt=""></p>
+                <p class="center"><img src="resources/images/logocof.png" style="align-content: center" height="200px"
+                        alt=""></p>
                 <?php login_user(); ?>
                 <?php display_message(); ?>
                 <form action="" method="post">
                     <div class="input-group mb-3">
-                        <input type="email" class="form-control" placeholder="Email" name="txt_email" required value="<?php echo $email ?>">
+                        <input type="email" class="form-control" placeholder="Email" name="txt_email" required
+                            value="<?php echo $email ?>">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
@@ -95,7 +100,8 @@ unset($_SESSION['messagee']) ?>
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="password" class="form-control" id="pwd" placeholder="Password" name="txt_password" required>
+                        <input type="password" class="form-control" id="pwd" placeholder="Password" name="txt_password"
+                            required>
                         <div class="input-group-append">
                             <div class="input-group-text" id="eye">
                                 <span class="fas fa-eye-slash" id="eyeicon"></span>
@@ -119,14 +125,15 @@ unset($_SESSION['messagee']) ?>
                                 </p>
                                 <div class="text-center mt-3">
                                     <a href="<?php
-                                                $client = new Google_Client();
-                                                $client->setClientId('678847511198-aonl23o0ennpnse1damqaj352j228np5.apps.googleusercontent.com');
-                                                $client->setClientSecret('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');
-                                                $client->setRedirectUri('https://coffee.thposs.uk/google/google-callback.php');
-                                                $client->addScope('email');
-                                                $client->addScope('profile');
-                                                echo $client->createAuthUrl();
-                                                ?>" class="btn btn-danger btn-block" style="border-radius: 25px;"><i class="fab fa-google mr-2"></i>Sign in with Google</a>
+                                    $client = new Google_Client();
+                                    $client->setClientId('678847511198-aonl23o0ennpnse1damqaj352j228np5.apps.googleusercontent.com');
+                                    $client->setClientSecret('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');
+                                    $client->setRedirectUri('https://coffee.thposs.uk/google/google-callback.php');
+                                    $client->addScope('email');
+                                    $client->addScope('profile');
+                                    echo $client->createAuthUrl();
+                                    ?>" class="btn btn-danger btn-block" style="border-radius: 25px;"><i
+                                            class="fab fa-google mr-2"></i>Sign in with Google</a>
                                 </div>
                             </div>
                         </div>
@@ -158,14 +165,14 @@ unset($_SESSION['messagee']) ?>
 
 
     <script>
-        $(function() {
+        $(function () {
             var Toast = Swal.mixin({
                 toast: true,
                 position: 'top',
                 showConfirmButton: false,
                 timer: 5000
             });
-            $('.toastrDefaultInfo').click(function() {
+            $('.toastrDefaultInfo').click(function () {
                 Toast.fire({
                     icon: 'info',
                     title: 'ដើម្បីទទួលបានពាក្យសម្ងាត់ សូមទាក់ទងអ្នកគ្រប់គ្រង ឬអ្នកផ្តល់សេវា'
@@ -195,7 +202,7 @@ unset($_SESSION['messagee']) ?>
 
         var pwShown = 0;
 
-        document.getElementById("eye").addEventListener("click", function() {
+        document.getElementById("eye").addEventListener("click", function () {
             if (pwShown == 0) {
                 pwShown = 1;
                 show();
@@ -204,6 +211,12 @@ unset($_SESSION['messagee']) ?>
                 hide();
             }
         }, false);
+
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.register("/sw.js")
+                .then(reg => console.log("Service Worker Registered:", reg))
+                .catch(err => console.log("SW registration failed:", err));
+        }
     </script>
 </body>
 
