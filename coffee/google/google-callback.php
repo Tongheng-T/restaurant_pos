@@ -45,7 +45,7 @@ if (isset($_GET['code'])) {
             $_SESSION['login_type'] = 'google'; // អ្នកត្រូវ set វា
             $res = query("UPDATE tbl_user SET login_online='$time', last_login='$datee',last_ip = '$ip', location_ip = '$location' WHERE user_id=" . $_SESSION['userid']);
 
-            header("Location: ../ui/"); // redirect to dashboard
+            header("Location: ../ui/itemt"); // redirect to dashboard
             exit;
         } else {
             // ប្រើថ្មី -> បញ្ចូលទៅក្នុង db
@@ -72,7 +72,7 @@ if (isset($_GET['code'])) {
             query("INSERT INTO tbl_taxdis (aus) VALUES('$aus')");
             query("INSERT INTO tbl_logo (name, img, aus) VALUES('TH POS', 'logo.png', '$aus')");
 
-            header('refresh:2;../ui/');
+            header('refresh:2;../ui/itemt');
             exit;
         }
     } else {
