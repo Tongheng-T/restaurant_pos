@@ -88,7 +88,7 @@
                     ប្រព័ន្ធគ្រប់គ្រងភោជនីយដ្ឋាន។
                     Restaurant Management System.
                 </p>
-                <a href="https://restaurant.thposs.uk/ui/">Login Now <i class="ri-arrow-right-line"></i></a>
+                <a href="https://restaurant.thposs.uk/">Login Now <i class="ri-arrow-right-line"></i></a>
             </div>
             <div class="card">
                 <span><i class="ri-cup-fill"></i></span>
