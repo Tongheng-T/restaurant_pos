@@ -102,11 +102,12 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
     <?php
 
 
-    $uri = rtrim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+    $uri = rtrim($_SERVER['REQUEST_URI'], '/');
 
     if ($uri == "/ui" || $uri == "/ui/itemt") {
         include(TEMPLATE_BACK . "/pos.php");
     }
+
 
 
 
