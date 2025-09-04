@@ -99,7 +99,7 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
 
     <?php
 
-    if ($_SERVER['REQUEST_URI'] == "https://coffee.thposs.uk/ui/" || $_SERVER['REQUEST_URI'] == "https://coffee.thposs.uk/ui/itemt") {
+    if ($_SERVER['REQUEST_URI'] == "/coffee.thposs.uk/ui/" || $_SERVER['REQUEST_URI'] == "/coffee.thposs.uk/ui/itemt") {
 
         include(TEMPLATE_BACK . "/pos.php");
     }
