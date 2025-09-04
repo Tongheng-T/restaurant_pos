@@ -13,8 +13,7 @@ require_once 'vendor/autoload.php'; ?>
     <link rel="icon" href="ui/logo/48.ico" sizes="48x48">
     <link rel="icon" href="ui/logo/96.ico" sizes="96x96">
     <link rel="icon" href="ui/logo/256.ico" sizes="144x144">
-    <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#000000">
+
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
