@@ -20,10 +20,10 @@ defined("UPLOAD_DIRECTORY") ? null : define("UPLOAD_DIRECTORY", __DIR__ . DS . "
 
 defined("DB_HOST") ? null : define("DB_HOST", "localhost");
 
-defined("DB_USER") ? null : define("DB_USER", "root");
+defined("DB_USER") ? null : define("DB_USER", "restaurant_pos");
 
 
-defined("DB_PASS") ? null : define("DB_PASS", "");
+defined("DB_PASS") ? null : define("DB_PASS", "CCBkc5dYRjwRXdZF");
 
 defined("DB_NAME") ? null : define("DB_NAME",  "restaurant_pos");
 
@@ -31,7 +31,5 @@ defined("DB_NAME") ? null : define("DB_NAME",  "restaurant_pos");
 $connection = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
 require_once("functions.php");
-require_once("functionspay.php");
-require_once("functions_qr.php");
 
 // require_once("templates/getMenuByCategory.php");
