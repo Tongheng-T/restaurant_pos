@@ -1,7 +1,7 @@
 {
   "name": "Coffee THPOS",
   "short_name": "THPOS",
-  "start_url": "/",
+  "start_url": "/ui",
   "display": "fullscreen",
   "background_color": "#000000",
   "theme_color": "#000000",
