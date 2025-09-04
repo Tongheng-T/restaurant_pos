@@ -218,6 +218,7 @@ unset($_SESSION['messagee']) ?>
                 .catch(err => console.log("SW registration failed:", err));
         }
     </script>
+    
 </body>
 
 </html>
