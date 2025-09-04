@@ -69,11 +69,11 @@ addproduct();
                       $select = query("SELECT * from tbl_category where aus='$aus' order by catid desc");
                       confirm($select);
 
-                      while ($row = $select->fetch_assoc()) {
+                      while ($row = fetch_assoc($select)) {
                         extract($row);
 
                       ?>
-                        <option><?php echo $row['category']; ?></option>
+                         <option><?php echo htmlspecialchars($row['category']); ?></option>
 
                       <?php 
 

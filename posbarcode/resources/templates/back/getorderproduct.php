@@ -6,7 +6,7 @@ $rows = [];
 $select = query("SELECT * from tbl_invoice_details a INNER JOIN tbl_product b ON a.product_id = b.pid where a.invoice_id='$id'");
 confirm($select);
 
-while($row_invoice_details = $select->fetch_assoc()) {
+while($row_invoice_details = fetch_assoc($select)) {
     $rows[] = $row_invoice_details;
 }
 

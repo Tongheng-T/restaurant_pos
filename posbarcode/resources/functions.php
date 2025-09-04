@@ -3,6 +3,13 @@ $upload_directory = "uploads";
 
 // helper function
 
+function check_admin_session() {
+    if (empty($_SESSION['useremail']) || $_SESSION['role'] === "User") {
+        header("Location: ../");
+        exit;
+    }
+}
+
 
 function last_id()
 {
@@ -56,7 +63,7 @@ function confirm($stmt)
 }
 
 // Fetch as associative array
-function fetch_array($stmt)
+function fetch_assoc($stmt)
 {
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
@@ -74,7 +81,7 @@ function login_user()
     if (isset($_POST['btn_login'])) {
 
         $useremail = trim($_POST['txt_email'] ?? '');
-        $password  = trim($_POST['txt_password'] ?? '');
+        $password = trim($_POST['txt_password'] ?? '');
 
         // Query by email only (NOT with password)
         $query = query("SELECT * FROM tbl_user WHERE useremail = :email", [':email' => $useremail]);
@@ -124,11 +131,11 @@ function login_user()
         }
 
         // If verified → Save session
-        $_SESSION['userid']   = $row['user_id'];
+        $_SESSION['userid'] = $row['user_id'];
         $_SESSION['username'] = $row['username'];
         $_SESSION['useremail'] = $row['useremail'];
-        $_SESSION['role']     = $row['role'];
-        $_SESSION['aus']      = $row['aus'];
+        $_SESSION['role'] = $row['role'];
+        $_SESSION['aus'] = $row['aus'];
 
         // Update last login + online time
         $date = new DateTime('now', new DateTimeZone('Asia/Bangkok'));
@@ -317,19 +324,19 @@ function registration()
 
         $username = $_POST['txtname'];
         $useremail = $_POST['txtemail'];
-        $userpassword = password_hash($_POST['txtpassword'],PASSWORD_DEFAULT);
+        $userpassword = password_hash($_POST['txtpassword'], PASSWORD_DEFAULT);
         $userrole = $_POST['txtselect_option'];
 
-        $f_name                 = $_FILES['file']['name'];
-        $image_temp_location    = $_FILES['file']['tmp_name'];
-        $f_size                 = $_FILES['file']['size'];
-        $f_extension            = explode('.', $f_name);
-        $f_extension            = strtolower(end($f_extension));
-        $user_photo             = uniqid() . '.' . $f_extension;
+        $f_name = $_FILES['file']['name'];
+        $image_temp_location = $_FILES['file']['tmp_name'];
+        $f_size = $_FILES['file']['size'];
+        $f_extension = explode('.', $f_name);
+        $f_extension = strtolower(end($f_extension));
+        $user_photo = uniqid() . '.' . $f_extension;
         $verified = 1;
         $aus = $_SESSION['aus'];
         $time = new DateTime('now', new DateTimeZone('Asia/bangkok'));
-        $datee =  $time->format('Y-m-d H:i:s');
+        $datee = $time->format('Y-m-d H:i:s');
 
         $select_andmin = query("SELECT * from tbl_user where aus='$aus'");
         confirm($select_andmin);
@@ -339,7 +346,7 @@ function registration()
 
         if (!empty($f_name)) {
 
-            if ($f_extension == 'jpg' || $f_extension == 'jpeg' ||   $f_extension == 'png' || $f_extension == 'gif') {
+            if ($f_extension == 'jpg' || $f_extension == 'jpeg' || $f_extension == 'png' || $f_extension == 'gif') {
 
                 if ($f_size >= 1000000) {
 
@@ -351,7 +358,7 @@ function registration()
               </script>');
                     redirect('itemt?registration');
                 } else {
-                    move_uploaded_file($image_temp_location,  UPLOAD_DIRECTORY_UDER . DS . $user_photo);
+                    move_uploaded_file($image_temp_location, UPLOAD_DIRECTORY_UDER . DS . $user_photo);
                     $image = $user_photo;
 
                     if (isset($_POST['txtemail'])) {
@@ -458,12 +465,12 @@ function registration()
         $userrole = $_POST['txtselect_option'];
         $id = $_POST['btnupdate'];
 
-        $f_name                = $_FILES['file']['name'];
-        $image_temp_location   = $_FILES['file']['tmp_name'];
-        $f_size                = $_FILES['file']['size'];
-        $f_extension           = explode('.', $f_name);
-        $f_extension           = strtolower(end($f_extension));
-        $user_photo            = uniqid() . '.' . $f_extension;
+        $f_name = $_FILES['file']['name'];
+        $image_temp_location = $_FILES['file']['tmp_name'];
+        $f_size = $_FILES['file']['size'];
+        $f_extension = explode('.', $f_name);
+        $f_extension = strtolower(end($f_extension));
+        $user_photo = uniqid() . '.' . $f_extension;
 
         $select_img = query("SELECT img from tbl_user where user_id = $id");
         confirm($select_img);
@@ -471,7 +478,7 @@ function registration()
 
 
         if (!empty($f_name)) {
-            if ($f_extension == 'jpg' || $f_extension == 'jpeg' ||   $f_extension == 'png' || $f_extension == 'gif') {
+            if ($f_extension == 'jpg' || $f_extension == 'jpeg' || $f_extension == 'png' || $f_extension == 'gif') {
 
                 if ($f_size >= 1000000) {
 
@@ -483,7 +490,7 @@ function registration()
               </script>');
                     redirect('itemt?registration');
                 } else {
-                    move_uploaded_file($image_temp_location,  UPLOAD_DIRECTORY_UDER . DS . $user_photo);
+                    move_uploaded_file($image_temp_location, UPLOAD_DIRECTORY_UDER . DS . $user_photo);
                     $dbimage = $row['img'];
                     if ($dbimage != 'user.png') {
                         unlink("../resources/images/userpic/$dbimage");
@@ -789,119 +796,41 @@ function insert_update_delete()
 }
 
 
-function addproduct()
+function addProduct()
 {
-    $aus = $_SESSION['aus'];
-    if (isset($_POST['btnsave'])) {
 
-        $barcode       = $_POST['txtbarcode'];
-        $product       = $_POST['txtproductname'];
-        $category      = $_POST['txtselect_option'];
-        $description   = $_POST['txtdescription'];
-        $stock         = $_POST['txtstock'];
-        $purchasepricee = $_POST['txtpurchaseprice'];
-        $salepricee     = $_POST['txtsaleprice'];
+    if (!isset($_POST['btnsave']))
+        return;
 
-        //Image Code or File Code Start Here..
-        $f_name        = $_FILES['myfile']['name'];
-        $f_tmp         = $_FILES['myfile']['tmp_name'];
-        $f_size        = $_FILES['myfile']['size'];
-        $f_extension   = explode('.', $f_name);
-        $f_extension   = strtolower(end($f_extension));
-        $f_newfile     = uniqid() . '.' . $f_extension;
+    $aus = $_SESSION['aus'] ?? '';
+    $barcode = trim($_POST['txtbarcode'] ?? '');
+    $product = trim($_POST['txtproductname'] ?? '');
+    $category = trim($_POST['txtselect_option'] ?? '');
+    $desc = trim($_POST['txtdescription'] ?? '');
+    $stock = (int) ($_POST['txtstock'] ?? 0);
+    $purchase = (float) ($_POST['txtpurchaseprice'] ?? 0);
+    $sale = (float) ($_POST['txtsaleprice'] ?? 0);
 
-        $aus = $_SESSION['aus'];
+    // Exchange Rate
+    $stmt = query("SELECT exchange, usd_or_real FROM tbl_change WHERE aus=? LIMIT 1", [$aus]);
+    $row = $stmt->fetch(PDO::FETCH_OBJ);
 
-        $change = query("SELECT * from tbl_change where aus='$aus'");
-        confirm($change);
-        $row_exchange = fetchOneObj($change);
-        $exchange = $row_exchange->exchange;
-        $usd_or_real = $row_exchange->usd_or_real;
-        if ($usd_or_real == "usd") {
-            $saleprice = $salepricee;
-            $purchaseprice = $purchasepricee;
-        } else {
-            $saleprice = $salepricee / $exchange;
-            $purchaseprice = $purchasepricee / $exchange;
-        }
+    if ($row && $row->usd_or_real !== "usd") {
+        $purchase = $purchase / $row->exchange;
+        $sale = $sale / $row->exchange;
+    }
 
-        $store = "../productimages/" . $f_newfile;
+    // File Upload
+    $file = $_FILES['myfile'] ?? null;
+    $newName = null;
 
-        if ($f_extension == 'jpg' || $f_extension == 'jpeg' ||   $f_extension == 'png' || $f_extension == 'gif') {
+    if ($file && $file['error'] === UPLOAD_ERR_OK) {
+        $allowed = ['jpg', 'jpeg', 'png', 'gif'];
+        $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+        $newName = uniqid() . '.' . $ext;
+        $path = "../productimages/" . $newName;
 
-            if ($f_size >= 1000000) {
-
-                $_SESSION['status'] = "Max file should be 1MB";
-                $_SESSION['status_code'] = "warning";
-            } else {
-
-                if (move_uploaded_file($f_tmp, $store)) {
-
-                    $productimage = $f_newfile;
-
-                    if (empty($barcode)) {
-
-                        $insert = query("INSERT into tbl_product ( product,category,description,stock, purchaseprice, saleprice,image,aus) 
-                        values('{$product}','{$category}','{$description}','{$stock}','{$purchaseprice}','{$saleprice}','{$productimage}','{$aus}')");
-                        confirm($insert);
-
-                        $pid = last_id(); // which was the 5
-                        $inserts = query("INSERT into tbl_product_stock ( product_id,stock,price,aus) values('{$pid}','{$stock}','{$purchaseprice}','{$aus}')");
-
-                        date_default_timezone_set("Asia/Bangkok");
-                        $newbarcode = $pid . date('his');
-
-                        $update = query("UPDATE tbl_product SET barcode='$newbarcode' where pid='" . $pid . "'");
-
-                        if ($update and $inserts) {
-
-                            set_message(' <script>
-                            Swal.fire({
-                              icon: "success",
-                              title: "Product Inserted Successfully"
-                            });
-                          </script>');
-                            redirect('itemt?addproduct');
-                        } else {
-                            set_message(' <script>
-                            Swal.fire({
-                              icon: "error",
-                              title: "Product Inserted Failed"
-                            });
-                          </script>');
-                            redirect('itemt?addproduct');
-                        }
-                    } else {
-
-
-                        $insert = query("INSERT into tbl_product (barcode,product,category,description,stock,purchaseprice, saleprice,image,aus) 
-                        values('{$barcode}','{$product}','{$category}','{$description}','{$stock}','{$purchaseprice}','{$saleprice}','{$productimage}','{$aus}')");
-                        confirm($insert);
-
-
-                        if ($insert) {
-
-                            set_message(' <script>
-                            Swal.fire({
-                              icon: "success",
-                              title: "Product Inserted Successfully"
-                            });
-                          </script>');
-                            redirect('itemt?addproduct');
-                        } else {
-                            set_message(' <script>
-                            Swal.fire({
-                              icon: "error",
-                              title: "Product Inserted Failed"
-                            });
-                          </script>');
-                            redirect('itemt?addproduct');
-                        }
-                    }
-                }
-            }
-        } else {
-
+        if (!in_array($ext, $allowed)) {
             set_message(' <script>
             Swal.fire({
               icon: "warning",
@@ -909,8 +838,70 @@ function addproduct()
             });
           </script>');
             redirect('itemt?addproduct');
+            return;
+        }
+
+        if ($file['size'] > 1000000) {
+            set_message('<script>
+                    Swal.fire({
+                      icon: "warning",
+                      title: "Max file should be 1MB"
+                    });
+                </script>');
+            redirect('itemt?addproduct');
+            return;
+        }
+
+        if (!move_uploaded_file($file['tmp_name'], $path)) {
+            set_message(' <script>
+                            Swal.fire({
+                              icon: "error",
+                              title: "Product Inserted Failed"
+                            });
+                          </script>');
+            redirect('itemt?addproduct');
+            return;
         }
     }
+
+    // Insert Product
+    $stmt = query("INSERT INTO tbl_product (barcode, product, category, description, stock, purchaseprice, saleprice, image, aus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", [
+        $barcode ?: null,
+        $product,
+        $category,
+        $desc,
+        $stock,
+        $purchase,
+        $sale,
+        $newName,
+        $aus
+    ]);
+
+    $pid = last_id();
+
+    // Auto-generate barcode if empty
+    if (empty($barcode)) {
+        date_default_timezone_set("Asia/Bangkok");
+        $newbarcode = $pid . date('his');
+        $newBarcode = str_pad($pid, 13, date('his'), STR_PAD_LEFT);
+        query("UPDATE tbl_product SET barcode=? WHERE pid=?", [$newBarcode, $pid]);
+    }
+
+    // Insert Stock
+    query("INSERT INTO tbl_product_stock (product_id, stock, price, aus) VALUES (?, ?, ?, ?)", [
+        $pid,
+        $stock,
+        $purchase,
+        $aus
+    ]);
+
+    set_message(' <script>
+                            Swal.fire({
+                              icon: "success",
+                              title: "Product Inserted Successfully"
+                            });
+                          </script>');
+    redirect('itemt?addproduct');
 }
 
 
@@ -1051,15 +1042,15 @@ function edit_product()
     if (isset($_POST['btneditproduct'])) {
 
         // $barcode_txt       =$_POST['txtbarcode'];
-        $product_txt       = $_POST['txtproductname'];
-        $category_txt      = $_POST['txtselect_option'];
-        $description_txt   = $_POST['txtdescription'];
-        $stock_txt         = $_POST['txtstock'];
+        $product_txt = $_POST['txtproductname'];
+        $category_txt = $_POST['txtselect_option'];
+        $description_txt = $_POST['txtdescription'];
+        $stock_txt = $_POST['txtstock'];
         $purchaseprice_txt = $_POST['txtpurchaseprice'];
-        $saleprice_txt     = $_POST['txtsaleprice'];
+        $saleprice_txt = $_POST['txtsaleprice'];
 
         //Image Code or File Code Start Here..
-        $f_name        = $_FILES['myfile']['name'];
+        $f_name = $_FILES['myfile']['name'];
 
         $aus = $_SESSION['aus'];
 
@@ -1078,15 +1069,15 @@ function edit_product()
 
         if (!empty($f_name)) {
 
-            $f_tmp         = $_FILES['myfile']['tmp_name'];
-            $f_size        = $_FILES['myfile']['size'];
-            $f_extension   = explode('.', $f_name);
-            $f_extension   = strtolower(end($f_extension));
-            $f_newfile     = uniqid() . '.' . $f_extension;
+            $f_tmp = $_FILES['myfile']['tmp_name'];
+            $f_size = $_FILES['myfile']['size'];
+            $f_extension = explode('.', $f_name);
+            $f_extension = strtolower(end($f_extension));
+            $f_newfile = uniqid() . '.' . $f_extension;
 
             $store = "../productimages/" . $f_newfile;
 
-            if ($f_extension == 'jpg' || $f_extension == 'jpeg' ||   $f_extension == 'png' || $f_extension == 'gif') {
+            if ($f_extension == 'jpg' || $f_extension == 'jpeg' || $f_extension == 'png' || $f_extension == 'gif') {
 
                 if ($f_size >= 1000000) {
 
@@ -1187,7 +1178,7 @@ function hang()
 
     if (isset($_POST['btnedit_ch'])) {
 
-        $id       = $_POST['btnedit_ch'];
+        $id = $_POST['btnedit_ch'];
 
         $select = query("SELECT * from tbl_logo where id=$id");
         confirm($select);
@@ -1196,26 +1187,26 @@ function hang()
 
         // $barcode_txt       =$_POST['txtbarcode'];
 
-        $txtname       = $_POST['txtname'];
-        $txtaddres      = $_POST['txtaddres'];
-        $txtrod      = $_POST['txtrod'];
-        $txtphone      = $_POST['txtphone'];
+        $txtname = $_POST['txtname'];
+        $txtaddres = $_POST['txtaddres'];
+        $txtrod = $_POST['txtrod'];
+        $txtphone = $_POST['txtphone'];
 
 
         //Image Code or File Code Start Here..
-        $f_name        = $_FILES['file']['name'];
+        $f_name = $_FILES['file']['name'];
 
         if (!empty($f_name)) {
 
-            $f_tmp         = $_FILES['file']['tmp_name'];
-            $f_size        = $_FILES['file']['size'];
-            $f_extension   = explode('.', $f_name);
-            $f_extension   = strtolower(end($f_extension));
-            $f_newfile     = uniqid() . '.' . $f_extension;
+            $f_tmp = $_FILES['file']['tmp_name'];
+            $f_size = $_FILES['file']['size'];
+            $f_extension = explode('.', $f_name);
+            $f_extension = strtolower(end($f_extension));
+            $f_newfile = uniqid() . '.' . $f_extension;
 
             $store = "../productimages/logo/" . $f_newfile;
 
-            if ($f_extension == 'jpg' || $f_extension == 'jpeg' ||   $f_extension == 'png' || $f_extension == 'gif') {
+            if ($f_extension == 'jpg' || $f_extension == 'jpeg' || $f_extension == 'png' || $f_extension == 'gif') {
 
                 if ($f_size >= 1000000) {
 
@@ -1542,7 +1533,7 @@ function save_st()
 
     if (isset($_POST['save_st'])) {
 
-        $id            = $_SESSION['userid'];
+        $id = $_SESSION['userid'];
 
         $select = query("SELECT * from tbl_user where user_id=$id");
         confirm($select);
@@ -1551,26 +1542,26 @@ function save_st()
 
         // $barcode_txt       =$_POST['txtbarcode'];
 
-        $birthdayy      = $_POST['birthday'];
+        $birthdayy = $_POST['birthday'];
         $birthday = date("Y-m-d", strtotime($birthdayy));
-        $province      = $_POST['province'];
-        $username      = $_POST['username'];
+        $province = $_POST['province'];
+        $username = $_POST['username'];
 
 
         //Image Code or File Code Start Here..
-        $f_name        = $_FILES['file']['name'];
+        $f_name = $_FILES['file']['name'];
 
         if (!empty($f_name)) {
 
-            $f_tmp         = $_FILES['file']['tmp_name'];
-            $f_size        = $_FILES['file']['size'];
-            $f_extension   = explode('.', $f_name);
-            $f_extension   = strtolower(end($f_extension));
-            $f_newfile     = uniqid() . '.' . $f_extension;
+            $f_tmp = $_FILES['file']['tmp_name'];
+            $f_size = $_FILES['file']['size'];
+            $f_extension = explode('.', $f_name);
+            $f_extension = strtolower(end($f_extension));
+            $f_newfile = uniqid() . '.' . $f_extension;
 
             $store = "../resources/images/userpic/" . $f_newfile;
 
-            if ($f_extension == 'jpg' || $f_extension == 'jpeg' ||   $f_extension == 'png' || $f_extension == 'gif') {
+            if ($f_extension == 'jpg' || $f_extension == 'jpeg' || $f_extension == 'png' || $f_extension == 'gif') {
 
                 if ($f_size >= 1000000) {
 
@@ -1739,10 +1730,10 @@ function stock_liset()
 
         echo '
            <tr>
-           <td>' . $no     . '</td>
-           <td>' . $row->id     . '</td>
+           <td>' . $no . '</td>
+           <td>' . $row->id . '</td>
            <td>' . show_name_product($row->product_id) . '</td>
-           <td>' . $row->stock     . '</td>
+           <td>' . $row->stock . '</td>
            <td>' . $price . '</td>
            <td>' . $total . '</td>
            
@@ -1786,24 +1777,25 @@ function stock_list()
     $aus = $_SESSION['aus'];
     $selected_date = $_GET['date'] ?? null;
 
+    // Get stock list (JOIN with product)
     if ($selected_date) {
-        $stmt = query(
-            "SELECT * FROM tbl_product_stock 
-         WHERE aus = ? AND DATE(date) = ? 
-         ORDER BY id DESC",
-            [$aus, $selected_date]
-        );
+        $selected_datee = date("Y-m-d", strtotime($selected_date));
+        $stmt = query("SELECT ps.*, p.image, p.product 
+            FROM tbl_product_stock ps
+            JOIN tbl_product p ON ps.product_id = p.pid
+            WHERE ps.aus = ? AND DATE(ps.date) = ?
+            ORDER BY ps.id DESC
+        ", [$aus, $selected_datee]);
     } else {
-        $stmt = query(
-            "SELECT * FROM tbl_product_stock 
-         WHERE aus = ? 
-         ORDER BY id DESC",
-            [$aus]
-        );
+        $stmt = query("SELECT ps.*, p.image, p.product
+            FROM tbl_product_stock ps
+            JOIN tbl_product p ON ps.product_id = p.pid
+            WHERE ps.aus = ?
+            ORDER BY ps.product_id DESC
+        ", [$aus]);
     }
 
     $stocks = $stmt->fetchAll(PDO::FETCH_OBJ);
-
 
     // Get exchange rate
     $stmt2 = query("SELECT * FROM tbl_change WHERE aus = ? LIMIT 1", [$aus]);
@@ -1812,56 +1804,43 @@ function stock_list()
     $exchange = $row_exchange->exchange ?? 4000;
     $usd_or_real = $row_exchange->usd_or_real ?? "usd";
 
+    // 👉 កំណត់ symbol តាមលំនាំដើម
+    if ($usd_or_real === "usd") {
+        $symbol = "$";
+    } else {
+        $symbol = "៛";
+    }
+
     $subtotal = 0;
     $totals = 0;
     $no = 1;
 
     foreach ($stocks as $row) {
-        // Get product
-        $stmt3 = query("SELECT * FROM tbl_product WHERE pid = ? LIMIT 1", [$row->product_id]);
-        $roww = $stmt3->fetch(PDO::FETCH_OBJ);
+        // កំណត់តម្លៃ
         if ($usd_or_real === "usd") {
-            $USD_usd = "$";
-            $price_num = $row->price; // unit price
+            $unit_price = $row->price;
         } else {
-            $USD_usd = "៛";
-            $price_num = $row->price * $exchange; // unit price in Riel
+            $unit_price = $row->price * $exchange;
         }
 
-        if ($usd_or_real == "usd") {
-            $USD_usd = "$";
-            $price = number_format($row->price, 2) . $USD_usd;
-            $total = number_format($row->price * $row->stock) . $USD_usd;
-            $totall = $row->price * $row->stock;
-            $subtotal += $row->price;
-            $totals += $totall;
-            $totalss = number_format($totals, 2) . $USD_usd;
-            $subtotall = number_format($subtotal, 2) . $USD_usd;
-        } else {
-            $USD_usd = "៛";
-            $pricee = $row->price * $exchange;
-            $price = number_format($pricee);
-            $total = number_format($pricee * $row->stock);
-            $totall = $pricee * $row->stock;
-            $subtotal += $pricee;
-            $totals += $totall;
-            $totalss = number_format($totals) . $USD_usd;
-            $subtotall = number_format($subtotal) . $USD_usd;
-        }
+        $total_price = $unit_price * $row->stock;
 
+        $subtotal += $unit_price;
+        $totals += $total_price;
 
         echo "
            <tr>
              <td>{$no}</td>
              <td>{$row->id}</td>
              <td>" . show_name_product($row->product_id) . "</td>
+             <td>" . $row->date . "</td>
              <td>{$row->stock}</td>
-             <td>{$price}</td>
-             <td>{$total}</td>
-             <td><img src='../productimages/{$roww->image}' class='img-rounded' width='40' height='40'></td>
+             <td>" . number_format($unit_price, $usd_or_real === "usd" ? 2 : 0) . "{$symbol}</td>
+             <td>" . number_format($total_price, $usd_or_real === "usd" ? 2 : 0) . "{$symbol}</td>
+             <td><img src='../productimages/{$row->image}' class='img-rounded' width='40' height='40'></td>
              <td>
                <div class='btn-group'>
-                 <a href='itemt?editstock&id={$row->id}' class='btn btn-success'  role='button'>
+                 <a href='itemt?editstock&id={$row->id}' class='btn btn-success'>
                    <span class='fa fa-edit' style='color:#fff' data-toggle='tooltip' title='Edit Product'></span>
                  </a>
                  <button id='{$row->id}' class='btn btn-danger btndelete'>
@@ -1872,25 +1851,27 @@ function stock_list()
            </tr>";
         $no++;
     }
-    if ($usd_or_real == "usd") {
 
-        $totalss = number_format($totals, 2) . $USD_usd;
-        $subtotall = number_format($subtotal, 2) . $USD_usd;
-    } else {
-
-        $totalss = number_format($totals) . $USD_usd;
-        $subtotall = number_format($subtotal) . $USD_usd;
-    }
+    // សរុប
+    $subtotall = number_format($subtotal, $usd_or_real === "usd" ? 2 : 0) . $symbol;
+    $totalss = number_format($totals, $usd_or_real === "usd" ? 2 : 0) . $symbol;
 
     echo "
         <tr>
-          <td></td><td></td><td></td>
+          <td></td>
+          <td></td>
+          <td></td>
           <th>សរុប</th>
           <td><span class='badge badgeth badge-danger'>{$subtotall}</span></td>
           <td><span class='badge badgeth badge-success'>{$totalss}</span></td>
-          <td></td><td></td>
+          <td></td>
+          <td></td>
+          <td></td>
         </tr>";
 }
+
+
+
 
 
 
@@ -2001,10 +1982,12 @@ function display_messag_signin()
         echo $_SESSION['messagee'];
     }
 }
-function fetchAllObj($stmt) {
+function fetchAllObj($stmt)
+{
     return $stmt->fetchAll(PDO::FETCH_OBJ);
 }
 
-function fetchOneObj($stmt) {
+function fetchOneObj($stmt)
+{
     return $stmt->fetch(PDO::FETCH_OBJ);
 }

@@ -2,30 +2,30 @@
 
 include_once '../../config.php';
 
-$barcode = $_GET["id"];
-$aus = $_SESSION['aus'];
 
-$query =  query("SELECT * from tbl_product WHERE aus=$aus and barcode = $barcode");
-confirm($query);
-$roww = $query->fetch_assoc();
-$pid = $roww['pid'];
+$barcode = $_GET["id"] ?? null;
+$aus = $_SESSION['aus'] ?? null;
+$pid = null;
 
-?>
-
-
-<option value="" disabled selected>Select Product</option>
-
-<?php
-$select = query("SELECT * from tbl_product where aus=$aus order by pid desc");
-confirm($select);
-
-while ($row = $select->fetch_assoc()) {
-
-?>
-    <option value="<?php echo $row['pid']; ?>" <?php if ($row['pid'] == $pid) { ?> selected="selected" <?php } ?> ><?php echo $row['product']; ?></option>
-
-<?php
-
+if ($barcode && $aus) {
+    $query = query("SELECT * FROM tbl_product WHERE aus=? AND barcode=?", [$aus, $barcode]);
+    if ($query && $query->rowCount() > 0) {
+        $roww = fetch_assoc($query);
+        $pid = $roww['pid'];
+    }
 }
+?>
 
+<option value="" disabled <?= !$pid ? "selected" : "" ?>>Select Product</option>
+
+<?php
+$select = query("SELECT * FROM tbl_product WHERE aus=? ORDER BY pid DESC", [$aus]);
+while ($row = fetch_assoc($select)) {
+    $selected = ($row['pid'] == $pid) ? "selected" : "";
+    ?>
+    <option value="<?= htmlspecialchars($row['pid']) ?>" <?= $selected ?>>
+        <?= htmlspecialchars($row['product']) ?>
+    </option>
+    <?php
+}
 ?>

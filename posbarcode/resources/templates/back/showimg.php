@@ -2,27 +2,25 @@
 
 include_once '../../config.php';
 
-
-
+$aus = $_SESSION['aus'];
 if (!empty($_GET["id"])) {
     $barcode = $_GET["id"];
-    $query =  query("SELECT * from tbl_product WHERE barcode = $barcode");
-    confirm($query);
+    $query = query("SELECT * FROM tbl_product WHERE barcode=? AND aus=?", [$barcode, $aus]);
 
-    if (mysqli_num_rows($query) == 1) {
-        $row = $query->fetch_object();
+    if ($query->rowCount() == 1) {
+        $row = $query->fetch(PDO::FETCH_OBJ);
         $img = $row->image;
-        echo '<img width="300" src="../productimages/' . $img . '" alt="">';
+        echo '<img width="300" src="../productimages/' . htmlspecialchars($img) . '" alt="">';
     }
+
 } elseif (!empty($_GET["pid"])) {
 
     $id = $_GET["pid"];
-    $query =  query("SELECT * from tbl_product WHERE pid = $id");
-    confirm($query);
+    $query = query("SELECT * FROM tbl_product WHERE pid=? AND aus=?", [$id, $aus]);
 
-    if (mysqli_num_rows($query) == 1) {
-        $row = $query->fetch_object();
+    if ($query->rowCount() == 1) {
+        $row = $query->fetch(PDO::FETCH_OBJ);
         $img = $row->image;
-        echo '<img width="300" src="../productimages/' . $img . '" alt="">';
+        echo '<img width="300" src="../productimages/' . htmlspecialchars($img) . '" alt="">';
     }
 }

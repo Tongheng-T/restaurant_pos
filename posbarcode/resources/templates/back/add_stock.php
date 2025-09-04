@@ -2,7 +2,7 @@
 
 
 
-if ($_SESSION['useremail'] == ""  or $_SESSION['role'] == "User") {
+if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
 
   header('location:../');
 }
@@ -13,28 +13,22 @@ addstock();
 
 $aus = $_SESSION['aus'];
 
-$change = query("SELECT * from tbl_change where aus='$aus'");
-confirm($change);
-$row_exchange = $change->fetch_object();
+$stmt = query("SELECT exchange, usd_or_real FROM tbl_change WHERE aus=? LIMIT 1", [$aus]);
+$row_exchange = fetchOneObj($stmt);
 $exchange = $row_exchange->exchange;
 $usd_or_real = $row_exchange->usd_or_real;
 
-if ($usd_or_real == "usd") {
-  $USD_usd = "$";
-
-} else {
-  $USD_usd = "៛";
-
-
-}
+// សញ្ញា currency
+$USD_usd = ($usd_or_real == "usd") ? "$" : "៛";
 ?>
 <style>
-  .imgpro{
+  .imgpro {
     border: 1px solid #3175b9;
-    border-radius:5px;
-    
+    border-radius: 5px;
+
   }
-  .imgpro img{
+
+  .imgpro img {
     margin-left: 36px;
     /* filter: blur(5px);
     filter: brightness(0.5);
@@ -84,25 +78,26 @@ if ($usd_or_real == "usd") {
 
                   <div class="form-group">
                     <label>Barcode</label>
-                    <input type="text" class="form-control barcode" placeholder="Enter Barcode" id="barcode" name="txtbarcode" autocomplete="off">
+                    <input type="text" class="form-control barcode" placeholder="Enter Barcode" id="barcode"
+                      name="txtbarcode" autocomplete="off">
                   </div>
 
                   <div class="form-group">
                     <label>Product Name</label>
-                    <select id="pname"  class="form-control select2s" name="txtselect_option" required>
+                    <select id="pname" class="form-control select2s" name="txtselect_option" required>
                       <option value="" disabled selected>Select Product</option>
 
                       <?php
-                      $select = query("SELECT * from tbl_product where aus=$aus order by pid desc");
-                      confirm($select);
+                      $select = query("SELECT * FROM tbl_product WHERE aus=? ORDER BY pid DESC", [$aus]);
+                      while ($row = fetch_assoc($select)) {
 
-                      while ($row = $select->fetch_assoc()) {
-                        extract($row);
 
-                      ?>
-                        <option value="<?php echo $row['pid']; ?>"><?php echo $row['product']; ?></option>
-
-                      <?php
+                        ?>
+                        <option value="<?php echo $row['pid']; ?>">
+                          <?php echo htmlspecialchars($row['product']); ?>
+                        </option>
+                        
+                        <?php
 
                       }
 
@@ -114,16 +109,19 @@ if ($usd_or_real == "usd") {
 
                   <div class="form-group">
                     <label>Stock Quantity</label>
-                    <input type="number" min="1" step="any" class="form-control" placeholder="Enter Stock" name="txtstock" autocomplete="off" required>
+                    <input type="number" min="1" step="any" class="form-control" placeholder="Enter Stock"
+                      name="txtstock" autocomplete="off" required>
                   </div>
 
                   <div class="form-group">
-                    <label>Purchase Price (<?php echo $USD_usd?>)</label>
-                    <input type="number" min="0" step="any" class="form-control" placeholder="Enter Stock" name="txtpurchaseprice" id="purchaseprice" autocomplete="off" required>
+                    <label>Purchase Price (<?php echo $USD_usd ?>)</label>
+                    <input type="number" min="0" step="any" class="form-control" placeholder="Enter Stock"
+                      name="txtpurchaseprice" id="purchaseprice" autocomplete="off" required>
                   </div>
                   <div class="form-group">
-                    <label>Sale Price (<?php echo $USD_usd?>)</label>
-                    <input type="number" min="0.1" step="any" class="form-control" placeholder="Enter Stock" name="txtsaleprice" id="saleprice" autocomplete="off" required>
+                    <label>Sale Price (<?php echo $USD_usd ?>)</label>
+                    <input type="number" min="0.1" step="any" class="form-control" placeholder="Enter Stock"
+                      name="txtsaleprice" id="saleprice" autocomplete="off" required>
                   </div>
 
 
@@ -134,12 +132,12 @@ if ($usd_or_real == "usd") {
 
                 <div class="col-md-6">
 
-                <div class="imgpro" id="showimg">
-                 
+                  <div class="imgpro" id="showimg">
 
 
 
-                </div>
+
+                  </div>
 
 
 
@@ -164,6 +162,6 @@ if ($usd_or_real == "usd") {
     </div>
     <!-- /.row -->
   </div><!-- /.container-fluid -->
-  
+
 </div>
 <!-- /.content -->

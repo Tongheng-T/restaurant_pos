@@ -3,42 +3,42 @@ ob_start();
 session_name("project2_session");
 session_start();
 
-function getLocationByIP($ip)
-{
-    $location = 'Unknown';
+// function getLocationByIP($ip)
+// {
+//     $location = 'Unknown';
 
-    if (!in_array($ip, ['127.0.0.1', '::1']) && filter_var($ip, FILTER_VALIDATE_IP)) {
-        $url = "http://ip-api.com/json/{$ip}?fields=status,country,regionName,city";
-        $context = stream_context_create([
-            'http' => ['timeout' => 2]
-        ]);
-        $response = @file_get_contents($url, false, $context);
+//     if (!in_array($ip, ['127.0.0.1', '::1']) && filter_var($ip, FILTER_VALIDATE_IP)) {
+//         $url = "http://ip-api.com/json/{$ip}?fields=status,country,regionName,city";
+//         $context = stream_context_create([
+//             'http' => ['timeout' => 2]
+//         ]);
+//         $response = @file_get_contents($url, false, $context);
 
-        if ($response !== false) {
-            $geo = json_decode($response, true);
-            if (!empty($geo) && $geo['status'] === 'success') {
-                $city = $geo['city'] ?? '';
-                $region = $geo['regionName'] ?? '';
-                $country = $geo['country'] ?? '';
-                $location = trim("{$country}", ", ");
-            }
-        }
-    }
+//         if ($response !== false) {
+//             $geo = json_decode($response, true);
+//             if (!empty($geo) && $geo['status'] === 'success') {
+//                 $city = $geo['city'] ?? '';
+//                 $region = $geo['regionName'] ?? '';
+//                 $country = $geo['country'] ?? '';
+//                 $location = trim("{$country}", ", ");
+//             }
+//         }
+//     }
 
-    return $location;
-}
-$ip = $_SERVER['HTTP_X_FORWARDED_FOR'] ??
-    $_SERVER['HTTP_CLIENT_IP'] ??
-    $_SERVER['REMOTE_ADDR'] ?? 'UNKNOWN';
-$location = getLocationByIP($ip);
+//     return $location;
+// }
+// $ip = $_SERVER['HTTP_X_FORWARDED_FOR'] ??
+//     $_SERVER['HTTP_CLIENT_IP'] ??
+//     $_SERVER['REMOTE_ADDR'] ?? 'UNKNOWN';
+// $location = getLocationByIP($ip);
 
 
-// ប្រសិនបើមិនមែនកម្ពុជា (KH) → block
-if ($location !== "Cambodia") {
-    header("HTTP/1.1 403 Forbidden");
-    echo "Access denied. This website is only available in Cambodia. $location";
-    exit();
-}
+// // ប្រសិនបើមិនមែនកម្ពុជា (KH) → block
+// if ($location !== "Cambodia") {
+//     header("HTTP/1.1 403 Forbidden");
+//     echo "Access denied. This website is only available in Cambodia. $location";
+//     exit();
+// }
 // session_destroy();
 
 defined("DS") ? null : define("DS", DIRECTORY_SEPARATOR);
@@ -58,10 +58,10 @@ defined("UPLOAD_DIRECTORY") ? null : define("UPLOAD_DIRECTORY", __DIR__ . DS . "
 
 defined("DB_HOST") ? null : define("DB_HOST", "localhost");
 
-defined("DB_USER") ? null : define("DB_USER", "pos_barcode");
+defined("DB_USER") ? null : define("DB_USER", "root");
 
 
-defined("DB_PASS") ? null : define("DB_PASS", "mLZdbWHz5MECMSMG");
+defined("DB_PASS") ? null : define("DB_PASS", "");
 
 defined("DB_NAME") ? null : define("DB_NAME", "pos_barcode_db");
 

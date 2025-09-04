@@ -49,11 +49,11 @@
 
 <!-- pos order -->
 <script src="../resources/templates/back/orderlistt.js"></script>
-
+<?php require_once("jsl.php"); ?>
 
 <?php require_once("edit_order.php"); ?>
 <?php require_once("posJS.php"); ?>
-<?php require_once("jsl.php"); ?>
+
 
 
 
@@ -224,8 +224,14 @@
     //   document.location = '../resources/templates/back/unsetting.php';
       
     // })
-    
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/sw.js")
+    .then(reg => console.log("Service Worker Registered:", reg))
+    .catch(err => console.log("SW registration failed:", err));
+}
 </script>
+
+
 
 </body>
 

@@ -1,7 +1,7 @@
 <script>
-  $(function() {
+  $(function () {
 
-    $('.select2s').on('change', function() {
+    $('.select2s').on('change', function () {
 
       var bacodeid = $(".select2s").val();
 
@@ -14,7 +14,7 @@
           id: bacodeid
 
         },
-        success: function(data) {
+        success: function (data) {
 
           // alert(data["sj_price"])
           var bacode = data["bacode"];
@@ -27,7 +27,7 @@
     })
 
 
-    $(".barcode").keyup(function() {
+    $(".barcode").keyup(function () {
 
       var bacodeid = $('.barcode').val();
 
@@ -39,7 +39,7 @@
           id: bacodeid
 
         },
-        success: function(data) {
+        success: function (data) {
           $('#pname').html(data);
           $('#pname').append(data.htmlresponse);
 
@@ -49,86 +49,67 @@
 
 
 
-    $(".barcode").keyup(function() {
-
-      var bacodeid = $('.barcode').val();
+    $(".barcode").keyup(function () {
+      var bacodeid = $(".barcode").val();
 
       $.ajax({
         url: "../resources/templates/back/showimgg.php",
         method: "get",
         dataType: "json",
-        data: {
-          id: bacodeid
-
-        },
-
-        success: function(data) {
-
-          <?php
-          $change = query("SELECT * from tbl_change where aus = '$aus'");
-          confirm($change);
-          $row_exchange = $change->fetch_object();
-          $exchange = $row_exchange->exchange;
-          $usd_or_real = $row_exchange->usd_or_real;
-          ?>
-
-          if ('<?php echo $usd_or_real ?>' == 'usd') {
-            var purchaseprice = data["purchaseprice"];
-            var saleprice = data["saleprice"];
-
-          } else {
-            var purchaseprice = data["purchaseprice"] * <?php echo $exchange ?>;
-            var saleprice = data["saleprice"] * <?php echo $exchange ?>;
-
+        data: { id: bacodeid },
+        success: function (data) {
+          if (!data || !data.image) {
+            $("#showimg").html("<p style='color:red'>Not Found</p>");
+            return;
           }
+
+          let purchaseprice, saleprice;
+
+          if (data["usd_or_real"] === "usd") {
+            purchaseprice = data["purchaseprice"];
+            saleprice = data["saleprice"];
+          } else {
+            purchaseprice = data["purchaseprice"] * data["exchange"];
+            saleprice = data["saleprice"] * data["exchange"];
+          }
+
           $("#purchaseprice").val(purchaseprice);
-          $('#saleprice').val(saleprice);
-          $('#showimg').html('<img width="300" src="../productimages/' + data["image"] + '" alt="">');
+          $("#saleprice").val(saleprice);
+          $("#showimg").html(
+            '<img width="300" src="../productimages/' + data["image"] + '" alt="">'
+          );
+        },
+      });
+    });
 
-        }
-      })
-    })
 
-    $('.select2s').on('change', function() {
-
+    $('.select2s').on('change', function () {
       var bacodeid = $(".select2s").val();
 
-
       $.ajax({
         url: "../resources/templates/back/showimgg.php",
         method: "get",
         dataType: "json",
-        data: {
-          pid: bacodeid
+        data: { pid: bacodeid },
+        success: function (data) {
+          let purchaseprice, saleprice;
 
-        },
-        success: function(data) {
-          <?php
-          $change = query("SELECT * from tbl_change where aus = '$aus'");
-          confirm($change);
-          $row_exchange = $change->fetch_object();
-          $exchange = $row_exchange->exchange;
-          $usd_or_real = $row_exchange->usd_or_real;
-          ?>
-
-          if ('<?php echo $usd_or_real ?>' == 'usd') {
-            var purchaseprice = data["purchaseprice"];
-            var saleprice = data["saleprice"];
-
+          if (data["usd_or_real"] === "usd") {
+            purchaseprice = data["purchaseprice"];
+            saleprice = data["saleprice"];
           } else {
-            var purchaseprice = data["purchaseprice"] * <?php echo $exchange ?>;
-            var saleprice = data["saleprice"] * <?php echo $exchange ?>;
-
+            purchaseprice = data["purchaseprice"] * data["exchange"];
+            saleprice = data["saleprice"] * data["exchange"];
           }
 
           $("#purchaseprice").val(purchaseprice);
           $('#saleprice').val(saleprice);
           $('#showimg').html('<img width="300" src="../productimages/' + data["image"] + '" alt="">');
-
         }
-      })
-    })
+      });
+    });
 
+    
 
   });
 </script>

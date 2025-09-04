@@ -766,7 +766,7 @@ function registration()
 
         $username = $_POST['txtname'];
         $useremail = $_POST['txtemail'];
-        $userpassword = md5($_POST['txtpassword']);
+        $userpassword = password_hash($_POST['txtpassword'],PASSWORD_DEFAULT);
         $userrole = $_POST['txtselect_option'];
 
         $f_name                 = $_FILES['file']['name'];

@@ -128,3 +128,49 @@ $.fn[NAME].noConflict = function () {
 }
 
 export default Fullscreen
+
+  const fsBtn = document.getElementById("fullscreenBtn");
+
+  // function ចូល fullscreen
+  function openFullscreen() {
+    let elem = document.documentElement;
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    } else if (elem.webkitRequestFullscreen) { // Safari
+      elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) { // IE11
+      elem.msRequestFullscreen();
+    }
+  }
+
+  // function ចេញ fullscreen
+  function closeFullscreen() {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) {
+      document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) {
+      document.msExitFullscreen();
+    }
+  }
+
+  // ពេលចុច button
+  fsBtn.addEventListener("click", function(e) {
+    e.preventDefault();
+
+    if (!document.fullscreenElement) {
+      openFullscreen();
+      localStorage.setItem("fullscreen", "true");
+    } else {
+      closeFullscreen();
+      localStorage.removeItem("fullscreen");
+    }
+  });
+
+  // ពេល reload page → ចូល fullscreen វិញ ប្រសិនបើមាន state
+  window.addEventListener("load", function() {
+    if (localStorage.getItem("fullscreen") === "true") {
+      openFullscreen();
+    }
+  });
+  

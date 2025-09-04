@@ -108,7 +108,7 @@
                     Mart Shop Management System.
 
                 </p>
-                <a href="">Login Now <i class="ri-arrow-right-line"></i></a>
+                <a href="posbarcode">Login Now <i class="ri-arrow-right-line"></i></a>
             </div>
             <div class="card">
                 <span><i class="x-mdi-application"></i></span>
@@ -118,7 +118,7 @@
                     Water management system.
 
                 </p>
-                <a href="">Login Now <i class="ri-arrow-right-line"></i></a>
+                <a href="Water_management_system/">Login Now <i class="ri-arrow-right-line"></i></a>
             </div>
 
         </div>

@@ -1,12 +1,10 @@
 <?php
 
-if ($_SESSION['useremail'] == ""  or $_SESSION['role'] == "User") {
-
-  header('location:../');
-}
-
+check_admin_session();
 
 display_message();
+
+$aus = $_SESSION['aus'];
 ?>
 
 
@@ -36,23 +34,62 @@ display_message();
       <div class="col-lg-12">
 
 
+
+
+
+
         <div class="card card-primary card-outline">
           <div class="card-header">
             <h5 class="m-0">Product List :</h5>
-          </div>
             <form method="get" class="form-inline mb-3">
-              <input type="hidden" name="stock_list" >
+              <input type="hidden" name="stock_list">
               <label for="date" class="mr-2">ជ្រើសរើសថ្ងៃ:</label>
-              <input type="date" name="date" id="date" class="form-control mr-2"
-                value="<?php echo $_GET['date'] ?? date('Y-m-d'); ?>">
+              <input type="text" id="date" name="date" class="form-control"
+                value="<?php echo $_GET['date'] ?? date('d-m-Y'); ?>">
+
               <button type="submit" class="btn btn-primary">Filter</button>
             </form>
-            <table class="table table-striped table-hover " id="table_product">
+          </div>
+          <?php
+          // ទាញថ្ងៃដែលមានទិន្នន័យ
+          $dates = query("SELECT DISTINCT DATE(date) as d ,aus
+                FROM tbl_product_stock  WHERE aus = ? ORDER BY d DESC", [$aus]);
+          $available_dates = [];
+          while ($row = $dates->fetch(PDO::FETCH_ASSOC)) {
+            $available_dates[] = date("d-m-Y", strtotime($row['d']));
+          }
+
+          ?>
+
+
+
+          <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+          <script>
+            var availableDates = <?= json_encode($available_dates) ?>;
+
+            flatpickr("#date", {
+              dateFormat: "d-m-Y",
+              onDayCreate: function (dObj, dStr, fp, dayElem) {
+                let date = fp.formatDate(dayElem.dateObj, "d-m-Y");
+                if (availableDates.includes(date)) {
+                  // បន្ថែមចំណុចនៅក្រោមថ្ងៃ
+                  dayElem.innerHTML += "<span style='color:red;'>•</span>";
+                }
+              }
+            });
+          </script>
+
+            <!-- table-hover -->
+          <div class="card-body">
+            <table id="table_product" class="table table-bordered table-striped">
               <thead>
                 <tr>
                   <td>No</td>
                   <td>Id</td>
                   <td>Product</td>
+                  <td>Date</td>
                   <td>Stock</td>
                   <td>PurchasePrice</td>
                   <td>Total</td>
@@ -62,7 +99,6 @@ display_message();
                 </tr>
 
               </thead>
-
 
               <tbody>
 
@@ -83,3 +119,12 @@ display_message();
   </div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->
+
+ <script src="../plugins/jquery/jquery.min.js"></script>
+
+
+<script>
+  $(document).ready(function() {
+    $('#table_product').DataTable();
+  });
+</script>

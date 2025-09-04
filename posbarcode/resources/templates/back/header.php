@@ -10,8 +10,11 @@
     <link rel="icon" href="../ui/logo/48.ico" sizes="48x48">
     <link rel="icon" href="../ui/logo/96.ico" sizes="96x96">
     <link rel="icon" href="../ui/logo/256.ico" sizes="144x144">
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#000000">
     <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
     <!-- iCheck for checkboxes and radio inputs -->
@@ -100,7 +103,8 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="itemt?dashboard" class="brand-link">
-                <img src="../productimages/logo/<?php echo $logo ?>" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <img src="../productimages/logo/<?php echo $logo ?>" alt="AdminLTE Logo"
+                    class="brand-image img-circle elevation-3" style="opacity: .8">
                 <span class="brand-text font-weight-light">POS BARCODE</span>
             </a>
 
@@ -109,7 +113,8 @@
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="../resources/images/userpic/<?php img_user() ?>" class="img-circle elevation-2" alt="User Image">
+                        <img src="../resources/images/userpic/<?php img_user() ?>" class="img-circle elevation-2"
+                            alt="User Image">
                     </div>
                     <div class="info">
                         <a href="#" class="d-block"><?php htmlspecialchars(name_user()); ?></a>
@@ -119,7 +124,8 @@
 
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                        data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
 
@@ -202,7 +208,7 @@
 
                         <li class="nav-item">
                             <a href="itemt?" class="nav-link <?php actr("tablereport");
-                                                                actr("graphreport"); ?>">
+                            actr("graphreport"); ?>">
                                 <i class="nav-icon fas fa-chart-pie"></i>
                                 <p>
                                     Sales Report
