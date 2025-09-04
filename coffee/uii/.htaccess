@@ -2,8 +2,6 @@ RewriteEngine On
 RewriteRule ^itemt?$ index.php
 RewriteRule ^itemt?$ index.php
 RewriteRule ^orderlist?$ index.php
-RewriteCond %{REQUEST_URI} ^/ui/?$
-RewriteRule ^ index.php [L
 
 # RewriteRule ^studentlist/?$ index.html
 # RewriteRule ^index/?$ index.html
