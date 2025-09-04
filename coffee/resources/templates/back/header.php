@@ -14,8 +14,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="icon" href="../ui/logo/48.ico" sizes="48x48">
     <link rel="icon" href="../ui/logo/96.ico" sizes="96x96">
     <link rel="icon" href="../ui/logo/256.ico" sizes="144x144">
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#000000">
     <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
@@ -67,7 +70,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     .table {
         background-color: white;
     }
-    .default_hover:hover{
+
+    .default_hover:hover {
         cursor: not-allowed;
     }
 
@@ -96,7 +100,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </ul>
 
             <div class="text-center" style="width: 100%;">
-                <p class="text-center  badge badgeth badge-primary"><i class="fas fa-calendar-alt"> Date: &nbsp;</i><span id="time"></span></p>
+                <p class="text-center  badge badgeth badge-primary"><i class="fas fa-calendar-alt"> Date:
+                        &nbsp;</i><span id="time"></span></p>
             </div>
 
             <!-- Right navbar links -->
@@ -104,7 +109,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <li class="nav-item dropdown">
                     <a class="nav-link showmess" id="notify_btn" data-toggle="dropdown">
                         <i class="far fa-bell"></i>
-                        <span class="badge badge-warning navbar-badge" id="notifications"><?php echo num_message() ?></span>
+                        <span class="badge badge-warning navbar-badge"
+                            id="notifications"><?php echo num_message() ?></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" id="showmess">
                         <span class="dropdown-item dropdown-header"><?php echo num_message() ?> Notifications</span>
@@ -127,7 +133,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </nav>
 
         <!-- Modal -->
-        <div class="modal fade come-from-modal right" id="staticBackdropp" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal fade come-from-modal right" id="staticBackdropp" data-backdrop="static" data-keyboard="false"
+            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog ">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -155,7 +162,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         $datetime4 = new DateTime($new_date);
         $datetime3 = new DateTime($showdate);
         $intervall = $datetime3->diff($datetime4);
-        $texttt =   $intervall->format('%a');
+        $texttt = $intervall->format('%a');
         $numdatee = $row->tim - $texttt;
         if ($numdatee >= 10) {
             $color = 'success';
@@ -175,7 +182,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="itemt?pos" class="brand-link">
-                <img src="../productimages/logo/<?php echo $logo ?>" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <img src="../productimages/logo/<?php echo $logo ?>" alt="AdminLTE Logo"
+                    class="brand-image img-circle elevation-3" style="opacity: .8">
                 <span class="brand-text font-weight-light">COFFEE POS</span>
             </a>
 
@@ -184,17 +192,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="../resources/images/userpic/<?php img_user() ?>" class="img-circle elevation-2" alt="User Image">
+                        <img src="../resources/images/userpic/<?php img_user() ?>" class="img-circle elevation-2"
+                            alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="itemt?pos" class="d-block"><?php name_user(); ?><small class="badge badge-<?php echo $color ?>"><i class="far fa-clock"></i> <?php echo $numdatee ?> day</small></a>
+                        <a href="itemt?pos" class="d-block"><?php name_user(); ?><small
+                                class="badge badge-<?php echo $color ?>"><i class="far fa-clock"></i>
+                                <?php echo $numdatee ?> day</small></a>
                     </div>
                 </div>
 
 
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                        data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
 
@@ -262,7 +274,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                         <li class="nav-item">
                             <a href="itemt?" class="nav-link <?php actr("tablereport");
-                                                                actr("graphreport"); ?>">
+                            actr("graphreport"); ?>">
                                 <i class="nav-icon fas fa-chart-pie"></i>
                                 <p>
                                     Sales Report
