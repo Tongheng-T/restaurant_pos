@@ -1,16 +1,16 @@
-<?php require_once "resources/config.php"; ?>
+
 <!DOCTYPE html>
 <html lang="en">
-
+<?php require_once "resources/config.php"; ?>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>POS BARCODE | Log in | By:TH</title>
-    <link rel='shortcut icon' href="productimages/logo/256.ico" type="image/x-icon">
-    <link rel="icon" href="productimages/logo/32.ico" sizes="32x32">
-    <link rel="icon" href="productimages/logo/48.ico" sizes="48x48">
-    <link rel="icon" href="productimages/logo/96.ico" sizes="96x96">
-    <link rel="icon" href="productimages/logo/256.ico" sizes="144x144">
+    <link rel='shortcut icon' href="ui/logo/256.ico" type="image/x-icon">
+    <link rel="icon" href="ui/logo/32.ico" sizes="32x32">
+    <link rel="icon" href="ui/logo/48.ico" sizes="48x48">
+    <link rel="icon" href="ui/logo/96.ico" sizes="96x96">
+    <link rel="icon" href="ui/logo/256.ico" sizes="144x144">
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#000000">
     <!-- Google Font: Source Sans Pro -->
