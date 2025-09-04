@@ -1,7 +1,4 @@
-DirectoryIndex index.php
 RewriteEngine On
-RewriteCond %{REQUEST_URI} ^/ui/?$
-RewriteRule ^ index.php [L
 RewriteCond %{REQUEST_FILENAME} -f
 RewriteRule ^ - [L]
 RewriteRule ^imguser/?$ index.html
