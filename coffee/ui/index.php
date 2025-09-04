@@ -13,7 +13,7 @@ if ($_SESSION['role'] == "Admin") {
 <?php check_login();
 if (!empty($_SESSION['message'])) {
     display_message();
-}else {
+} else {
     $id = $_SESSION['userid'];
     $query = query("SELECT * from tbl_user where user_id = '$id' limit 1");
     $row = $query->fetch_object();
@@ -22,7 +22,7 @@ if (!empty($_SESSION['message'])) {
     $datetime4 = new DateTime($new_date);
     $datetime3 = new DateTime($showdate);
     $intervall = $datetime3->diff($datetime4);
-    $texttt =   $intervall->format('%a');
+    $texttt = $intervall->format('%a');
     $numdatee = $row->tim - $texttt;
 
     if ($numdatee <= 0) {
@@ -58,7 +58,8 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
 ?>
 
 <!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
@@ -69,8 +70,8 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
             </div>
             <div class="modal-body">
                 <div class="contentt">
-                    
-                <?php service_list(); ?>
+
+                    <?php service_list(); ?>
                 </div>
             </div>
             <div class="modal-footer">
@@ -85,10 +86,11 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
 <?php savepay() ?>
 
 
-<div class="modal fade" id="exampleModalpay" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModalpay" data-backdrop="static" data-keyboard="false" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content" id="payuser">
-           
+
 
         </div>
     </div>
@@ -99,9 +101,14 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
 
     <?php
 
-   if (rtrim($_SERVER['REQUEST_URI'], '/') == "/ui/" || $_SERVER['REQUEST_URI'] == "/ui/itemt") {
-    include(TEMPLATE_BACK . "/pos.php");
-}
+
+    $uri = rtrim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+
+    if ($uri == "/ui" || $uri == "/ui/itemt") {
+        include(TEMPLATE_BACK . "/pos.php");
+    }
+
+
 
     if (isset($_GET['dashboard'])) {
 
@@ -182,7 +189,7 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
 
         include(TEMPLATE_BACK . "/logout.php");
     }
-    
+
     ?>
 
 
