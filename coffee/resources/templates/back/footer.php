@@ -335,14 +335,14 @@
     });
 
     notification.addEventListener('click', function() {
-      window.open('https://coffee.thposs.uk/');
+      window.open('https://coffee.thposs.uk/ui/itemt');
     });
     setTimeout(() => notification.close(), 5 * 2000);
 
   }
 
   function playMusic() {
-    let audio = new Audio("../../resources/sound/notification.mp3");
+    let audio = new Audio("../resources/sound/notification.mp3");
     audio.play()
   }
 
