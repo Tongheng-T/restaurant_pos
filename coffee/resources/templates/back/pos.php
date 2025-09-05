@@ -1,6 +1,6 @@
 <?php
 
-if ($_SESSION['useremail'] == ""  or $_SESSION['role'] == "") {
+if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "") {
 
   header('location:../');
 }
@@ -10,26 +10,26 @@ $aus = $_SESSION['aus'];
 
 if (isset($_POST['btnsaveorder'])) {
 
-  $orderdate     = date('Y-m-d');
-  $subtotall      = $_POST['txtsubtotal'];
-  $discount      = $_POST['txtdiscount'];
-  $discountp      = $_POST['txtdiscountp'];
+  $orderdate = date('Y-m-d');
+  $subtotall = $_POST['txtsubtotal'];
+  $discount = $_POST['txtdiscount'];
+  $discountp = $_POST['txtdiscountp'];
 
-  $totall         = $_POST['txttotal'];
-  $payment_type  = $_POST['rb'];
-  $due           = $_POST['txtdue'];
-  $paid          = $_POST['txtpaid'];
+  $totall = $_POST['txttotal'];
+  $payment_type = $_POST['rb'];
+  $due = $_POST['txtdue'];
+  $paid = $_POST['txtpaid'];
 
 
   /////
 
-  $arr_pid     = $_POST['pid_arr'];
+  $arr_pid = $_POST['pid_arr'];
 
-  $arr_name    = $_POST['product_arr'];
+  $arr_name = $_POST['product_arr'];
 
-  $arr_qty     = $_POST['quantity_arr'];
-  $arr_pricee   = $_POST['price_c_arr'];
-  $arr_totall   = $_POST['saleprice_arr'];
+  $arr_qty = $_POST['quantity_arr'];
+  $arr_pricee = $_POST['price_c_arr'];
+  $arr_totall = $_POST['saleprice_arr'];
   $saler_name = $_SESSION['username'];
   $saler_id = $_SESSION['userid'];
 
@@ -220,7 +220,8 @@ $_SESSION['change'] = ' ';
                   <hr>
 
                   <h3>Total Amount: <?php echo $dddd ?></h3>
-                  <div><button type="button" class="btn btn-success btn-block btn-payment" data-toggle="modal" data-target="#exampleModal">Payment</button></div>
+                  <div><button type="button" class="btn btn-success btn-block btn-payment" data-toggle="modal"
+                      data-target="#exampleModal">Payment</button></div>
 
 
 
@@ -237,7 +238,7 @@ $_SESSION['change'] = ' ';
                       echo ' <a class="nav-item nav-link" data-id="' . $roww["catid"] . '" data-toggle="tab"> ' . $roww["category"] . '</a>';
                     }
                     ?>
-
+                    <a class="nav-item nav-link" data-id="all" data-toggle="tab">ទាំងអស់ </a>
                   </div>
                 </nav>
                 <div id="list-menu" class="row mt-2"></div>
@@ -246,7 +247,8 @@ $_SESSION['change'] = ' ';
 
 
               <!-- Modal -->
-              <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
@@ -264,7 +266,8 @@ $_SESSION['change'] = ' ';
                         </div>
                         <input type="text" class="form-control" name="txtsubtotal" id="txtsubtotal_id" readonly>
                         <div class="input-group-append">
-                          <span class="input-group-text"><i class="fa" style="font-size: 24px;"><?php echo $USD_usd ?></i></span>
+                          <span class="input-group-text"><i class="fa"
+                              style="font-size: 24px;"><?php echo $USD_usd ?></i></span>
                         </div>
                       </div>
 
@@ -273,7 +276,8 @@ $_SESSION['change'] = ' ';
                         <div class="input-group-prepend">
                           <span class="input-group-text">DISCOUNT(%)</span>
                         </div>
-                        <input type="text" class="form-control" name="txtdiscountp" id="txtdiscount_p" value=" <?php echo $row->discount ?> " readonly>
+                        <input type="text" class="form-control" name="txtdiscountp" id="txtdiscount_p"
+                          value=" <?php echo $row->discount ?> " readonly>
                         <div class="input-group-append">
                           <span class="input-group-text">%</span>
                         </div>
@@ -286,7 +290,8 @@ $_SESSION['change'] = ' ';
                         </div>
                         <input type="text" class="form-control" name="txtdiscount" id="txtdiscount_n" readonly>
                         <div class="input-group-append">
-                          <span class="input-group-text"><i class="fa" style="font-size: 24px;"><?php echo $USD_usd ?></i></span>
+                          <span class="input-group-text"><i class="fa"
+                              style="font-size: 24px;"><?php echo $USD_usd ?></i></span>
                         </div>
                       </div>
 
@@ -296,9 +301,11 @@ $_SESSION['change'] = ' ';
                         <div class="input-group-prepend">
                           <span class="input-group-text">TOTAL(<?php echo $USD_txt ?>)</span>
                         </div>
-                        <input type="text" class="form-control form-control-lg total" name="txttotal" id="txttotall" readonly>
+                        <input type="text" class="form-control form-control-lg total" name="txttotal" id="txttotall"
+                          readonly>
                         <div class="input-group-append">
-                          <span class="input-group-text"><i class="fa" style="font-size: 24px;"><?php echo $USD_usd ?></i></span>
+                          <span class="input-group-text"><i class="fa"
+                              style="font-size: 24px;"><?php echo $USD_usd ?></i></span>
                         </div>
                       </div>
 
@@ -306,9 +313,11 @@ $_SESSION['change'] = ' ';
                         <div class="input-group-prepend">
                           <span class="input-group-text">TOTAL(<?php echo $Change ?>)</span>
                         </div>
-                        <input type="text" class="form-control form-control-lg total" name="txttotalkhr" id="txttotall_khr" readonly>
+                        <input type="text" class="form-control form-control-lg total" name="txttotalkhr"
+                          id="txttotall_khr" readonly>
                         <div class="input-group-append">
-                          <span class="input-group-text"><i class="fa" style="font-size: 24px;"><?php echo $Change_rea ?></i></span>
+                          <span class="input-group-text"><i class="fa"
+                              style="font-size: 24px;"><?php echo $Change_rea ?></i></span>
                         </div>
                       </div>
 
@@ -341,7 +350,8 @@ $_SESSION['change'] = ' ';
                         </div>
                         <input type="text" class="form-control" name="txtdue" id="txtdue" readonly>
                         <div class="input-group-append">
-                          <span class="input-group-text"> <i class="fa" style="font-size: 24px;"><?php echo $USD_usd ?></i></span>
+                          <span class="input-group-text"> <i class="fa"
+                              style="font-size: 24px;"><?php echo $USD_usd ?></i></span>
                         </div>
                       </div>
 
@@ -351,7 +361,8 @@ $_SESSION['change'] = ' ';
                         </div>
                         <input type="text" class="form-control" name="txtduekh" id="txtduekh" readonly>
                         <div class="input-group-append">
-                          <span class="input-group-text"> <i class="fa" style="font-size: 24px;"><?php echo $Change_rea ?></i></span>
+                          <span class="input-group-text"> <i class="fa"
+                              style="font-size: 24px;"><?php echo $Change_rea ?></i></span>
                         </div>
                       </div>
 
@@ -361,14 +372,16 @@ $_SESSION['change'] = ' ';
                         </div>
                         <input type="text" class="form-control" name="txtpaid" id="txtpaid">
                         <div class="input-group-append">
-                          <span class="input-group-text"> <i class="fa" style="font-size: 24px;"><?php echo $USD_usd ?></i></span>
+                          <span class="input-group-text"> <i class="fa"
+                              style="font-size: 24px;"><?php echo $USD_usd ?></i></span>
                         </div>
                       </div>
 
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                      <button type="submit" class="btn btn-primary btn-save-payment" name="btnsaveorder" disabled>Save Payment</button>
+                      <button type="submit" class="btn btn-primary btn-save-payment" name="btnsaveorder" disabled>Save
+                        Payment</button>
                     </div>
                   </div>
                 </div>

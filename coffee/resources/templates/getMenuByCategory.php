@@ -6,8 +6,16 @@ require_once("../config.php");
 
 if (isset($_GET['id'])) {
     $aus = $_SESSION['aus'];
-    $select = query("SELECT * from tbl_product where aus = '$aus' AND category_id =" . $_GET['id'] . " ");
-    confirm($select);
+    $cat_id = $_GET['id'] === "all" ? null : (int)$_GET['id'];
+    if ($cat_id) {
+
+        $select = query("SELECT * from tbl_product where aus = '$aus' AND category_id =" . $_GET['id'] . " ");
+        confirm($select);
+    } else {
+        $select = query("SELECT * from tbl_product where aus = '$aus' ");
+        confirm($select);
+    }
+
     $id = $_SESSION['userid'];
     $query = query("SELECT * from tbl_user where user_id = '$id' limit 1");
     $row = $query->fetch_object();
@@ -16,7 +24,7 @@ if (isset($_GET['id'])) {
     $datetime4 = new DateTime($new_date);
     $datetime3 = new DateTime($showdate);
     $intervall = $datetime3->diff($datetime4);
-    $texttt =   $intervall->format('%a');
+    $texttt = $intervall->format('%a');
     $numdatee = $row->tim - $texttt;
     $defaultt = '';
     $default_hover = '';
@@ -46,7 +54,7 @@ if (isset($_GET['id'])) {
             $USD_txt = "KHR";
             // $m_pricee = $menu["m_price"] * $exchange;
             $salepricee = $menu["saleprice"] * $exchange;
-            $saleprice =  number_format($salepricee) . $USD_usd;
+            $saleprice = number_format($salepricee) . $USD_usd;
             // $m_price = number_format($m_pricee) . $USD_usd;
         }
 
