@@ -364,6 +364,19 @@
 </script>
 
 <script>
+  document.getElementById('btnsave').addEventListener('click', function (e) {
+    Swal.fire({
+      title: 'Saving...',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+  });
+
+</script>
+
+<script>
   function handleSubmit(form) {
     let spinner = document.getElementById('spinner');
     let text = document.getElementById('btnText');
