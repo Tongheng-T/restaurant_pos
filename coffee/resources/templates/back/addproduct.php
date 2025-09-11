@@ -81,7 +81,13 @@ addproduct();
             </div>
             <div class="card-footer">
               <div class="text-center">
-                <button type="submit" name="btnsave" id="btnsave" class="btn btn-primary">Save</button>
+                <button type="submit" name="btnsave" id="btnsave" class="btn btn-primary">
+                  <span class="spinner-border spinner-border-sm d-none" id="spinner" role="status"
+                    aria-hidden="true"></span>
+                  <span id="btnText">Save</span>
+                </button>
+
+
               </div>
             </div>
           </form>

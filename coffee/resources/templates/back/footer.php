@@ -73,37 +73,37 @@
 
 
 <script>
-// document.addEventListener("DOMContentLoaded", () => {
-//   document.querySelectorAll("form").forEach(form => {
-//     form.addEventListener("submit", () => {
-//       const btn = form.querySelector("[type=submit]");
-//       if (btn) {
-//         btn.disabled = true;
-//         btn.innerHTML = "⏳ Processing...";
-//       }
-//     });
-//   });
-// });
+  // document.addEventListener("DOMContentLoaded", () => {
+  //   document.querySelectorAll("form").forEach(form => {
+  //     form.addEventListener("submit", () => {
+  //       const btn = form.querySelector("[type=submit]");
+  //       if (btn) {
+  //         btn.disabled = true;
+  //         btn.innerHTML = "⏳ Processing...";
+  //       }
+  //     });
+  //   });
+  // });
 
 
 
-// document.addEventListener("DOMContentLoaded", () => {
-//   const form = document.querySelector("form");
-//   const btn = document.getElementById("btnsave");
+  // document.addEventListener("DOMContentLoaded", () => {
+  //   const form = document.querySelector("form");
+  //   const btn = document.getElementById("btnsave");
 
-//   if (form && btn) {
-//     form.addEventListener("submit", function () {
-//       btn.disabled = true;
-//       btn.innerText = "Processing...";
-//     });
-//   }
-// });
+  //   if (form && btn) {
+  //     form.addEventListener("submit", function () {
+  //       btn.disabled = true;
+  //       btn.innerText = "Processing...";
+  //     });
+  //   }
+  // });
 
 
 </script>
 
 <script>
-  $('.id').on('click', function() {
+  $('.id').on('click', function () {
     var id = $(this).attr("id");
 
     $.ajax({
@@ -113,7 +113,7 @@
         id: id
 
       },
-      success: function(data) {
+      success: function (data) {
 
         $('#payuser').html(data);
         $('#payuser').append(data.htmlresponse);
@@ -122,7 +122,7 @@
     });
   });
 
-  $('.send_telegram').on('click', function() {
+  $('.send_telegram').on('click', function () {
     var id = $(this).attr("id");
     $.ajax({
       url: "../resources/templates/back/send_telegram.php",
@@ -130,28 +130,28 @@
       data: {
         id: id
       },
-      success: function(data) {
+      success: function (data) {
         window.location.href = 'itemt?tablereport';
       }
 
     });
   })
 
-  $('#print-btn').click(function() {
+  $('#print-btn').click(function () {
     var nw = window.open("print2", "_blank", "height=500,width=800")
-    setTimeout(function() {
+    setTimeout(function () {
       nw.print()
-      setTimeout(function() {
+      setTimeout(function () {
         nw.close()
       }, 500)
     }, 1000)
   })
 
-  $('#print-btn_user').click(function() {
+  $('#print-btn_user').click(function () {
     var nw = window.open("print_category", "_blank", "height=500,width=800")
-    setTimeout(function() {
+    setTimeout(function () {
       nw.print()
-      setTimeout(function() {
+      setTimeout(function () {
         nw.close()
       }, 500)
     }, 1000)
@@ -159,12 +159,12 @@
 
 
 
-  $(document).ready(function() {
+  $(document).ready(function () {
     $('#table_category').DataTable();
   });
 </script>
 <script>
-  $(document).ready(function() {
+  $(document).ready(function () {
     $('#table_product').DataTable({
       "autoWidth": false
 
@@ -173,7 +173,7 @@
   });
 </script>
 <script>
-  $(document).ready(function() {
+  $(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
   });
 </script>
@@ -183,8 +183,8 @@
 <!-- ........//////////////////productlist -->
 
 <script>
-  $(document).ready(function() {
-    $('.btndelete').click(function() {
+  $(document).ready(function () {
+    $('.btndelete').click(function () {
       var tdh = $(this);
       var id = $(this).attr("id");
 
@@ -205,7 +205,7 @@
             data: {
               pidd: id
             },
-            success: function(data) {
+            success: function (data) {
               tdh.parents('tr').hide();
             }
 
@@ -228,7 +228,7 @@
 <!-- taxdis -->
 
 <script>
-  $(document).ready(function() {
+  $(document).ready(function () {
     $('#table_tax').DataTable();
   });
 </script>
@@ -255,7 +255,7 @@
 </script>
 
 <script>
-  $(document).ready(function() {
+  $(document).ready(function () {
     $('#table_report').DataTable({
 
       "order": [
@@ -267,7 +267,7 @@
 
 <!-- dashboard -->
 <script>
-  $(document).ready(function() {
+  $(document).ready(function () {
     $('#table_recentorder').DataTable({
 
       "order": [
@@ -282,7 +282,7 @@
 
   //     });
   // });
-  $('.viw').on('click', function() {
+  $('.viw').on('click', function () {
     var id = $(this).attr("id");
 
     $.ajax({
@@ -292,7 +292,7 @@
         id: id
 
       },
-      success: function(data) {
+      success: function (data) {
 
         window.location.reload(data);
 
@@ -300,11 +300,11 @@
     });
   });
 
-  $('.showmess').on('click', function() {
+  $('.showmess').on('click', function () {
 
     $.ajax({
       url: "../resources/templates/back/showmess.php",
-      success: function(data) {
+      success: function (data) {
         $('#showmess').html(data);
         $('#showmess').append(data.htmlresponse);
 
@@ -315,13 +315,13 @@
   function getUserStatus() {
     jQuery.ajax({
       url: '../resources/templates/back/a.php',
-      success: function(result) {
+      success: function (result) {
         jQuery('#notifications').html(result);
       }
     })
   }
 
-  setInterval(function() {
+  setInterval(function () {
     getUserStatus();
   }, 1000);
 
@@ -334,7 +334,7 @@
       vibration: [300, 200, 300],
     });
 
-    notification.addEventListener('click', function() {
+    notification.addEventListener('click', function () {
       window.open('https://coffee.thposs.uk/ui/itemt');
     });
     setTimeout(() => notification.close(), 5 * 2000);
@@ -350,19 +350,32 @@
   function updateUserStatuss() {
     jQuery.ajax({
       url: '../resources/templates/update_user_status.php',
-      success: function() {
+      success: function () {
 
       }
     })
   }
 
-  setInterval(function() {
+  setInterval(function () {
     updateUserStatuss();
   }, 3000);
 
 
 </script>
 
+<script>
+  function handleSubmit(form) {
+    let spinner = document.getElementById('spinner');
+    let text = document.getElementById('btnText');
+    let btn = document.getElementById('btnsave');
+
+    spinner.classList.remove('d-none');
+    text.textContent = " Saving...";
+    btn.disabled = true;
+
+    return true; // let form submit normally
+  }
+</script>
 
 </body>
 
