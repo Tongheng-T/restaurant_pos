@@ -183,45 +183,41 @@
 <!-- ........//////////////////productlist -->
 
 <script>
-  $(document).ready(function () {
-    $('.btndelete').click(function () {
-      var tdh = $(this);
-      var id = $(this).attr("id");
+  
+$(document).on("click", ".btndelete", function () {
+  var tdh = $(this);
+  var id = $(this).data("id");
 
-      Swal.fire({
-        title: 'Do you want to delete?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
-      }).then((result) => {
-        if (result.isConfirmed) {
+  Swal.fire({
+    title: 'Do you want to delete?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!'
+  }).then((result) => {
+    if (result.isConfirmed) {
 
-          $.ajax({
-            url: '../resources/templates/back/productdelete.php',
-            type: 'post',
-            data: {
-              pidd: id
-            },
-            success: function (data) {
-              tdh.parents('tr').hide();
-            }
-
-          });
-
-          Swal.fire(
-            'Deleted!',
-            'Your Product has been deleted.',
-            'success'
-          )
+      $.ajax({
+        url: '../resources/templates/back/productdelete.php',
+        type: 'post',
+        data: { pidd: id },
+        success: function (data) {
+          tdh.parents('tr').fadeOut();
         }
-      })
+      });
 
-    });
+      Swal.fire(
+        'Deleted!',
+        'Your Product has been deleted.',
+        'success'
+      )
+    }
+  })
+});
 
-  });
+
 </script>
 
 

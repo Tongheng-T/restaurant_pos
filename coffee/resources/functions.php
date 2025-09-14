@@ -121,7 +121,7 @@ function login_user()
 
         // Update login time
         $date = new DateTime('now', new DateTimeZone('Asia/Bangkok'));
-        $datee =  $date->format('Y-m-d H:i:s');
+        $datee = $date->format('Y-m-d H:i:s');
         $time = time() + 10;
         $res = query("UPDATE tbl_user SET login_online='$time', last_login='$datee',last_ip = '$ip', location_ip = '$location' WHERE user_id=" . $_SESSION['userid']);
         confirm($res);
@@ -199,7 +199,7 @@ function name_user()
 {
     if (isset($_SESSION['userid'])) {
         $id = $_SESSION['userid'];
-        $query =  query("SELECT * FROM tbl_user WHERE user_id =  $id ");
+        $query = query("SELECT * FROM tbl_user WHERE user_id =  $id ");
         confirm($query);
         while ($row = fetch_array($query)) {
 
@@ -306,16 +306,16 @@ function registrationc()
         $userpassword = password_hash($_POST['txtpassword'], PASSWORD_DEFAULT);
         $userrole = $_POST['txtselect_option'];
 
-        $f_name                 = $_FILES['file']['name'];
-        $image_temp_location    = $_FILES['file']['tmp_name'];
-        $f_size                 = $_FILES['file']['size'];
-        $f_extension            = explode('.', $f_name);
-        $f_extension            = strtolower(end($f_extension));
-        $user_photo             = uniqid() . '.' . $f_extension;
+        $f_name = $_FILES['file']['name'];
+        $image_temp_location = $_FILES['file']['tmp_name'];
+        $f_size = $_FILES['file']['size'];
+        $f_extension = explode('.', $f_name);
+        $f_extension = strtolower(end($f_extension));
+        $user_photo = uniqid() . '.' . $f_extension;
         $verified = 1;
         $aus = $_SESSION['aus'];
         $time = new DateTime('now', new DateTimeZone('Asia/bangkok'));
-        $datee =  $time->format('Y-m-d H:i:s');
+        $datee = $time->format('Y-m-d H:i:s');
 
         $select_andmin = query("SELECT * from tbl_user where aus='$aus'");
         confirm($select_andmin);
@@ -325,7 +325,7 @@ function registrationc()
 
         if (!empty($f_name)) {
 
-            if ($f_extension == 'jpg' || $f_extension == 'jpeg' ||   $f_extension == 'png' || $f_extension == 'gif') {
+            if ($f_extension == 'jpg' || $f_extension == 'jpeg' || $f_extension == 'png' || $f_extension == 'gif') {
 
                 if ($f_size >= 1000000) {
 
@@ -337,7 +337,7 @@ function registrationc()
               </script>');
                     redirect('itemt?registration');
                 } else {
-                    move_uploaded_file($image_temp_location,  UPLOAD_DIRECTORY_UDER . DS . $user_photo);
+                    move_uploaded_file($image_temp_location, UPLOAD_DIRECTORY_UDER . DS . $user_photo);
                     $image = $user_photo;
 
                     if (isset($_POST['txtemail'])) {
@@ -453,12 +453,12 @@ function registrationc()
         $userrole = $_POST['txtselect_option'];
         $id = $_POST['btnupdate'];
 
-        $f_name                = $_FILES['file']['name'];
-        $image_temp_location   = $_FILES['file']['tmp_name'];
-        $f_size                = $_FILES['file']['size'];
-        $f_extension           = explode('.', $f_name);
-        $f_extension           = strtolower(end($f_extension));
-        $user_photo            = uniqid() . '.' . $f_extension;
+        $f_name = $_FILES['file']['name'];
+        $image_temp_location = $_FILES['file']['tmp_name'];
+        $f_size = $_FILES['file']['size'];
+        $f_extension = explode('.', $f_name);
+        $f_extension = strtolower(end($f_extension));
+        $user_photo = uniqid() . '.' . $f_extension;
 
         $select_img = query("SELECT img from tbl_user where user_id = $id");
         confirm($select_img);
@@ -466,7 +466,7 @@ function registrationc()
 
 
         if (!empty($f_name)) {
-            if ($f_extension == 'jpg' || $f_extension == 'jpeg' ||   $f_extension == 'png' || $f_extension == 'gif') {
+            if ($f_extension == 'jpg' || $f_extension == 'jpeg' || $f_extension == 'png' || $f_extension == 'gif') {
 
                 if ($f_size >= 1000000) {
 
@@ -478,7 +478,7 @@ function registrationc()
               </script>');
                     redirect('itemt?registration');
                 } else {
-                    move_uploaded_file($image_temp_location,  UPLOAD_DIRECTORY_UDER . DS . $user_photo);
+                    move_uploaded_file($image_temp_location, UPLOAD_DIRECTORY_UDER . DS . $user_photo);
                     $dbimage = $row['img'];
                     if ($dbimage != 'user.png') {
                         unlink("../resources/images/userpic/$dbimage");
@@ -614,7 +614,8 @@ function registrationc()
 
 function registration()
 {
-    if (!isset($_POST['btnsave'])) return;
+    if (!isset($_POST['btnsave']))
+        return;
 
     $username = htmlspecialchars(trim($_POST['txtname']));
     $useremail = filter_var($_POST['txtemail'], FILTER_SANITIZE_EMAIL);
@@ -809,7 +810,7 @@ function img_user()
 {
     if (isset($_SESSION['userid'])) {
         $id = $_SESSION['userid'];
-        $query =  query("SELECT * FROM tbl_user WHERE user_id =  $id ");
+        $query = query("SELECT * FROM tbl_user WHERE user_id =  $id ");
         confirm($query);
         while ($row = fetch_array($query)) {
 
@@ -1025,25 +1026,25 @@ function addproducts()
         }
         $_SESSION['form_submitted'] = true; // mark as submitted
 
-        $product       = $_POST['txtproductname'];
-        $category      = $_POST['txtselect_option'];
-        $description   = $_POST['txtdescription'];
-        $saleprice     = $_POST['txtsaleprice'];
+        $product = $_POST['txtproductname'];
+        $category = $_POST['txtselect_option'];
+        $description = $_POST['txtdescription'];
+        $saleprice = $_POST['txtsaleprice'];
 
         // Image Upload
-        $f_name        = $_FILES['myfile']['name'];
-        $f_tmp         = $_FILES['myfile']['tmp_name'];
-        $f_size        = $_FILES['myfile']['size'];
-        $f_extension   = explode('.', $f_name);
-        $f_extension   = strtolower(end($f_extension));
-        $f_newfile     = uniqid() . '.' . $f_extension;
-        $aus           = $_SESSION['aus'];
+        $f_name = $_FILES['myfile']['name'];
+        $f_tmp = $_FILES['myfile']['tmp_name'];
+        $f_size = $_FILES['myfile']['size'];
+        $f_extension = explode('.', $f_name);
+        $f_extension = strtolower(end($f_extension));
+        $f_newfile = uniqid() . '.' . $f_extension;
+        $aus = $_SESSION['aus'];
 
         $change = query("SELECT * from tbl_change where aus='$aus'");
         confirm($change);
         $row_exchange = $change->fetch_object();
-        $exchange     = $row_exchange->exchange;
-        $usd_or_real  = $row_exchange->usd_or_real;
+        $exchange = $row_exchange->exchange;
+        $usd_or_real = $row_exchange->usd_or_real;
 
         if ($usd_or_real == "usd") {
             $salepricee = $saleprice;
@@ -1107,7 +1108,7 @@ function addproducts()
 function addproduct()
 {
     global $conn; // ប្រសិនបើ query() ប្រើ mysqli connection
-    
+
     if (isset($_POST['btnsave'])) {
 
         // ✅ Check CSRF token
@@ -1129,11 +1130,11 @@ function addproduct()
         $_SESSION['form_submitted'] = true; // mark as submitted
 
         // ✅ Sanitize inputs
-        $product     = trim($_POST['txtproductname']);
-        $category    = (int) $_POST['txtselect_option'];
+        $product = trim($_POST['txtproductname']);
+        $category = (int) $_POST['txtselect_option'];
         $description = trim($_POST['txtdescription']);
-        $saleprice   = (float) $_POST['txtsaleprice'];
-        $aus         = $_SESSION['aus'];
+        $saleprice = (float) $_POST['txtsaleprice'];
+        $aus = $_SESSION['aus'];
 
         // ✅ Check duplicate product
         $check = query("SELECT * FROM tbl_product WHERE product='" . escape_string($product) . "' AND aus='" . escape_string($aus) . "' LIMIT 1");
@@ -1148,17 +1149,17 @@ function addproduct()
         }
 
         // ✅ Image Upload
-        $f_name      = $_FILES['myfile']['name'];
-        $f_tmp       = $_FILES['myfile']['tmp_name'];
-        $f_size      = $_FILES['myfile']['size'];
+        $f_name = $_FILES['myfile']['name'];
+        $f_tmp = $_FILES['myfile']['tmp_name'];
+        $f_size = $_FILES['myfile']['size'];
         $f_extension = strtolower(pathinfo($f_name, PATHINFO_EXTENSION));
-        $f_newfile   = uniqid() . '.' . $f_extension;
-        $store       = "../productimages/" . $f_newfile;
+        $f_newfile = uniqid() . '.' . $f_extension;
+        $store = "../productimages/" . $f_newfile;
 
         // ✅ MIME validation
-        $allowed_ext   = ['jpg', 'jpeg', 'png', 'gif'];
+        $allowed_ext = ['jpg', 'jpeg', 'png', 'gif'];
         $allowed_mimes = ['image/jpeg', 'image/png', 'image/gif'];
-        $mime          = mime_content_type($f_tmp);
+        $mime = mime_content_type($f_tmp);
 
         if (!in_array($f_extension, $allowed_ext) || !in_array($mime, $allowed_mimes)) {
             set_message('<script>
@@ -1182,9 +1183,9 @@ function addproduct()
         $change = query("SELECT * FROM tbl_change WHERE aus='" . escape_string($aus) . "'");
         confirm($change);
         $row_exchange = $change->fetch_object();
-        $exchange     = $row_exchange->exchange;
-        $usd_or_real  = $row_exchange->usd_or_real;
-        $salepricee   = ($usd_or_real == "usd") ? $saleprice : ($saleprice / $exchange);
+        $exchange = $row_exchange->exchange;
+        $usd_or_real = $row_exchange->usd_or_real;
+        $salepricee = ($usd_or_real == "usd") ? $saleprice : ($saleprice / $exchange);
 
         // ✅ Move uploaded file
         if (!move_uploaded_file($f_tmp, $store)) {
@@ -1264,13 +1265,13 @@ function productlist()
            <tr>
 
            <td>' . $no . '</td>
-           <td>' . $row->product . '</td>
-           <td>' . show_category_name($row->category_id) . '</td>
-           <td>' . $row->description . '</td>
-           
+           <td>' . htmlspecialchars($row->product) . '</td>
+           <td>' . htmlspecialchars(show_category_name($row->category_id)) . '</td>
+           <td>' . htmlspecialchars($row->description) . '</td>
+
            <td>' . $saleprice . '</td>
            
-           <td><image src="../productimages/' . $row->image . '" class="img-rounded" width="40px" height="40px/"></td>
+           <td><img src="../productimages/' . htmlspecialchars($row->image) . '" class="img-rounded" width="40" height="40" /></td>
            
            <td>
            
@@ -1282,8 +1283,9 @@ function productlist()
            
            <a href="itemt?editproduct&id=' . $row->pid . '" class="btn btn-success btn-xs" role="button"><span class="fa fa-edit" style="color:#ffffff" data-toggle="tooltip" title="Edit Product"></span></a>
            
-           <button id=' . $row->pid . '  class="btn btn-danger btn-xs btndelete"><span class="fa fa-trash" style="color:#ffffff" data-toggle="tooltip" title="Delete Product"></span></button>
            
+           <button data-id="' . $row->pid . '" class="btn btn-danger btn-xs btndelete"><span class="fa fa-trash" style="color:#ffffff" data-toggle="tooltip" title="Delete Product"></span></button>
+
            </div>
            
            </td>
@@ -1361,26 +1363,26 @@ function edit_product()
     if (isset($_POST['btneditproduct'])) {
 
         // $barcode_txt       =$_POST['txtbarcode'];
-        $product_txt       = $_POST['txtproductname'];
-        $category_txt      = $_POST['txtselect_option'];
-        $description_txt   = $_POST['txtdescription'];
+        $product_txt = $_POST['txtproductname'];
+        $category_txt = $_POST['txtselect_option'];
+        $description_txt = $_POST['txtdescription'];
 
-        $saleprice_txt     = $_POST['txtsaleprice'];
+        $saleprice_txt = $_POST['txtsaleprice'];
 
         //Image Code or File Code Start Here..
-        $f_name        = $_FILES['myfile']['name'];
+        $f_name = $_FILES['myfile']['name'];
 
         if (!empty($f_name)) {
 
-            $f_tmp         = $_FILES['myfile']['tmp_name'];
-            $f_size        = $_FILES['myfile']['size'];
-            $f_extension   = explode('.', $f_name);
-            $f_extension   = strtolower(end($f_extension));
-            $f_newfile     = uniqid() . '.' . $f_extension;
+            $f_tmp = $_FILES['myfile']['tmp_name'];
+            $f_size = $_FILES['myfile']['size'];
+            $f_extension = explode('.', $f_name);
+            $f_extension = strtolower(end($f_extension));
+            $f_newfile = uniqid() . '.' . $f_extension;
 
             $store = "../productimages/" . $f_newfile;
 
-            if ($f_extension == 'jpg' || $f_extension == 'jpeg' ||   $f_extension == 'png' || $f_extension == 'gif') {
+            if ($f_extension == 'jpg' || $f_extension == 'jpeg' || $f_extension == 'png' || $f_extension == 'gif') {
 
                 if ($f_size >= 1000000) {
 
@@ -1579,7 +1581,7 @@ function hang()
 
     if (isset($_POST['btnedit_ch'])) {
 
-        $id       = $_POST['btnedit_ch'];
+        $id = $_POST['btnedit_ch'];
 
         $select = query("SELECT * from tbl_logo where id=$id");
         confirm($select);
@@ -1588,26 +1590,26 @@ function hang()
 
         // $barcode_txt       =$_POST['txtbarcode'];
 
-        $txtname       = $_POST['txtname'];
-        $txtaddres      = $_POST['txtaddres'];
-        $txtrod      = $_POST['txtrod'];
-        $txtphone      = $_POST['txtphone'];
+        $txtname = $_POST['txtname'];
+        $txtaddres = $_POST['txtaddres'];
+        $txtrod = $_POST['txtrod'];
+        $txtphone = $_POST['txtphone'];
 
 
         //Image Code or File Code Start Here..
-        $f_name        = $_FILES['file']['name'];
+        $f_name = $_FILES['file']['name'];
 
         if (!empty($f_name)) {
 
-            $f_tmp         = $_FILES['file']['tmp_name'];
-            $f_size        = $_FILES['file']['size'];
-            $f_extension   = explode('.', $f_name);
-            $f_extension   = strtolower(end($f_extension));
-            $f_newfile     = uniqid() . '.' . $f_extension;
+            $f_tmp = $_FILES['file']['tmp_name'];
+            $f_size = $_FILES['file']['size'];
+            $f_extension = explode('.', $f_name);
+            $f_extension = strtolower(end($f_extension));
+            $f_newfile = uniqid() . '.' . $f_extension;
 
             $store = "../productimages/logo/" . $f_newfile;
 
-            if ($f_extension == 'jpg' || $f_extension == 'jpeg' ||   $f_extension == 'png' || $f_extension == 'gif') {
+            if ($f_extension == 'jpg' || $f_extension == 'jpeg' || $f_extension == 'png' || $f_extension == 'gif') {
 
                 if ($f_size >= 1000000) {
 
@@ -1738,7 +1740,7 @@ function save_st()
 
     if (isset($_POST['save_st'])) {
 
-        $id            = $_SESSION['userid'];
+        $id = $_SESSION['userid'];
 
         $select = query("SELECT * from tbl_user where user_id=$id");
         confirm($select);
@@ -1747,26 +1749,26 @@ function save_st()
 
         // $barcode_txt       =$_POST['txtbarcode'];
 
-        $birthdayy      = $_POST['birthday'];
+        $birthdayy = $_POST['birthday'];
         $birthday = date("Y-m-d", strtotime($birthdayy));
-        $province      = $_POST['province'];
-        $username      = $_POST['username'];
+        $province = $_POST['province'];
+        $username = $_POST['username'];
 
 
         //Image Code or File Code Start Here..
-        $f_name        = $_FILES['file']['name'];
+        $f_name = $_FILES['file']['name'];
 
         if (!empty($f_name)) {
 
-            $f_tmp         = $_FILES['file']['tmp_name'];
-            $f_size        = $_FILES['file']['size'];
-            $f_extension   = explode('.', $f_name);
-            $f_extension   = strtolower(end($f_extension));
-            $f_newfile     = uniqid() . '.' . $f_extension;
+            $f_tmp = $_FILES['file']['tmp_name'];
+            $f_size = $_FILES['file']['size'];
+            $f_extension = explode('.', $f_name);
+            $f_extension = strtolower(end($f_extension));
+            $f_newfile = uniqid() . '.' . $f_extension;
 
             $store = "../resources/images/userpic/" . $f_newfile;
 
-            if ($f_extension == 'jpg' || $f_extension == 'jpeg' ||   $f_extension == 'png' || $f_extension == 'gif') {
+            if ($f_extension == 'jpg' || $f_extension == 'jpeg' || $f_extension == 'png' || $f_extension == 'gif') {
 
                 if ($f_size >= 1000000) {
 
@@ -1966,8 +1968,8 @@ function getLocationByIP($ip)
         if ($response !== false) {
             $geo = json_decode($response, true);
             if (!empty($geo) && $geo['status'] === 'success') {
-                $city    = $geo['city'] ?? '';
-                $region  = $geo['regionName'] ?? '';
+                $city = $geo['city'] ?? '';
+                $region = $geo['regionName'] ?? '';
                 $country = $geo['country'] ?? '';
                 $location = trim("{$city}, {$region}, {$country}", ", ");
             }
@@ -1977,13 +1979,15 @@ function getLocationByIP($ip)
     return $location;
 }
 
-function generate_csrf_token() {
+function generate_csrf_token()
+{
     if (empty($_SESSION['csrf_token'])) {
         $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
     }
     return $_SESSION['csrf_token'];
 }
 
-function validate_csrf_token($token) {
+function validate_csrf_token($token)
+{
     return isset($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], $token);
 }
