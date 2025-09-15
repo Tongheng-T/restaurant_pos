@@ -115,6 +115,8 @@ unset($_SESSION['messagee']) ?>
                     <div class="row">
                         <div class="col-8">
                             <div class="icheck-primary">
+                                <p class="mb-1"><label><input type="checkbox" name="remember"> Remember Me</label></p>
+                                 
                                 <!-- <a href="#" class="toastrDefaultInfo">I forgot my password</a> -->
                                 <p class="mb-1">
                                     <a href="apii/forgot_password">I forgot my password</a>

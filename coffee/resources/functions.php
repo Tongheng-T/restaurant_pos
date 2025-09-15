@@ -125,7 +125,12 @@ function login_user()
         $time = time() + 10;
         $res = query("UPDATE tbl_user SET login_online='$time', last_login='$datee',last_ip = '$ip', location_ip = '$location' WHERE user_id=" . $_SESSION['userid']);
         confirm($res);
-
+        if (isset($_POST['remember'])) {
+            $token = bin2hex(random_bytes(32));
+            $user_id = $row['user_id'];
+            $stmt = query("UPDATE tbl_user SET remember_token='$token' WHERE user_id=" . $_SESSION['userid']);
+            setcookie("remember_token", $token, time() + (86400 * 30), "/", "", true, true);
+        }
         // SweetAlert message
         $roleText = ($role == 'Admin') ? 'Admin' : 'User';
         set_message("<script>
