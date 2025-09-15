@@ -2,6 +2,21 @@
 
 <?php
 
+if (!isset($_SESSION['useremail']) && isset($_COOKIE['remember_token'])) {
+    $token = $_COOKIE['remember_token'];
+    $select = query("SELECT * FROM tbl_user WHERE remember_token='$token' LIMIT 1");
+    confirm($select);
+
+    $user = mysqli_fetch_assoc($select);
+
+    if ($user) {
+        $_SESSION['useremail'] = $user['useremail'];
+        $_SESSION['role'] = $user['role'];
+        $_SESSION['aus'] = $user['aus'];
+         $_SESSION['userid'] = $user['user_id'];
+    }
+}
+
 if ($_SESSION['role'] == "Admin") {
     include_once(TEMPLATE_BACK . "/header.php");
 } else {
@@ -52,19 +67,6 @@ if (!empty($_SESSION['message'])) {
 
 
 
-if (!isset($_SESSION['useremail']) && isset($_COOKIE['remember_token'])) {
-    $token = $_COOKIE['remember_token'];
-    $select = query("SELECT * FROM users WHERE remember_token='$token' LIMIT 1");
-    confirm($select);
-
-    $user = mysqli_fetch_assoc($select);
-
-    if ($user) {
-        $_SESSION['useremail'] = $user['email'];
-        $_SESSION['role'] = $user['role'];
-        $_SESSION['aus'] = $user['aus'];
-    }
-}
 
 // បើគ្មាន session ឬ role = User
 if ($_SESSION['useremail'] == "" || $_SESSION['role'] == "User") {
