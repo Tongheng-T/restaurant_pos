@@ -115,10 +115,11 @@ unset($_SESSION['messagee']) ?>
                     <div class="row">
                         <div class="col-8">
                             <div class="icheck-primary">
-                                <p class="mb-1"><label><input type="checkbox" name="remember"> Remember Me</label></p>
+                               
                                  
                                 <!-- <a href="#" class="toastrDefaultInfo">I forgot my password</a> -->
                                 <p class="mb-1">
+                                    <label><input type="checkbox" name="remember"> Remember Me</label><br>
                                     <a href="apii/forgot_password">I forgot my password</a>
                                 </p>
 
@@ -148,12 +149,7 @@ unset($_SESSION['messagee']) ?>
                 </form>
                 <!-- /.social-auth-links -->
 
-                <p class="mb-1">
-
-                </p>
-                <p class="mb-0">
-
-                </p>
+                
             </div>
             <!-- /.card-body -->
         </div>
