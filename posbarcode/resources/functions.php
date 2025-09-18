@@ -3,7 +3,8 @@ $upload_directory = "uploads";
 
 // helper function
 
-function check_admin_session() {
+function check_admin_session()
+{
     if (empty($_SESSION['useremail']) || $_SESSION['role'] === "User") {
         header("Location: ../");
         exit;
@@ -1662,11 +1663,12 @@ function addstock()
             $purchaseprice_txtt = $txtpurchaseprice / $exchange;
         }
 
-
+        $date = new DateTime('now', new DateTimeZone('Asia/bangkok'));
+        $new_date = $date->format('Y-m-d');
         $update = query("UPDATE tbl_product set stock=stock+'{$txtstock}',purchaseprice='{$purchaseprice_txtt}' ,saleprice='{$saleprice_txtt}' where barcode=" . $txtbarcode);
         confirm($update);
 
-        $inserts = query("INSERT into tbl_product_stock ( product_id,stock,price,aus) values('{$txtselect_option}','{$txtstock}','{$purchaseprice_txtt}','{$aus}')");
+        $inserts = query("INSERT into tbl_product_stock ( product_id,stock,price,date,aus) values('{$txtselect_option}','{$txtstock}','{$purchaseprice_txtt}','{$new_date}','{$aus}')");
         if ($update) {
             set_message(' <script>
             Swal.fire({

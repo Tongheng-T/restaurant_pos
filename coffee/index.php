@@ -71,6 +71,7 @@ if (isset($_POST['btn_login'])) {
 }
 
 
+
 ?>
 <?php display_messag_signin();
 unset($_SESSION['messagee']) ?>
@@ -115,8 +116,8 @@ unset($_SESSION['messagee']) ?>
                     <div class="row">
                         <div class="col-8">
                             <div class="icheck-primary">
-                               
-                                 
+
+
                                 <!-- <a href="#" class="toastrDefaultInfo">I forgot my password</a> -->
                                 <p class="mb-1">
                                     <label><input type="checkbox" name="remember"> Remember Me</label><br>
@@ -149,7 +150,7 @@ unset($_SESSION['messagee']) ?>
                 </form>
                 <!-- /.social-auth-links -->
 
-                
+
             </div>
             <!-- /.card-body -->
         </div>
@@ -216,7 +217,7 @@ unset($_SESSION['messagee']) ?>
                 .catch(err => console.log("SW registration failed:", err));
         }
     </script>
-    
+
 </body>
 
 </html>

@@ -188,7 +188,7 @@ use Vtiful\Kernel\Format;?>
     </div>
     <div id="receipt-footer">
       <p class="foorece">Thank You!!!</>
-      <p>Power by thpos.store</p>
+      <p>Power by thposs.uk</p>
     </div>
     <div id="buttons">
       <a href="/posbarcodeok/ui/itemt?pos">

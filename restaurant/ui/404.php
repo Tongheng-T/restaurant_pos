@@ -64,7 +64,7 @@
     <h1>404</h1>
     <h2>ទំព័រមិនមានទេ</h2>
     <p>សូមត្រលប់ទៅទំព័រដើម ឬពិនិត្យ URL</p>
-    <a href="http://thpos.com/">↩ ទៅទំព័រដើម</a>
+    <a href="https://restaurant.thposs.uk/ui/">↩ ទៅទំព័រដើម</a>
   </div>
 </body>
 
