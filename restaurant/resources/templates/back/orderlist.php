@@ -1,13 +1,13 @@
 <?php
 
 
-if ($_SESSION['useremail'] == ""  or $_SESSION['role'] == "") {
+if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "") {
 
   header('location:../');
 }
 
 display_message();
-
+$aus = $_SESSION['aus'];
 ?>
 
 
@@ -39,8 +39,40 @@ display_message();
 
         <div class="card card-primary card-outline">
           <div class="card-header">
-            <h5 class="m-0">Orders</h5>
+
+            <form method="get" class="form-inline mb-3">
+              <input type="hidden" name="orderlist">
+              <label for="date" class="mr-2">ជ្រើសរើសថ្ងៃ:</label>
+              <input type="text" id="date" name="date" class="form-control"
+                value="<?php echo $_GET['date'] ?? date('d-m-Y'); ?>">
+
+              <button type="submit" class="btn btn-primary">Filter</button>
+            </form>
           </div>
+          <?php
+          // ទាញថ្ងៃដែលមានទិន្នន័យ
+          $dates = query("SELECT DISTINCT DATE(updated_at) as d ,aus
+                FROM tbl_invoice  WHERE aus = '$aus' ORDER BY d DESC");
+          $available_dates = [];
+          while ($row = $dates->fetch_assoc()) {
+            $available_dates[] = date("d-m-Y", strtotime($row['d']));
+          }
+
+          ?>
+          <script>
+            var availableDates = <?= json_encode($available_dates) ?>;
+
+            flatpickr("#date", {
+              dateFormat: "d-m-Y",
+              onDayCreate: function (dObj, dStr, fp, dayElem) {
+                let date = fp.formatDate(dayElem.dateObj, "d-m-Y");
+                if (availableDates.includes(date)) {
+                  // បន្ថែមចំណុចនៅក្រោមថ្ងៃ
+                  dayElem.innerHTML += "<span style='color:red;'>•</span>";
+                }
+              }
+            });
+          </script>
           <div class="card-body">
             <div style="overflow-x:auto;">
               <table class="table table-striped table-hover " id="table_orderlist">
@@ -48,7 +80,7 @@ display_message();
                   <tr>
 
                     <td>N.0</td>
-                    <td>Invoice ID</td>
+                    <td>Receipt ID</td>
                     <td>Order Date</td>
                     <td>Total</td>
                     <td>Paid</td>
@@ -66,13 +98,26 @@ display_message();
 
                   <?php
                   $aus = $_SESSION['aus'];
+                  $selected_date = $_GET['date'] ?? null;
+                  // Get stock list (JOIN with product)
+                  if ($selected_date) {
+                    $selected_datee = date("Y-m-d", strtotime($selected_date));
+                    $select = query("SELECT * from tbl_invoice where updated_at='$selected_datee' AND aus='" . intval($aus) . "' ORDER BY invoice_id DESC");
+                    confirm($select);
+
+                  } else {
+                    $select = query("SELECT * from tbl_invoice where aus='" . intval($aus) . "' ORDER BY invoice_id DESC");
+                    confirm($select);
+
+                  }
+
+
                   $change = query("SELECT * from tbl_change where aus='$aus'");
                   confirm($change);
                   $row_exchange = $change->fetch_object();
                   $exchange = $row_exchange->exchange;
                   $usd_or_real = $row_exchange->usd_or_real ?? "usd";
-                  $select = query("SELECT * from tbl_invoice where aus='" . intval($aus) . "' ORDER BY invoice_id DESC");
-                  confirm($select);
+
                   $no = 1;
                   while ($row = $select->fetch_object()) {
                     $defaultt = '';
@@ -82,7 +127,7 @@ display_message();
                       $total = number_format($totall, 2);
                     } else {
                       $currency = "៛";
-                      $totall = $row->total  * $exchange;
+                      $totall = $row->total * $exchange;
                       $total = number_format($totall);
                     }
                     if ($row->paid <= 0) {
@@ -94,7 +139,7 @@ display_message();
 
                   <td>' . $no . '</td>
                   <td>' . htmlspecialchars($row->receipt_id) . '</td>
-                  <td>' . htmlspecialchars($row->order_date) . '</td>
+                  <td>' . date("d-m-Y H:i:s", strtotime($row->order_date) ) . '</td>
                   <td>' . $total . ' ' . $currency . '</td>
                   <td>' . $row->paid . '</td>
                   <td>' . $row->due . '</td>';
