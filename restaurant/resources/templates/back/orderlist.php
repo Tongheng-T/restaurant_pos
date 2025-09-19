@@ -119,6 +119,7 @@ $aus = $_SESSION['aus'];
                   $usd_or_real = $row_exchange->usd_or_real ?? "usd";
 
                   $no = 1;
+                  $grand_total = 0; // បូកសរុប
                   while ($row = $select->fetch_object()) {
                     $defaultt = '';
                     if ($usd_or_real == "usd") {
@@ -130,6 +131,8 @@ $aus = $_SESSION['aus'];
                       $totall = $row->total * $exchange;
                       $total = number_format($totall);
                     }
+
+                    $grand_total += $totall; // បូកចូល
                     if ($row->paid <= 0) {
                       $defaultt = 'defaultt';
                     }
@@ -139,7 +142,7 @@ $aus = $_SESSION['aus'];
 
                   <td>' . $no . '</td>
                   <td>' . htmlspecialchars($row->receipt_id) . '</td>
-                  <td>' . date("d-m-Y H:i:s", strtotime($row->order_date) ) . '</td>
+                  <td>' . date("d-m-Y H:i:s", strtotime($row->order_date)) . '</td>
                   <td>' . $total . ' ' . $currency . '</td>
                   <td>' . $row->paid . '</td>
                   <td>' . $row->due . '</td>';
@@ -163,6 +166,17 @@ $aus = $_SESSION['aus'];
                     $no++;
                   }
                   // target="_blank"
+                  // បង្ហាញ Total សរុប
+                  echo '
+                     <tr style="font-weight:bold; background:#f0f0f0;">
+                     <td></td><td></td>
+                       <td class="text-right">Total សរុប</td>
+                       <td>' . number_format($grand_total, ($usd_or_real == "usd" ? 2 : 0)) . ' ' . $currency . '</td>
+                       <td></td>
+                       <td></td>
+                       <td></td>
+                       <td></td>
+                     </tr>';
                   ?>
                 </tbody>
               </table>
