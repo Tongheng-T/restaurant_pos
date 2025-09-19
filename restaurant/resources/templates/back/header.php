@@ -84,6 +84,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
       height: 400px;
       width: 100%;
     } */
+    .has-data::after {
+        content: "•";
+        color: red;
+        font-size: 18px;
+        position: absolute;
+        bottom: 3px;
+        left: 79%;
+        transform: translateX(-50%);
+    }
 </style>
 
 <body class="hold-transition sidebar-mini sidebar-collapse">

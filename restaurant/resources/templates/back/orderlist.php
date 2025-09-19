@@ -67,11 +67,11 @@ $aus = $_SESSION['aus'];
               onDayCreate: function (dObj, dStr, fp, dayElem) {
                 let date = fp.formatDate(dayElem.dateObj, "d-m-Y");
                 if (availableDates.includes(date)) {
-                  // បន្ថែមចំណុចនៅក្រោមថ្ងៃ
-                  dayElem.innerHTML += "<span style='color:red;'>•</span>";
+                  dayElem.classList.add("has-data");
                 }
               }
             });
+
           </script>
           <div class="card-body">
             <div style="overflow-x:auto;">
